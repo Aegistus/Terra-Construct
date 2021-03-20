@@ -28,8 +28,12 @@ public class TerrainConstructor : MonoBehaviour
         generatedTiles = new GameObject[xTileTotal, zTileTotal];
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
-        StartCoroutine(PlaceTileGrid());
         //StartCoroutine(PlaceMountains());
+    }
+
+    public void ConstructTerrain()
+    {
+        StartCoroutine(PlaceTileGrid());
     }
 
 
