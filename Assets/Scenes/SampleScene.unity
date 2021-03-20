@@ -170,13 +170,13 @@ MonoBehaviour:
   tileSet: {fileID: 11400000, guid: 585012696f99d6e44afe7f9e9a6bfb2b, type: 2}
   mountainSet: {fileID: 11400000, guid: e49279b0a01ea9e4f80751c75d3308d1, type: 2}
   tileSize: 100
-  mountainSpacing: 15
+  mountainSpacing: 60
   smallStart: 1
-  mediumStart: 0.51
-  largeStart: 0.83
+  mediumStart: 0.5
+  largeStart: 0.7
   yPosition: -1
-  elevationNoiseScale: 0.01
-  riverRange: 0.1
+  elevationNoiseScale: 0.003
+  riverMax: 0.3
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

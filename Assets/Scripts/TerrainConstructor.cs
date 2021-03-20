@@ -11,6 +11,15 @@ public class TerrainConstructor : MonoBehaviour
     [Header("Tile Settings")]
     public float tileSize = 100f;
 
+    [Header("Elevation Settings")]
+    public float elevationNoiseScale = .003f;
+    public int octaves = 3;
+    [Tooltip("Controls increase in frequency of octaves")]
+    public float elevationLacunarity = 1f;
+    [Tooltip("Controls decrease in amplitude of octaves")]
+    public float elevationPersistance = 1f;
+
+
     [Header("Mountain Settings")]
     public float mountainSpacing = 30f;
     [Range(0f, 1f)]
@@ -20,17 +29,17 @@ public class TerrainConstructor : MonoBehaviour
     [Range(0f, 1f)]
     public float largeStart = .8f;
     public float yPosition = -3f;
-    public float elevationNoiseScale = 1f;
 
     [Header("River Settings")]
     [Range(0f, 1f)]
-    public float riverRange = .1f;
+    public float riverMax = .1f;
 
     private int xTileTotal;
     private int zTileTotal;
     private GameObject[,] generatedTiles;
     private float xElevationNoise;
     private float zElevationNoise;
+    private float[,] elevationNoiseMap;
 
     private void Start()
     {
@@ -39,9 +48,11 @@ public class TerrainConstructor : MonoBehaviour
         generatedTiles = new GameObject[xTileTotal, zTileTotal];
         xElevationNoise = Random.Range(0, 10000);
         zElevationNoise = Random.Range(0, 10000);
+        elevationNoiseMap = Noise.GenerateNoiseMap((int)settings.xSize, (int)settings.zSize, elevationNoiseScale, octaves, elevationLacunarity, elevationPersistance);
         StartCoroutine(PlaceTileGrid());
-        StartCoroutine(PlaceMountains());
+        //StartCoroutine(PlaceMountains());
     }
+
 
     public IEnumerator PlaceTileGrid()
     {
@@ -55,6 +66,7 @@ public class TerrainConstructor : MonoBehaviour
                 yield return new WaitForSeconds(.05f);
             }
         }
+        StartCoroutine(PlaceRivers());
     }
 
     public IEnumerator PlaceMountains()
@@ -91,40 +103,24 @@ public class TerrainConstructor : MonoBehaviour
         }
     }
 
+    bool[,] potentialStarts;
     public IEnumerator PlaceRivers()
     {
-        yield return null;
-    }
-
-    private void OnDrawGizmos()
-    {
-        if (Application.isPlaying)
+        potentialStarts = new bool[xTileTotal, zTileTotal];
+        for (int x = 0; x < xTileTotal; x++)
         {
-            for (int x = 0; x < settings.xSize; x += (int)mountainSpacing)
+            for (int z = 0; z < zTileTotal; z++)
             {
-                for (int z = 0; z < settings.zSize; z += (int)mountainSpacing)
+                float noise = Mathf.PerlinNoise((x * tileSize + xElevationNoise) * elevationNoiseScale, (z * tileSize + zElevationNoise) * elevationNoiseScale);
+                if (noise < riverMax)
                 {
-                    float noise = Mathf.PerlinNoise((x + xElevationNoise) * elevationNoiseScale, (z + zElevationNoise) * elevationNoiseScale);
-                    if (noise >= smallStart && noise < mediumStart)
-                    {
-                        Gizmos.color = Color.green;
-                    }
-                    else if (noise >= mediumStart && noise < largeStart)
-                    {
-                        Gizmos.color = Color.yellow;
-                    }
-                    else if (noise >= largeStart)
-                    {
-                        Gizmos.color = Color.red;
-                    }
-                    else
-                    {
-                        Gizmos.color = Color.white;
-                    }
-                    Gizmos.DrawSphere(new Vector3(x, 2, z), 1f);
+                    potentialStarts[x, z] = true;
+                    generatedTiles[x, z].SetActive(false);
+                    generatedTiles[x, z] = null;
                 }
             }
         }
+        yield return null;
     }
 
 }
