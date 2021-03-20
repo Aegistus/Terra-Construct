@@ -60,7 +60,9 @@ public class TerrainConstructor : MonoBehaviour
             for (int z = 0; z < settings.zSize / mountainSpacing; z++)
             {
                 float noise = Mathf.PerlinNoise((x + xMountainNoise) * mountainNoiseScale, (z + zMountainNoise) * mountainNoiseScale);
-                Vector3 randomOffset = new Vector3(Random.Range(-mountainSpacing / 2, mountainSpacing / 2), 0, Random.Range(-mountainSpacing / 2, mountainSpacing / 2));
+                Vector3 positionWithOffset = new Vector3(Random.Range(-mountainSpacing / 2, mountainSpacing / 2), 0, Random.Range(-mountainSpacing / 2, mountainSpacing / 2));
+                positionWithOffset += new Vector3(x * mountainSpacing, transform.position.y + yPosition, z * mountainSpacing);
+                positionWithOffset = new Vector3(Mathf.Clamp(positionWithOffset.x, 0, settings.xSize), positionWithOffset.y, Mathf.Clamp(positionWithOffset.z, 0, settings.zSize));
                 Quaternion randomRotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360f), 0));
                 GameObject mountainVariant = null;
                 if (noise >= smallStart && noise < mediumStart)
@@ -69,15 +71,15 @@ public class TerrainConstructor : MonoBehaviour
                 }
                 else if (noise >= mediumStart && noise < largeStart)
                 {
-                    mountainVariant = mountainSet.mediumMountains[Random.Range(0, mountainSet.smallMountains.Length)];
+                    mountainVariant = mountainSet.mediumMountains[Random.Range(0, mountainSet.mediumMountains.Length)];
                 }
                 else if (noise >= largeStart)
                 {
-                    mountainVariant = mountainSet.largeMountains[Random.Range(0, mountainSet.smallMountains.Length)];
+                    mountainVariant = mountainSet.largeMountains[Random.Range(0, mountainSet.largeMountains.Length)];
                 }
                 if (mountainVariant != null)
                 {
-                    Instantiate(mountainVariant, new Vector3(x * mountainSpacing, transform.position.y + yPosition, z * mountainSpacing) + randomOffset,
+                    Instantiate(mountainVariant, positionWithOffset,
                         randomRotation, transform);
                 }
                 yield return null;

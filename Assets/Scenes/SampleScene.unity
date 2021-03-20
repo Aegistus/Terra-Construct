@@ -170,10 +170,10 @@ MonoBehaviour:
   tileSet: {fileID: 11400000, guid: 585012696f99d6e44afe7f9e9a6bfb2b, type: 2}
   mountainSet: {fileID: 11400000, guid: e49279b0a01ea9e4f80751c75d3308d1, type: 2}
   tileSize: 100
-  mountainSpacing: 25
-  smallStart: 0.2
-  mediumStart: 0.5
-  largeStart: 0.7
+  mountainSpacing: 30
+  smallStart: 0.21
+  mediumStart: 0.51
+  largeStart: 0.83
   yPosition: -1
   mountainNoiseScale: 0.1
 --- !u!1 &705507993
@@ -204,7 +204,7 @@ Light:
   serializedVersion: 10
   m_Type: 1
   m_Shape: 0
-  m_Color: {r: 1, g: 0.95686275, b: 0.8392157, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1
   m_Range: 10
   m_SpotAngle: 30
