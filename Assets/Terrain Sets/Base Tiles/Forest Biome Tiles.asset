@@ -20,10 +20,7 @@ MonoBehaviour:
   - {fileID: 101124, guid: f61b1e521b9d8894f8ba1d1f3f7ebe89, type: 3}
   - {fileID: 115344, guid: 1b4d78b9bdd5747438b313f522f42189, type: 3}
   - {fileID: 157836, guid: eb0a80b370dbf5844a39435f25f1093e, type: 3}
-  - {fileID: 185284, guid: 3c512d5eeb3b8074ca6400adfbd6bfb9, type: 3}
-  - {fileID: 154222, guid: ce6c69e7e248e82428cca82b185a4d3c, type: 3}
-  - {fileID: 171566, guid: b27fed474e846ac408c48966e97aa255, type: 3}
-  - {fileID: 164596, guid: a885b7df97311b1458686d3e103dcffb, type: 3}
+  - {fileID: 178636, guid: c369c3e983d7a404498b856dce32a1dd, type: 3}
   mountainTiles:
   - {fileID: 178636, guid: c369c3e983d7a404498b856dce32a1dd, type: 3}
   - {fileID: 107880, guid: 1705326ea9587e643ba4277eb2a2b9d5, type: 3}

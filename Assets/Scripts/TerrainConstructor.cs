@@ -19,7 +19,7 @@ public class TerrainConstructor : MonoBehaviour
     public float mediumStart = .6f;
     [Range(0f, 1f)]
     public float largeStart = .8f;
-    public float yPosition = -1f;
+    public float yPosition = -3f;
     public float mountainNoiseScale = 1f;
 
     private int xTileTotal;
