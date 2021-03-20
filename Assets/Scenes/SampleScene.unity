@@ -175,7 +175,7 @@ MonoBehaviour:
     lacunarity: 0.41
     persistance: 0.4
   tileSize: 100
-  seaLevel: 0.66
+  seaLevel: 0.76
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

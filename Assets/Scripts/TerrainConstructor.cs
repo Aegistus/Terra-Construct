@@ -139,9 +139,12 @@ public class TerrainConstructor : MonoBehaviour
 
     public void ClearTerrain()
     {
-        for (int i = 0; i < transform.childCount; i++)
+        while (transform.childCount > 0)
         {
-            DestroyImmediate(transform.GetChild(i).gameObject);
+            for (int i = 0; i < transform.childCount; i++)
+            {
+                DestroyImmediate(transform.GetChild(i).gameObject);
+            }
         }
         generatedTiles = null;
     }
