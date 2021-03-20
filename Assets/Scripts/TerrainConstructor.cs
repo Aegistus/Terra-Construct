@@ -20,21 +20,25 @@ public class TerrainConstructor : MonoBehaviour
     [Range(0f, 1f)]
     public float largeStart = .8f;
     public float yPosition = -3f;
-    public float mountainNoiseScale = 1f;
+    public float elevationNoiseScale = 1f;
+
+    [Header("River Settings")]
+    [Range(0f, 1f)]
+    public float riverRange = .1f;
 
     private int xTileTotal;
     private int zTileTotal;
     private GameObject[,] generatedTiles;
-    private float xMountainNoise;
-    private float zMountainNoise;
+    private float xElevationNoise;
+    private float zElevationNoise;
 
     private void Start()
     {
         xTileTotal = (int)(settings.xSize / tileSize);
         zTileTotal = (int)(settings.zSize / tileSize);
         generatedTiles = new GameObject[xTileTotal, zTileTotal];
-        xMountainNoise = Random.Range(0, 10000);
-        zMountainNoise = Random.Range(0, 10000);
+        xElevationNoise = Random.Range(0, 10000);
+        zElevationNoise = Random.Range(0, 10000);
         StartCoroutine(PlaceTileGrid());
         StartCoroutine(PlaceMountains());
     }
@@ -45,8 +49,8 @@ public class TerrainConstructor : MonoBehaviour
         {
             for (int z = 0; z < zTileTotal; z++)
             {
-                int randomTileIndex = Random.Range(0, tileSet.flatTiles.Length);
-                GameObject newTile = Instantiate(tileSet.flatTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+                int randomTileIndex = Random.Range(0, tileSet.tiles.Length);
+                GameObject newTile = Instantiate(tileSet.tiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
                 generatedTiles[x, z] = newTile;
                 yield return new WaitForSeconds(.05f);
             }
@@ -55,13 +59,13 @@ public class TerrainConstructor : MonoBehaviour
 
     public IEnumerator PlaceMountains()
     {
-        for (int x = 0; x < settings.xSize / mountainSpacing; x++)
+        for (int x = 0; x < settings.xSize; x += (int)mountainSpacing)
         {
-            for (int z = 0; z < settings.zSize / mountainSpacing; z++)
+            for (int z = 0; z < settings.zSize; z += (int)mountainSpacing)
             {
-                float noise = Mathf.PerlinNoise((x + xMountainNoise) * mountainNoiseScale, (z + zMountainNoise) * mountainNoiseScale);
+                float noise = Mathf.PerlinNoise((x + xElevationNoise) * elevationNoiseScale, (z + zElevationNoise) * elevationNoiseScale);
                 Vector3 positionWithOffset = new Vector3(Random.Range(-mountainSpacing / 2, mountainSpacing / 2), 0, Random.Range(-mountainSpacing / 2, mountainSpacing / 2));
-                positionWithOffset += new Vector3(x * mountainSpacing, transform.position.y + yPosition, z * mountainSpacing);
+                positionWithOffset += new Vector3(x, transform.position.y + yPosition, z);
                 positionWithOffset = new Vector3(Mathf.Clamp(positionWithOffset.x, 0, settings.xSize), positionWithOffset.y, Mathf.Clamp(positionWithOffset.z, 0, settings.zSize));
                 Quaternion randomRotation = Quaternion.Euler(new Vector3(0, Random.Range(0, 360f), 0));
                 GameObject mountainVariant = null;
@@ -83,6 +87,42 @@ public class TerrainConstructor : MonoBehaviour
                         randomRotation, transform);
                 }
                 yield return null;
+            }
+        }
+    }
+
+    public IEnumerator PlaceRivers()
+    {
+        yield return null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        if (Application.isPlaying)
+        {
+            for (int x = 0; x < settings.xSize; x += (int)mountainSpacing)
+            {
+                for (int z = 0; z < settings.zSize; z += (int)mountainSpacing)
+                {
+                    float noise = Mathf.PerlinNoise((x + xElevationNoise) * elevationNoiseScale, (z + zElevationNoise) * elevationNoiseScale);
+                    if (noise >= smallStart && noise < mediumStart)
+                    {
+                        Gizmos.color = Color.green;
+                    }
+                    else if (noise >= mediumStart && noise < largeStart)
+                    {
+                        Gizmos.color = Color.yellow;
+                    }
+                    else if (noise >= largeStart)
+                    {
+                        Gizmos.color = Color.red;
+                    }
+                    else
+                    {
+                        Gizmos.color = Color.white;
+                    }
+                    Gizmos.DrawSphere(new Vector3(x, 2, z), 1f);
+                }
             }
         }
     }
