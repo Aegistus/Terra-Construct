@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[ExecuteInEditMode]
 public class TerrainConstructor : MonoBehaviour
 {
     public TerrainSettings settings;
@@ -19,13 +20,11 @@ public class TerrainConstructor : MonoBehaviour
     private int xTileTotal;
     private int zTileTotal;
     private GameObject[,] generatedTiles;
-    private bool reconstructTerrain = false;
 
     private void Start()
     {
         xTileTotal = settings.xSize / tileSize;
         zTileTotal = settings.zSize / tileSize;
-        generatedTiles = new GameObject[xTileTotal, zTileTotal];
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
         //StartCoroutine(PlaceMountains());
@@ -39,26 +38,49 @@ public class TerrainConstructor : MonoBehaviour
 
     public IEnumerator PlaceTileGrid()
     {
+        generatedTiles = new GameObject[xTileTotal, zTileTotal];
         for (int x = 0; x < xTileTotal; x++)
         {
             for (int z = 0; z < zTileTotal; z++)
             {
-                if (elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize) < seaLevel)
-                {
-                    int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
-                    GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-                    generatedTiles[x, z] = newTile;
-                }
-                else
-                {
-                    int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
-                    GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-                    generatedTiles[x, z] = newTile;
-                }
-                print(elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize));
+                PlaceTile(x, z);
                 yield return null;
             }
         }
+    }
+
+    public void ConstructTerrainEditor()
+    {
+        PlaceTileGridEditor();
+    }
+
+    public void PlaceTileGridEditor()
+    {
+        generatedTiles = new GameObject[xTileTotal, zTileTotal];
+        for (int x = 0; x < xTileTotal; x++)
+        {
+            for (int z = 0; z < zTileTotal; z++)
+            {
+                PlaceTile(x, z);
+            }
+        }
+    }
+
+    public void PlaceTile(int x, int z)
+    {
+        if (elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize) < seaLevel)
+        {
+            int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
+            GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+            generatedTiles[x, z] = newTile;
+        }
+        else
+        {
+            int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
+            GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+            generatedTiles[x, z] = newTile;
+        }
+        print(elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize));
     }
 
     //public IEnumerator PlaceMountains()
@@ -115,27 +137,13 @@ public class TerrainConstructor : MonoBehaviour
     //    yield return null;
     //}
 
-    private void OnValidate()
-    {
-        reconstructTerrain = true;
-    }
-
-    private void Update()
-    {
-        if (reconstructTerrain)
-        {
-            ClearTerrain();
-            StartCoroutine(PlaceTileGrid());
-            reconstructTerrain = false;
-        }
-    }
-
     public void ClearTerrain()
     {
         for (int i = 0; i < transform.childCount; i++)
         {
-            Destroy(transform.GetChild(i).gameObject);
+            DestroyImmediate(transform.GetChild(i).gameObject);
         }
+        generatedTiles = null;
     }
 
 }

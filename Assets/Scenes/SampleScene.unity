@@ -172,20 +172,10 @@ MonoBehaviour:
   elevationNoiseMap:
     noiseScale: 1001
     octaves: 3
-    lacunarity: 0.4
+    lacunarity: 0.41
     persistance: 0.4
   tileSize: 100
-  elevationNoiseScale: 1
-  octaves: 3
-  elevationLacunarity: 1
-  elevationPersistance: 1
-  seaLevel: 0.8
-  mountainSpacing: 60
-  smallStart: 1
-  mediumStart: 0.5
-  largeStart: 0.7
-  yPosition: -1
-  riverMax: 0.3
+  seaLevel: 0.66
 --- !u!1 &705507993
 GameObject:
   m_ObjectHideFlags: 0

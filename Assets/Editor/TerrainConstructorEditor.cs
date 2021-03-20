@@ -14,7 +14,11 @@ public class TerrainConstructorEditor : Editor
 
         if (GUILayout.Button("Construct"))
         {
-            constructor.ConstructTerrain();
+            constructor.ConstructTerrainEditor();
+        }
+        if (GUILayout.Button("Clear"))
+        {
+            constructor.ClearTerrain();
         }
     }
 }
