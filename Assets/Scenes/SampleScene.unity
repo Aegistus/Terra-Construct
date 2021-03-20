@@ -170,18 +170,16 @@ MonoBehaviour:
   tileSet: {fileID: 11400000, guid: 585012696f99d6e44afe7f9e9a6bfb2b, type: 2}
   mountainSet: {fileID: 11400000, guid: e49279b0a01ea9e4f80751c75d3308d1, type: 2}
   elevationNoiseMap:
-    xSize: 1000
-    zSize: 1000
-    noiseScale: 1
+    noiseScale: 1001
     octaves: 3
-    lacunarity: 1
-    persistance: 1
+    lacunarity: 0.4
+    persistance: 0.4
   tileSize: 100
   elevationNoiseScale: 1
   octaves: 3
   elevationLacunarity: 1
   elevationPersistance: 1
-  seaLevel: 0.4
+  seaLevel: 0.8
   mountainSpacing: 60
   smallStart: 1
   mediumStart: 0.5

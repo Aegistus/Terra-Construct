@@ -12,5 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 394a128e05223ce499f64af04250df47, type: 3}
   m_Name: DefaultSize
   m_EditorClassIdentifier: 
-  xSize: 1000
-  zSize: 1000
+  xSize: 2000
+  zSize: 2000
