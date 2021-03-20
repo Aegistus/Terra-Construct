@@ -25,13 +25,14 @@ public class TerrainConstructor : MonoBehaviour
     {
         xTileTotal = settings.xSize / tileSize;
         zTileTotal = settings.zSize / tileSize;
-        elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
-        elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
         //StartCoroutine(PlaceMountains());
     }
 
     public void ConstructTerrain()
     {
+        elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
+        elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
+        ClearTerrain();
         StartCoroutine(PlaceTileGrid());
     }
 
@@ -51,6 +52,9 @@ public class TerrainConstructor : MonoBehaviour
 
     public void ConstructTerrainEditor()
     {
+        elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
+        elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
+        ClearTerrain();
         PlaceTileGridEditor();
     }
 
@@ -68,7 +72,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public void PlaceTile(int x, int z)
     {
-        if (elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize) < seaLevel)
+        if (elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize) < seaLevel)
         {
             int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
             GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
@@ -80,7 +84,7 @@ public class TerrainConstructor : MonoBehaviour
             GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
             generatedTiles[x, z] = newTile;
         }
-        print(elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize));
+        print(elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize));
     }
 
     //public IEnumerator PlaceMountains()
@@ -146,6 +150,7 @@ public class TerrainConstructor : MonoBehaviour
                 DestroyImmediate(transform.GetChild(i).gameObject);
             }
         }
+        elevationNoiseMap.ResetNoiseRange();
         generatedTiles = null;
     }
 

@@ -5,27 +5,50 @@ using UnityEngine;
 [System.Serializable]
 public class NoiseMap
 {
-    public float noiseScale = 1;
+    public float scale = 1;
     public int octaves = 3;
     [Tooltip("Controls increase in frequency of octaves")]
-    [Range(0f, 1f)]
     public float lacunarity = 1;
     [Tooltip("Controls decrease in amplitude of octaves")]
-    [Range(0f, 1f)]
     public float persistance = 1;
 
     public float XRandomOffset { get; set; }
     public float ZRandomOffset { get; set; }
 
-    public float GetPerlinValueAtPosition(float x, float z)
+    // Reference for clamping the return between 0 and 1
+    private float maxValue = 0;
+    private float minValue = 0;
+
+    public float GetLayeredPerlinValueAtPosition(float x, float z)
     {
         float noiseAtPosition = 0;
+        float frequency = 1;
+        float amplitude = 1;
         for (int o = 0; o < octaves; o++)
         {
-            float frequency = Mathf.Pow(lacunarity, o);
-            float amplitude = Mathf.Pow(persistance, o);
-            noiseAtPosition += Mathf.PerlinNoise(x + XRandomOffset / noiseScale * frequency, z + ZRandomOffset / noiseScale * frequency) * amplitude;
+            noiseAtPosition += Mathf.PerlinNoise(x + XRandomOffset / scale * frequency, z + ZRandomOffset / scale * frequency) * amplitude;
+            frequency *= lacunarity;
+            amplitude *= persistance;
         }
+        noiseAtPosition = Mathf.InverseLerp(minValue, maxValue, noiseAtPosition);
         return noiseAtPosition;
+    }
+
+    public void ResetNoiseRange()
+    {
+        maxValue = 0;
+        minValue = 0;
+        for (int o = 0; o < octaves; o++)
+        {
+            float amplitude = Mathf.Pow(persistance, o);
+            maxValue += 1 * amplitude;
+        }
+        Debug.Log("Max Value: " + maxValue);
+        for (int o = 0; o < octaves; o++)
+        {
+            float amplitude = Mathf.Pow(persistance, o);
+            minValue += .01f * amplitude;
+        }
+        Debug.Log("Min Value: " + minValue);
     }
 }
