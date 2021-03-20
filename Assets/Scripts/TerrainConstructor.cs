@@ -43,6 +43,7 @@ public class TerrainConstructor : MonoBehaviour
     private GameObject[,] generatedTiles;
     private float xElevationNoise;
     private float zElevationNoise;
+    private bool reconstructTerrain = false;
 
     private void Start()
     {
@@ -137,8 +138,17 @@ public class TerrainConstructor : MonoBehaviour
 
     private void OnValidate()
     {
-        ClearTerrain();
-        StartCoroutine(PlaceTileGrid());
+        reconstructTerrain = true;
+    }
+
+    private void Update()
+    {
+        if (reconstructTerrain)
+        {
+            ClearTerrain();
+            StartCoroutine(PlaceTileGrid());
+            reconstructTerrain = false;
+        }
     }
 
     public void ClearTerrain()
