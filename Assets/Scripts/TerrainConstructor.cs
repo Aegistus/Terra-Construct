@@ -7,9 +7,10 @@ public class TerrainConstructor : MonoBehaviour
     public TerrainSettings settings;
     public TerrainTileSet tileSet;
     public MountainSet mountainSet;
+    public NoiseMap elevationNoiseMap;
 
     [Header("Tile Settings")]
-    public float tileSize = 100f;
+    public int tileSize = 100;
 
     [Header("Elevation Settings")]
     public float elevationNoiseScale = .003f;
@@ -19,6 +20,9 @@ public class TerrainConstructor : MonoBehaviour
     [Tooltip("Controls decrease in amplitude of octaves")]
     public float elevationPersistance = 1f;
 
+    [Header("Ocean Settings")]
+    [Range(0f, 1f)]
+    public float seaLevel = .4f;
 
     [Header("Mountain Settings")]
     public float mountainSpacing = 30f;
@@ -39,16 +43,15 @@ public class TerrainConstructor : MonoBehaviour
     private GameObject[,] generatedTiles;
     private float xElevationNoise;
     private float zElevationNoise;
-    private float[,] elevationNoiseMap;
 
     private void Start()
     {
-        xTileTotal = (int)(settings.xSize / tileSize);
-        zTileTotal = (int)(settings.zSize / tileSize);
+        elevationNoiseMap.SetSize(settings.xSize, settings.zSize);
+        xTileTotal = settings.xSize / tileSize;
+        zTileTotal = settings.zSize / tileSize;
         generatedTiles = new GameObject[xTileTotal, zTileTotal];
         xElevationNoise = Random.Range(0, 10000);
         zElevationNoise = Random.Range(0, 10000);
-        elevationNoiseMap = Noise.GenerateNoiseMap((int)settings.xSize, (int)settings.zSize, elevationNoiseScale, octaves, elevationLacunarity, elevationPersistance);
         StartCoroutine(PlaceTileGrid());
         //StartCoroutine(PlaceMountains());
     }
@@ -60,13 +63,22 @@ public class TerrainConstructor : MonoBehaviour
         {
             for (int z = 0; z < zTileTotal; z++)
             {
-                int randomTileIndex = Random.Range(0, tileSet.tiles.Length);
-                GameObject newTile = Instantiate(tileSet.tiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-                generatedTiles[x, z] = newTile;
-                yield return new WaitForSeconds(.05f);
+                if (elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize) < seaLevel)
+                {
+                    int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
+                    GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+                    generatedTiles[x, z] = newTile;
+                }
+                else
+                {
+                    int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
+                    GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+                    generatedTiles[x, z] = newTile;
+                }
+                print(elevationNoiseMap.GetPerlinValueAtPosition(x * tileSize, z * tileSize));
+                yield return null;
             }
         }
-        StartCoroutine(PlaceRivers());
     }
 
     public IEnumerator PlaceMountains()
@@ -121,6 +133,20 @@ public class TerrainConstructor : MonoBehaviour
             }
         }
         yield return null;
+    }
+
+    private void OnValidate()
+    {
+        ClearTerrain();
+        StartCoroutine(PlaceTileGrid());
+    }
+
+    public void ClearTerrain()
+    {
+        for (int i = 0; i < transform.childCount; i++)
+        {
+            Destroy(transform.GetChild(i).gameObject);
+        }
     }
 
 }

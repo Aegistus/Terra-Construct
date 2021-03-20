@@ -12,7 +12,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02685659a78e3384a98337d963c4c227, type: 3}
   m_Name: Forest Biome Tiles
   m_EditorClassIdentifier: 
-  tiles:
+  landTiles:
   - {fileID: 139454, guid: 380272978726d224cb57e616c2f52241, type: 3}
-  - {fileID: 101124, guid: f61b1e521b9d8894f8ba1d1f3f7ebe89, type: 3}
-  - {fileID: 157836, guid: eb0a80b370dbf5844a39435f25f1093e, type: 3}
+  oceanTiles:
+  - {fileID: 134954, guid: 5ef7370148f70e147bf3b2fffd42a564, type: 3}

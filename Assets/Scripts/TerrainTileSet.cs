@@ -5,5 +5,6 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTerrainTileSet", menuName = "Terrain Tile Set", order = 2)]
 public class TerrainTileSet : ScriptableObject
 {
-    public GameObject[] tiles;
+    public GameObject[] landTiles;
+    public GameObject[] oceanTiles;
 }
