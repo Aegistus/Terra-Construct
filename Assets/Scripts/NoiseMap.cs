@@ -7,9 +7,9 @@ public class NoiseMap
 {
     public float scale = 1;
     public int octaves = 3;
-    [Tooltip("Controls increase in frequency of octaves")]
+    [Tooltip("Controls increase in frequency of octaves (Detail of noise octave)")]
     public float lacunarity = 1;
-    [Tooltip("Controls decrease in amplitude of octaves")]
+    [Tooltip("Controls decrease in amplitude of octaves (Influence of noise octave)")]
     public float persistance = 1;
 
     public float XRandomOffset { get; set; }
@@ -22,11 +22,13 @@ public class NoiseMap
     public float GetLayeredPerlinValueAtPosition(float x, float z)
     {
         float noiseAtPosition = 0;
+        //x += XRandomOffset;
+        //z += ZRandomOffset;
         float frequency = 1;
         float amplitude = 1;
         for (int o = 0; o < octaves; o++)
         {
-            noiseAtPosition += Mathf.PerlinNoise(x + XRandomOffset / scale * frequency, z + ZRandomOffset / scale * frequency) * amplitude;
+            noiseAtPosition += Mathf.PerlinNoise(x / scale * frequency, z / scale * frequency) * amplitude;
             frequency *= lacunarity;
             amplitude *= persistance;
         }

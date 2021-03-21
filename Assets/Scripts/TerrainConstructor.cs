@@ -23,13 +23,14 @@ public class TerrainConstructor : MonoBehaviour
 
     private void Start()
     {
-        xTileTotal = settings.xSize / tileSize;
-        zTileTotal = settings.zSize / tileSize;
+
         //StartCoroutine(PlaceMountains());
     }
 
     public void ConstructTerrain()
     {
+        xTileTotal = settings.xSize / tileSize;
+        zTileTotal = settings.zSize / tileSize;
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
         ClearTerrain();
@@ -52,6 +53,8 @@ public class TerrainConstructor : MonoBehaviour
 
     public void ConstructTerrainEditor()
     {
+        xTileTotal = settings.xSize / tileSize;
+        zTileTotal = settings.zSize / tileSize;
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
         ClearTerrain();
@@ -72,7 +75,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public void PlaceTile(int x, int z)
     {
-        if (elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize) < seaLevel)
+        if (elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z) < seaLevel)
         {
             int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
             GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
