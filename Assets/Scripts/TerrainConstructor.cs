@@ -132,15 +132,15 @@ public class TerrainConstructor : MonoBehaviour
         {
             oceanTiles.Add(generatedTiles[x - 1, z]);
         }
-        else if (x + 1 < generatedTiles.Length && IsOceanTile(x + 1, z))
+        if (x + 1 < generatedTiles.Length && IsOceanTile(x + 1, z))
         {
             oceanTiles.Add(generatedTiles[x + 1, z]);
         }
-        else if (z - 1 >= 0 && IsOceanTile(x, z - 1))
+        if (z - 1 >= 0 && IsOceanTile(x, z - 1))
         {
             oceanTiles.Add(generatedTiles[x, z - 1]);
         }
-        else if (z + 1 < generatedTiles.GetLength(0) && IsOceanTile(x, z + 1))
+        if (z + 1 < generatedTiles.GetLength(0) && IsOceanTile(x, z + 1))
         {
             oceanTiles.Add(generatedTiles[x, z + 1]);
         }
