@@ -56,6 +56,7 @@ public class TerrainConstructor : MonoBehaviour
                 yield return null;
             }
         }
+        ReplaceCoastalTiles();
     }
 
     public void PlaceTileGridEditor()
@@ -90,7 +91,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public void ReplaceCoastalTiles()
     {
-        for (int x = 0; x < generatedTiles.Length; x++)
+        for (int x = 0; x < generatedTiles.GetLength(0); x++)
         {
             for (int z = 0; z < generatedTiles.GetLength(1); z++)
             {
@@ -160,7 +161,7 @@ public class TerrainConstructor : MonoBehaviour
         {
             oceanTiles.Add(generatedTiles[x - 1, z]);
         }
-        if (x + 1 < generatedTiles.Length && IsOceanTile(x + 1, z))
+        if (x + 1 < generatedTiles.GetLength(0) && IsOceanTile(x + 1, z))
         {
             oceanTiles.Add(generatedTiles[x + 1, z]);
         }
@@ -168,7 +169,7 @@ public class TerrainConstructor : MonoBehaviour
         {
             oceanTiles.Add(generatedTiles[x, z - 1]);
         }
-        if (z + 1 < generatedTiles.GetLength(0) && IsOceanTile(x, z + 1))
+        if (z + 1 < generatedTiles.GetLength(1) && IsOceanTile(x, z + 1))
         {
             oceanTiles.Add(generatedTiles[x, z + 1]);
         }
