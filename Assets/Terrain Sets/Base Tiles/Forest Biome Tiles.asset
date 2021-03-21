@@ -17,4 +17,6 @@ MonoBehaviour:
   oceanTiles:
   - {fileID: 134954, guid: 5ef7370148f70e147bf3b2fffd42a564, type: 3}
   coastalStraight:
-  - {fileID: 7115854004084521276, guid: 56ac9f482c754a94082701ea41e4d371, type: 3}
+  - {fileID: 115914, guid: 04cf4eb3a917c7841aad37c85b337117, type: 3}
+  coastalOuterCorner:
+  - {fileID: 140560, guid: 61279b8f4dafe15478051379f736582d, type: 3}

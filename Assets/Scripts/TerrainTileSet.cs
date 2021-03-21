@@ -8,5 +8,6 @@ public class TerrainTileSet : ScriptableObject
     public GameObject[] landTiles;
     public GameObject[] oceanTiles;
     public GameObject[] coastalStraight;
+    public GameObject[] coastalOuterCorner;
 
 }

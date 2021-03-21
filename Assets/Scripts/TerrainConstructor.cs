@@ -95,11 +95,11 @@ public class TerrainConstructor : MonoBehaviour
             for (int z = 0; z < generatedTiles.GetLength(1); z++)
             {
                 List<GameObject> oceanTiles = GetAdjacentOceanTiles(x, z);
-                if (!IsOceanTile(x, z) && oceanTiles.Count == 1) // change later
+                if (!IsOceanTile(x, z) && oceanTiles.Count > 0)
                 {
-                    if (oceanTiles.Count == 1)
+                    if (oceanTiles.Count == 1) // coastal straight
                     {
-                        Vector3 direction = oceanTiles[0].transform.position - generatedTiles[x, z].transform.position;
+                        Vector3 direction = oceanTiles[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
                         direction = direction.normalized;
                         DestroyImmediate(generatedTiles[x, z]);
                         int randomIndex = Random.Range(0, tileSet.coastalStraight.Length);
@@ -118,6 +118,34 @@ public class TerrainConstructor : MonoBehaviour
                         {
                             generatedTiles[x, z].transform.Rotate(0, 270, 0);
                             generatedTiles[x, z].transform.localPosition += new Vector3(tileSize, 0, 0);
+                        }
+                    }
+                    else if (oceanTiles.Count == 2)
+                    {
+                        Vector3 directionOne = oceanTiles[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                        directionOne = directionOne.normalized;
+                        Vector3 directionTwo = oceanTiles[1].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                        directionTwo = directionTwo.normalized;
+                        if (Vector3.Angle(directionOne, directionTwo) <= 90) // coastal outer corner
+                        {
+                            DestroyImmediate(generatedTiles[x, z]);
+                            int randomIndex = Random.Range(0, tileSet.coastalOuterCorner.Length);
+                            generatedTiles[x, z] = Instantiate(tileSet.coastalOuterCorner[randomIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+                            if (directionOne == transform.forward && directionTwo == -transform.right || directionTwo == transform.forward && directionOne == -transform.right)
+                            {
+                                generatedTiles[x, z].transform.Rotate(0, -90, 0);
+                                generatedTiles[x, z].transform.localPosition += new Vector3(tileSize, 0, 0);
+                            }
+                            else if (directionOne == transform.right && directionTwo == -transform.forward || directionTwo == transform.right && directionOne == -transform.forward)
+                            {
+                                generatedTiles[x, z].transform.Rotate(0, 90, 0);
+                                generatedTiles[x, z].transform.localPosition += new Vector3(0, 0, tileSize);
+                            }
+                            else if (directionOne == -transform.forward && directionTwo == -transform.right || directionTwo == -transform.forward && directionOne == -transform.right)
+                            {
+                                generatedTiles[x, z].transform.Rotate(0, 180, 0);
+                                generatedTiles[x, z].transform.localPosition += new Vector3(tileSize, 0, tileSize);
+                            }
                         }
                     }
                 }
