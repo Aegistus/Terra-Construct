@@ -16,7 +16,6 @@ public class TerrainConstructor : MonoBehaviour
     [Header("Ocean Settings")]
     [Range(0f, 1f)]
     public float oceanPercent = .4f;
-    public float oceanBottomLevel = -5f;
 
     private int xTileTotal;
     private int zTileTotal;
@@ -95,12 +94,12 @@ public class TerrainConstructor : MonoBehaviour
         {
             for (int z = 0; z < generatedTiles.GetLength(1); z++)
             {
-                List<GameObject> oceanTiles = GetAdjacentOceanTiles(x, z);
-                if (!IsOceanTile(x, z) && oceanTiles.Count > 0)
+                List<GameObject> edgeAdjacentOcean = GetEdgeAdjacentOceanTiles(x, z);
+                if (!IsOceanTile(x, z) && edgeAdjacentOcean.Count > 0)
                 {
-                    if (oceanTiles.Count == 1) // coastal straight
+                    if (edgeAdjacentOcean.Count == 1) // coastal straight
                     {
-                        Vector3 direction = oceanTiles[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                        Vector3 direction = edgeAdjacentOcean[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
                         direction = direction.normalized;
                         DestroyImmediate(generatedTiles[x, z]);
                         int randomIndex = Random.Range(0, tileSet.coastalStraight.Length);
@@ -121,11 +120,11 @@ public class TerrainConstructor : MonoBehaviour
                             generatedTiles[x, z].transform.localPosition += new Vector3(tileSize, 0, 0);
                         }
                     }
-                    else if (oceanTiles.Count == 2)
+                    else if (edgeAdjacentOcean.Count == 2)
                     {
-                        Vector3 directionOne = oceanTiles[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                        Vector3 directionOne = edgeAdjacentOcean[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
                         directionOne = directionOne.normalized;
-                        Vector3 directionTwo = oceanTiles[1].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                        Vector3 directionTwo = edgeAdjacentOcean[1].transform.localPosition - generatedTiles[x, z].transform.localPosition;
                         directionTwo = directionTwo.normalized;
                         if (Vector3.Angle(directionOne, directionTwo) <= 90) // coastal outer corner
                         {
@@ -150,11 +149,36 @@ public class TerrainConstructor : MonoBehaviour
                         }
                     }
                 }
+                List<GameObject> cornerAdjacentOcean = GetCornerAdjacentOceanTiles(x, z);
+                if (cornerAdjacentOcean.Count == 1 && edgeAdjacentOcean.Count == 0) // coastal inner corner
+                {
+                    Vector3 direction = cornerAdjacentOcean[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                    direction = direction.normalized;
+                    DestroyImmediate(generatedTiles[x, z]);
+                    int randomIndex = Random.Range(0, tileSet.coastalInnerCorner.Length);
+                    generatedTiles[x, z] = Instantiate(tileSet.coastalInnerCorner[randomIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+                    float angle = Vector3.SignedAngle(direction, transform.forward, transform.up);
+                    if (angle > 90 && angle <= 180)
+                    {
+                        generatedTiles[x, z].transform.Rotate(0, -90, 0);
+                        generatedTiles[x, z].transform.localPosition += new Vector3(tileSize, 0, 0);
+                    }
+                    else if (angle < -90 && angle >= -180)
+                    {
+                        generatedTiles[x, z].transform.Rotate(0, 180, 0);
+                        generatedTiles[x, z].transform.localPosition += new Vector3(tileSize, 0, tileSize);
+                    }
+                    else if (angle < 0 && angle >= -90)
+                    {
+                        generatedTiles[x, z].transform.Rotate(0, 90, 0);
+                        generatedTiles[x, z].transform.localPosition += new Vector3(0, 0, tileSize);
+                    }
+                }
             }
         }
     }
 
-    public List<GameObject> GetAdjacentOceanTiles(int x, int z)
+    public List<GameObject> GetEdgeAdjacentOceanTiles(int x, int z)
     {
         List<GameObject> oceanTiles = new List<GameObject>();
         if (x - 1 >= 0 && IsOceanTile(x - 1, z))
@@ -172,6 +196,28 @@ public class TerrainConstructor : MonoBehaviour
         if (z + 1 < generatedTiles.GetLength(1) && IsOceanTile(x, z + 1))
         {
             oceanTiles.Add(generatedTiles[x, z + 1]);
+        }
+        return oceanTiles;
+    }
+
+    public List<GameObject> GetCornerAdjacentOceanTiles(int x, int z)
+    {
+        List<GameObject> oceanTiles = new List<GameObject>();
+        if (x - 1 >= 0 && z - 1 >= 0 && IsOceanTile(x - 1, z - 1))
+        {
+            oceanTiles.Add(generatedTiles[x - 1, z - 1]);
+        }
+        if (x + 1 < generatedTiles.GetLength(0) && z + 1 < generatedTiles.GetLength(1) && IsOceanTile(x + 1, z + 1))
+        {
+            oceanTiles.Add(generatedTiles[x + 1, z + 1]);
+        }
+        if (x - 1 >= 0 && z + 1 < generatedTiles.GetLength(1) && IsOceanTile(x - 1, z + 1))
+        {
+            oceanTiles.Add(generatedTiles[x - 1, z + 1]);
+        }
+        if (x + 1 < generatedTiles.GetLength(1) && z - 1 >= 0 && IsOceanTile(x + 1, z - 1))
+        {
+            oceanTiles.Add(generatedTiles[x + 1, z - 1]);
         }
         return oceanTiles;
     }
