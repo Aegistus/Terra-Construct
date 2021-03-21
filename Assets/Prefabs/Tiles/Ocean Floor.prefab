@@ -300,7 +300,7 @@ GameObject:
   - component: {fileID: 7206972296433763550}
   m_Layer: 0
   m_Name: Ocean Floor
-  m_TagString: Untagged
+  m_TagString: Terrain/OceanFloor
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -73,7 +73,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public void PlaceTile(int x, int z)
     {
-        if (IsOceanTile(x,z))
+        if (elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z) < oceanPercent)
         {
             int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
             GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
@@ -90,6 +90,30 @@ public class TerrainConstructor : MonoBehaviour
 
     public void ReplaceCoastalTiles()
     {
+        // first get rid of islands/peninsulas
+        for (int x = 0; x < generatedTiles.GetLength(0); x++)
+        {
+            for (int z = 0; z < generatedTiles.GetLength(1); z++)
+            {
+                List<GameObject> edgeAdjacentOcean = GetEdgeAdjacentOceanTiles(x, z);
+                if (edgeAdjacentOcean.Count == 2)
+                {
+                    Vector3 directionOne = edgeAdjacentOcean[0].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                    directionOne = directionOne.normalized;
+                    Vector3 directionTwo = edgeAdjacentOcean[1].transform.localPosition - generatedTiles[x, z].transform.localPosition;
+                    directionTwo = directionTwo.normalized;
+                    if (Vector3.Angle(directionOne, directionTwo) > 90)
+                    {
+                        TurnIntoOceanTile(x, z);
+                    }
+                }
+                else if (edgeAdjacentOcean.Count > 2)
+                {
+                    TurnIntoOceanTile(x, z);
+                }
+
+            }
+        }
         for (int x = 0; x < generatedTiles.GetLength(0); x++)
         {
             for (int z = 0; z < generatedTiles.GetLength(1); z++)
@@ -178,6 +202,14 @@ public class TerrainConstructor : MonoBehaviour
         }
     }
 
+    private void TurnIntoOceanTile(int x, int z)
+    {
+        DestroyImmediate(generatedTiles[x, z]);
+        int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
+        GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+        generatedTiles[x, z] = newTile;
+    }
+
     public List<GameObject> GetEdgeAdjacentOceanTiles(int x, int z)
     {
         List<GameObject> oceanTiles = new List<GameObject>();
@@ -224,7 +256,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public bool IsOceanTile(int x, int z)
     {
-        return elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z) < oceanPercent;
+        return generatedTiles[x,z].CompareTag("Terrain/OceanFloor");
     }
 
     public void ClearTerrain()

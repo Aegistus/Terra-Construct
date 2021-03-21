@@ -10,5 +10,7 @@ public class TerrainTileSet : ScriptableObject
     public GameObject[] coastalStraight;
     public GameObject[] coastalOuterCorner;
     public GameObject[] coastalInnerCorner;
+    public GameObject[] peninsulaMiddle;
+    public GameObject[] peninsulaEnd;
 
 }
