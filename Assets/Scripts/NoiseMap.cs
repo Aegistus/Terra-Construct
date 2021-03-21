@@ -22,8 +22,8 @@ public class NoiseMap
     public float GetLayeredPerlinValueAtPosition(float x, float z)
     {
         float noiseAtPosition = 0;
-        //x += XRandomOffset;
-        //z += ZRandomOffset;
+        x += XRandomOffset;
+        z += ZRandomOffset;
         float frequency = 1;
         float amplitude = 1;
         for (int o = 0; o < octaves; o++)
