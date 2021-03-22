@@ -126,7 +126,7 @@ public class CoastConstructor : MonoBehaviour
         }
     }
 
-    public void RemoveIslandsAndPeninsulas(TerrainData terrainData)
+    private void RemoveIslandsAndPeninsulas(TerrainData terrainData)
     {
         for (int x = 0; x < modifiedTiles.GetLength(0); x++)
         {

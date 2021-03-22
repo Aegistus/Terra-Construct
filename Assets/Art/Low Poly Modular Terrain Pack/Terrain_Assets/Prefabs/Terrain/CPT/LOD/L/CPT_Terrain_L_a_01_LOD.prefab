@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 20531956}
   m_Layer: 0
   m_Name: CPT_Terrain_L_a_01_LOD
-  m_TagString: Untagged
+  m_TagString: Terrain/Land
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
