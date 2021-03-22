@@ -10,19 +10,19 @@ public class CoastConstructor : MonoBehaviour
     private float tileSize;
     private GameObject[,] modifiedTiles;
 
-    public GameObject[,] ReplaceCoastalTiles(GameObject[,] generatedTiles, float tileSize)
+    public TerrainData ReplaceCoastalTiles(TerrainData terrainData, float tileSize)
     {
         this.tileSize = tileSize;
-        modifiedTiles = generatedTiles;
+        modifiedTiles = terrainData.Tiles;
         // first get rid of islands/peninsulas
-        RemoveIsolatedOceanTiles();
-        RemoveIslandsAndPeninsulas();
+        RemoveIsolatedOceanTiles(terrainData);
+        RemoveIslandsAndPeninsulas(terrainData);
         for (int x = 0; x < modifiedTiles.GetLength(0); x++)
         {
             for (int z = 0; z < modifiedTiles.GetLength(1); z++)
             {
-                List<GameObject> edgeAdjacentOcean = GetEdgeAdjacentOceanTiles(x, z);
-                if (!IsOceanTile(x, z) && edgeAdjacentOcean.Count > 0)
+                List<GameObject> edgeAdjacentOcean = terrainData.GetEdgeAdjacentOceanTiles(x, z);
+                if (!terrainData.IsOceanTile(x, z) && edgeAdjacentOcean.Count > 0)
                 {
                     if (edgeAdjacentOcean.Count == 1) // coastal straight
                     {
@@ -76,7 +76,7 @@ public class CoastConstructor : MonoBehaviour
                         }
                     }
                 }
-                List<GameObject> cornerAdjacentOcean = GetCornerAdjacentOceanTiles(x, z);
+                List<GameObject> cornerAdjacentOcean = terrainData.GetCornerAdjacentOceanTiles(x, z);
                 if (cornerAdjacentOcean.Count == 1 && edgeAdjacentOcean.Count == 0) // coastal inner corner
                 {
                     Vector3 direction = cornerAdjacentOcean[0].transform.localPosition - modifiedTiles[x, z].transform.localPosition;
@@ -104,17 +104,18 @@ public class CoastConstructor : MonoBehaviour
             }
         }
         // do a final check for islands and peninsulas
-        RemoveIslandsAndPeninsulas();
-        return modifiedTiles;
+        RemoveIslandsAndPeninsulas(terrainData);
+        terrainData.Tiles = modifiedTiles;
+        return terrainData;
     }
 
-    private void RemoveIsolatedOceanTiles()
+    private void RemoveIsolatedOceanTiles(TerrainData terrainData)
     {
         for (int x = 0; x < modifiedTiles.GetLength(0); x++)
         {
             for (int z = 0; z < modifiedTiles.GetLength(1); z++)
             {
-                if (SurroundedByWater(x,z))
+                if (terrainData.AdjacentOceanTilesCount(x,z) == 4)
                 {
                     DestroyImmediate(modifiedTiles[x, z]);
                     int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
@@ -125,37 +126,15 @@ public class CoastConstructor : MonoBehaviour
         }
     }
 
-    private bool SurroundedByWater(int x, int z)
-    {
-        int landTilesCount = 0;
-        if (x - 1 >= 0 && IsOceanTile(x - 1, z))
-        {
-            landTilesCount++;
-        }
-        if (x + 1 < modifiedTiles.GetLength(0) && IsOceanTile(x + 1, z))
-        {
-            landTilesCount++;
-        }
-        if (z - 1 >= 0 && IsOceanTile(x, z - 1))
-        {
-            landTilesCount++;
-        }
-        if (z + 1 < modifiedTiles.GetLength(1) && IsOceanTile(x, z + 1))
-        {
-            landTilesCount++;
-        }
-        return landTilesCount == 4;
-    }
-
-    public void RemoveIslandsAndPeninsulas()
+    public void RemoveIslandsAndPeninsulas(TerrainData terrainData)
     {
         for (int x = 0; x < modifiedTiles.GetLength(0); x++)
         {
             for (int z = 0; z < modifiedTiles.GetLength(1); z++)
             {
-                if (!IsOceanTile(x,z))
+                if (!terrainData.IsOceanTile(x,z))
                 {
-                    List<GameObject> edgeAdjacentOcean = GetEdgeAdjacentOceanTiles(x, z);
+                    List<GameObject> edgeAdjacentOcean = terrainData.GetEdgeAdjacentOceanTiles(x, z);
                     if (edgeAdjacentOcean.Count == 2)
                     {
                         Vector3 directionOne = edgeAdjacentOcean[0].transform.localPosition - modifiedTiles[x, z].transform.localPosition;
@@ -182,54 +161,5 @@ public class CoastConstructor : MonoBehaviour
         int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
         GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
         modifiedTiles[x, z] = newTile;
-    }
-
-    public List<GameObject> GetEdgeAdjacentOceanTiles(int x, int z)
-    {
-        List<GameObject> oceanTiles = new List<GameObject>();
-        if (x - 1 >= 0 && IsOceanTile(x - 1, z))
-        {
-            oceanTiles.Add(modifiedTiles[x - 1, z]);
-        }
-        if (x + 1 < modifiedTiles.GetLength(0) && IsOceanTile(x + 1, z))
-        {
-            oceanTiles.Add(modifiedTiles[x + 1, z]);
-        }
-        if (z - 1 >= 0 && IsOceanTile(x, z - 1))
-        {
-            oceanTiles.Add(modifiedTiles[x, z - 1]);
-        }
-        if (z + 1 < modifiedTiles.GetLength(1) && IsOceanTile(x, z + 1))
-        {
-            oceanTiles.Add(modifiedTiles[x, z + 1]);
-        }
-        return oceanTiles;
-    }
-
-    public List<GameObject> GetCornerAdjacentOceanTiles(int x, int z)
-    {
-        List<GameObject> oceanTiles = new List<GameObject>();
-        if (x - 1 >= 0 && z - 1 >= 0 && IsOceanTile(x - 1, z - 1))
-        {
-            oceanTiles.Add(modifiedTiles[x - 1, z - 1]);
-        }
-        if (x + 1 < modifiedTiles.GetLength(0) && z + 1 < modifiedTiles.GetLength(1) && IsOceanTile(x + 1, z + 1))
-        {
-            oceanTiles.Add(modifiedTiles[x + 1, z + 1]);
-        }
-        if (x - 1 >= 0 && z + 1 < modifiedTiles.GetLength(1) && IsOceanTile(x - 1, z + 1))
-        {
-            oceanTiles.Add(modifiedTiles[x - 1, z + 1]);
-        }
-        if (x + 1 < modifiedTiles.GetLength(1) && z - 1 >= 0 && IsOceanTile(x + 1, z - 1))
-        {
-            oceanTiles.Add(modifiedTiles[x + 1, z - 1]);
-        }
-        return oceanTiles;
-    }
-
-    public bool IsOceanTile(int x, int z)
-    {
-        return modifiedTiles[x, z].CompareTag("Terrain/OceanFloor");
     }
 }

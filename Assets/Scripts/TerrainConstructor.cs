@@ -19,7 +19,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public int XTileTotal { get; private set; }
     public int ZTileTotal { get; private set; }
-    public GameObject[,] GeneratedTiles { get; private set; }
+    public TerrainData terrainData;
 
     private void Start()
     {
@@ -32,6 +32,7 @@ public class TerrainConstructor : MonoBehaviour
         ZTileTotal = settings.zSize / tileSize;
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
+        terrainData = new TerrainData();
         ClearTerrain();
         if (Application.isPlaying)
         {
@@ -45,7 +46,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public IEnumerator PlaceTileGrid()
     {
-        GeneratedTiles = new GameObject[XTileTotal, ZTileTotal];
+        terrainData.Tiles = new GameObject[XTileTotal, ZTileTotal];
         for (int x = 0; x < XTileTotal; x++)
         {
             for (int z = 0; z < ZTileTotal; z++)
@@ -58,7 +59,7 @@ public class TerrainConstructor : MonoBehaviour
 
     public void PlaceTileGridEditor()
     {
-        GeneratedTiles = new GameObject[XTileTotal, ZTileTotal];
+        terrainData.Tiles = new GameObject[XTileTotal, ZTileTotal];
         for (int x = 0; x < XTileTotal; x++)
         {
             for (int z = 0; z < ZTileTotal; z++)
@@ -74,13 +75,13 @@ public class TerrainConstructor : MonoBehaviour
         {
             int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
             GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            GeneratedTiles[x, z] = newTile;
+            terrainData.Tiles[x, z] = newTile;
         }
         else
         {
             int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
             GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            GeneratedTiles[x, z] = newTile;
+            terrainData.Tiles[x, z] = newTile;
         }
         //print(elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize));
     }
@@ -97,7 +98,7 @@ public class TerrainConstructor : MonoBehaviour
             }
         }
         elevationNoiseMap.ResetNoiseRange();
-        GeneratedTiles = null;
+        terrainData = null;
     }
 
 }
