@@ -6,11 +6,10 @@ using UnityEngine;
 public class TerrainTileSet : ScriptableObject
 {
     public GameObject[] landTiles;
-    public GameObject[] oceanTiles;
+    public GameObject[] waterTiles;
+    public GameObject[] oceanFloorTiles;
     public GameObject[] coastalStraight;
     public GameObject[] coastalOuterCorner;
     public GameObject[] coastalInnerCorner;
-    public GameObject[] peninsulaMiddle;
-    public GameObject[] peninsulaEnd;
 
 }

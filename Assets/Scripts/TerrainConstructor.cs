@@ -17,20 +17,19 @@ public class TerrainConstructor : MonoBehaviour
     [Range(0f, 1f)]
     public float oceanPercent = .4f;
 
-    private int xTileTotal;
-    private int zTileTotal;
+    public int XTileTotal { get; private set; }
+    public int ZTileTotal { get; private set; }
     public GameObject[,] GeneratedTiles { get; private set; }
 
     private void Start()
     {
-
         //StartCoroutine(PlaceMountains());
     }
 
     public void ConstructTerrain()
     {
-        xTileTotal = settings.xSize / tileSize;
-        zTileTotal = settings.zSize / tileSize;
+        XTileTotal = settings.xSize / tileSize;
+        ZTileTotal = settings.zSize / tileSize;
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
         ClearTerrain();
@@ -46,10 +45,10 @@ public class TerrainConstructor : MonoBehaviour
 
     public IEnumerator PlaceTileGrid()
     {
-        GeneratedTiles = new GameObject[xTileTotal, zTileTotal];
-        for (int x = 0; x < xTileTotal; x++)
+        GeneratedTiles = new GameObject[XTileTotal, ZTileTotal];
+        for (int x = 0; x < XTileTotal; x++)
         {
-            for (int z = 0; z < zTileTotal; z++)
+            for (int z = 0; z < ZTileTotal; z++)
             {
                 PlaceTile(x, z);
                 yield return null;
@@ -59,10 +58,10 @@ public class TerrainConstructor : MonoBehaviour
 
     public void PlaceTileGridEditor()
     {
-        GeneratedTiles = new GameObject[xTileTotal, zTileTotal];
-        for (int x = 0; x < xTileTotal; x++)
+        GeneratedTiles = new GameObject[XTileTotal, ZTileTotal];
+        for (int x = 0; x < XTileTotal; x++)
         {
-            for (int z = 0; z < zTileTotal; z++)
+            for (int z = 0; z < ZTileTotal; z++)
             {
                 PlaceTile(x, z);
             }
@@ -73,8 +72,8 @@ public class TerrainConstructor : MonoBehaviour
     {
         if (elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z) < oceanPercent)
         {
-            int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
-            GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+            int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
+            GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
             GeneratedTiles[x, z] = newTile;
         }
         else

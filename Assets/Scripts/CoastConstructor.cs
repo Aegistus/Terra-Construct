@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(TerrainConstructor))]
 public class CoastConstructor : MonoBehaviour
 {
     public TerrainTileSet tileSet;
@@ -14,29 +15,8 @@ public class CoastConstructor : MonoBehaviour
         this.tileSize = tileSize;
         modifiedTiles = generatedTiles;
         // first get rid of islands/peninsulas
-        for (int x = 0; x < modifiedTiles.GetLength(0); x++)
-        {
-            for (int z = 0; z < modifiedTiles.GetLength(1); z++)
-            {
-                List<GameObject> edgeAdjacentOcean = GetEdgeAdjacentOceanTiles(x, z);
-                if (edgeAdjacentOcean.Count == 2)
-                {
-                    Vector3 directionOne = edgeAdjacentOcean[0].transform.localPosition - modifiedTiles[x, z].transform.localPosition;
-                    directionOne = directionOne.normalized;
-                    Vector3 directionTwo = edgeAdjacentOcean[1].transform.localPosition - modifiedTiles[x, z].transform.localPosition;
-                    directionTwo = directionTwo.normalized;
-                    if (Vector3.Angle(directionOne, directionTwo) > 90)
-                    {
-                        TurnIntoOceanTile(x, z);
-                    }
-                }
-                else if (edgeAdjacentOcean.Count > 2)
-                {
-                    TurnIntoOceanTile(x, z);
-                }
-
-            }
-        }
+        RemoveIsolatedOceanTiles();
+        RemoveIslandsAndPeninsulas();
         for (int x = 0; x < modifiedTiles.GetLength(0); x++)
         {
             for (int z = 0; z < modifiedTiles.GetLength(1); z++)
@@ -123,14 +103,84 @@ public class CoastConstructor : MonoBehaviour
                 }
             }
         }
+        // do a final check for islands and peninsulas
+        RemoveIslandsAndPeninsulas();
         return modifiedTiles;
+    }
+
+    private void RemoveIsolatedOceanTiles()
+    {
+        for (int x = 0; x < modifiedTiles.GetLength(0); x++)
+        {
+            for (int z = 0; z < modifiedTiles.GetLength(1); z++)
+            {
+                if (SurroundedByWater(x,z))
+                {
+                    DestroyImmediate(modifiedTiles[x, z]);
+                    int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
+                    GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+                    modifiedTiles[x, z] = newTile;
+                }
+            }
+        }
+    }
+
+    private bool SurroundedByWater(int x, int z)
+    {
+        int landTilesCount = 0;
+        if (x - 1 >= 0 && IsOceanTile(x - 1, z))
+        {
+            landTilesCount++;
+        }
+        if (x + 1 < modifiedTiles.GetLength(0) && IsOceanTile(x + 1, z))
+        {
+            landTilesCount++;
+        }
+        if (z - 1 >= 0 && IsOceanTile(x, z - 1))
+        {
+            landTilesCount++;
+        }
+        if (z + 1 < modifiedTiles.GetLength(1) && IsOceanTile(x, z + 1))
+        {
+            landTilesCount++;
+        }
+        return landTilesCount == 4;
+    }
+
+    public void RemoveIslandsAndPeninsulas()
+    {
+        for (int x = 0; x < modifiedTiles.GetLength(0); x++)
+        {
+            for (int z = 0; z < modifiedTiles.GetLength(1); z++)
+            {
+                if (!IsOceanTile(x,z))
+                {
+                    List<GameObject> edgeAdjacentOcean = GetEdgeAdjacentOceanTiles(x, z);
+                    if (edgeAdjacentOcean.Count == 2)
+                    {
+                        Vector3 directionOne = edgeAdjacentOcean[0].transform.localPosition - modifiedTiles[x, z].transform.localPosition;
+                        directionOne = directionOne.normalized;
+                        Vector3 directionTwo = edgeAdjacentOcean[1].transform.localPosition - modifiedTiles[x, z].transform.localPosition;
+                        directionTwo = directionTwo.normalized;
+                        if (Vector3.Angle(directionOne, directionTwo) > 90)
+                        {
+                            TurnIntoOceanTile(x, z);
+                        }
+                    }
+                    else if (edgeAdjacentOcean.Count > 2)
+                    {
+                        TurnIntoOceanTile(x, z);
+                    }
+                }
+            }
+        }
     }
 
     private void TurnIntoOceanTile(int x, int z)
     {
         DestroyImmediate(modifiedTiles[x, z]);
-        int randomTileIndex = Random.Range(0, tileSet.oceanTiles.Length);
-        GameObject newTile = Instantiate(tileSet.oceanTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
+        int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
+        GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
         modifiedTiles[x, z] = newTile;
     }
 
