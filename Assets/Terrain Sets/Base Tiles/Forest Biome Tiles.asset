@@ -24,3 +24,9 @@ MonoBehaviour:
   - {fileID: 140560, guid: 61279b8f4dafe15478051379f736582d, type: 3}
   coastalInnerCorner:
   - {fileID: 135712, guid: 29140ca53fe0d814cb88259c32acbe97, type: 3}
+  riverMouth:
+  - {fileID: 175374, guid: 574522eab55ff8e4985848fe82fef629, type: 3}
+  - {fileID: 158372, guid: 8617ee8718becff488537461eeda530c, type: 3}
+  - {fileID: 117592, guid: 4157435ce340b204690b08fd9e59b12b, type: 3}
+  riverStraight: []
+  riverCorner: []

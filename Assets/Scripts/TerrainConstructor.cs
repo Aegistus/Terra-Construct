@@ -32,8 +32,8 @@ public class TerrainConstructor : MonoBehaviour
         ZTileTotal = settings.zSize / tileSize;
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
-        terrainData = new TerrainData();
         ClearTerrain();
+        terrainData = new TerrainData(XTileTotal, ZTileTotal);
         if (Application.isPlaying)
         {
             StartCoroutine(PlaceTileGrid());

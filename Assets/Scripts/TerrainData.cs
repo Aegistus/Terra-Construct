@@ -6,6 +6,11 @@ public class TerrainData
 {
     public GameObject[,] Tiles { get; set; }
 
+    public TerrainData(int xTiles, int zTiles)
+    {
+        Tiles = new GameObject[xTiles, zTiles];
+    }
+
     public int AdjacentOceanTilesCount(int x, int z)
     {
         int landTilesCount = 0;
