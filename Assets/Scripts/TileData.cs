@@ -16,6 +16,7 @@ public class TileData
 
     public void ReplaceTile(GameObject newTile, TileType type)
     {
+        Object.DestroyImmediate(gameObject);
         gameObject = newTile;
         this.type = type;
     }

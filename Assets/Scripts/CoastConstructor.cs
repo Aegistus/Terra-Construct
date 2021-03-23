@@ -25,13 +25,14 @@ public class CoastConstructor : MonoBehaviour
                 List<TileData> edgeAdjacentOcean = TerrainData.GetEdgeAdjacentOceanTiles(x, z);
                 if (!TerrainData.IsOceanTile(x, z) && edgeAdjacentOcean.Count > 0)
                 {
+                    print(edgeAdjacentOcean.Count);
                     if (edgeAdjacentOcean.Count == 1) // coastal straight
                     {
                         Vector3 direction = edgeAdjacentOcean[0].Transform.localPosition - TerrainData.Tiles[x, z].Transform.localPosition;
                         direction = direction.normalized;
                         int randomIndex = Random.Range(0, tileSet.coastalStraight.Length);
                         GameObject newTile = Instantiate(tileSet.coastalStraight[randomIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-                        TerrainData.Tiles[x, z] = new TileData(newTile, TileType.CoastStraight);
+                        TerrainData.Tiles[x, z].ReplaceTile(newTile, TileType.CoastStraight);
                         if (direction == -transform.forward)
                         {
                             newTile.transform.Rotate(0, 180, 0);
@@ -58,7 +59,7 @@ public class CoastConstructor : MonoBehaviour
                         {
                             int randomIndex = Random.Range(0, tileSet.coastalOuterCorner.Length);
                             GameObject newTile = Instantiate(tileSet.coastalOuterCorner[randomIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-                            TerrainData.Tiles[x, z] = new TileData(newTile, TileType.CoastOuterCorner);
+                            TerrainData.Tiles[x, z].ReplaceTile(newTile, TileType.CoastOuterCorner);
                             if (directionOne == transform.forward && directionTwo == -transform.right || directionTwo == transform.forward && directionOne == -transform.right)
                             {
                                 newTile.transform.Rotate(0, -90, 0);
@@ -114,7 +115,7 @@ public class CoastConstructor : MonoBehaviour
         {
             for (int z = 0; z < TerrainData.Tiles.GetLength(1); z++)
             {
-                if (TerrainData.AdjacentOceanTilesCount(x,z) == 4)
+                if (!TerrainData.IsOceanTile(x,z) && TerrainData.AdjacentOceanTilesCount(x,z) == 4)
                 {
                     int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
                     GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
