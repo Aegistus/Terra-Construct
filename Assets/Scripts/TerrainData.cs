@@ -16,11 +16,11 @@ public class TerrainData
         }
     }
 
-    public GameObject[,] Tiles { get; set; }
+    public TileData[,] Tiles { get; set; }
 
     public TerrainData(int xTiles, int zTiles)
     {
-        Tiles = new GameObject[xTiles, zTiles];
+        Tiles = new TileData[xTiles, zTiles];
     }
 
     public int AdjacentOceanTilesCount(int x, int z)
@@ -45,9 +45,9 @@ public class TerrainData
         return landTilesCount;
     }
 
-    public List<GameObject> GetEdgeAdjacentOceanTiles(int x, int z)
+    public List<TileData> GetEdgeAdjacentOceanTiles(int x, int z)
     {
-        List<GameObject> oceanTiles = new List<GameObject>();
+        List<TileData> oceanTiles = new List<TileData>();
         if (x - 1 >= 0 && IsOceanTile(x - 1, z))
         {
             oceanTiles.Add(Tiles[x - 1, z]);
@@ -67,9 +67,9 @@ public class TerrainData
         return oceanTiles;
     }
 
-    public List<GameObject> GetCornerAdjacentOceanTiles(int x, int z)
+    public List<TileData> GetCornerAdjacentOceanTiles(int x, int z)
     {
-        List<GameObject> oceanTiles = new List<GameObject>();
+        List<TileData> oceanTiles = new List<TileData>();
         if (x - 1 >= 0 && z - 1 >= 0 && IsOceanTile(x - 1, z - 1))
         {
             oceanTiles.Add(Tiles[x - 1, z - 1]);
@@ -89,9 +89,9 @@ public class TerrainData
         return oceanTiles;
     }
 
-    public List<GameObject> GetEdgeAdjacentLandTiles(int x, int z)
+    public List<TileData> GetEdgeAdjacentLandTiles(int x, int z)
     {
-        List<GameObject> landTiles = new List<GameObject>();
+        List<TileData> landTiles = new List<TileData>();
         if (x - 1 >= 0 && IsLandTile(x - 1, z))
         {
             landTiles.Add(Tiles[x - 1, z]);
@@ -111,7 +111,7 @@ public class TerrainData
         return landTiles;
     }
 
-    public Coordinates GetTileCoordinates(GameObject tile)
+    public Coordinates GetTileCoordinates(TileData tile)
     {
         for (int x = 0; x < Tiles.GetLength(0); x++)
         {
@@ -128,11 +128,11 @@ public class TerrainData
 
     public bool IsOceanTile(int x, int z)
     {
-        return Tiles[x, z].CompareTag("Terrain/OceanFloor");
+        return Tiles[x, z].type == TileType.OceanFloor;
     }
 
     public bool IsLandTile(int x, int z)
     {
-        return Tiles[x, z].CompareTag("Terrain/Land");
+        return Tiles[x, z].type == TileType.FlatLand;
     }
 }

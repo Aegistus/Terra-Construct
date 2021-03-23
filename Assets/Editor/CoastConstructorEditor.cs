@@ -15,7 +15,7 @@ public class CoastConstructorEditor : Editor
 
         if (GUILayout.Button("Construct"))
         {
-            terrainConst.terrainData = constructor.ReplaceCoastalTiles(terrainConst.terrainData, terrainConst.tileSize);
+            constructor.ReplaceCoastalTiles(terrainConst.tileSize);
         }
     }
 }

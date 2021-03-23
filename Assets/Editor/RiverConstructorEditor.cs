@@ -15,7 +15,7 @@ public class RiverConstructorEditor : Editor
 
         if (GUILayout.Button("Construct"))
         {
-            constructor.ConstructRivers(terrain.terrainData, terrain.tileSize);
+            constructor.ConstructRivers(terrain.tileSize);
         }
 
     }
