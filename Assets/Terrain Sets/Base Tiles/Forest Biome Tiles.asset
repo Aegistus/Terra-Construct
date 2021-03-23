@@ -31,9 +31,13 @@ MonoBehaviour:
   - {fileID: 115946, guid: 66ab70258e7de5f419ca7f49a7d4d658, type: 3}
   - {fileID: 132222, guid: f6d81e6e01a80404fbded3e71635917a, type: 3}
   - {fileID: 178258, guid: ef219a1b916c22d43b90f40625159757, type: 3}
-  riverCorner:
+  riverCornerLeft:
   - {fileID: 169904, guid: 7f3100b47caf98f4b8a44b3e42dffba1, type: 3}
   - {fileID: 198014, guid: 33dec4c3ca470094287091126b6f0a1b, type: 3}
   - {fileID: 198736, guid: e4afda600bb1e0643b777c07ab07bcc4, type: 3}
   - {fileID: 139434, guid: 9d75a2a6b0e0b4f4c94d101aeaa8c891, type: 3}
-  - {fileID: 101742, guid: 54b94f8cefda1164db3890b3a597ad1a, type: 3}
+  riverCornerRight:
+  - {fileID: 146716, guid: ca2d57bbb17d565479f35a99c4357363, type: 3}
+  - {fileID: 141732, guid: a44de0685f001654aabaf77faed37571, type: 3}
+  - {fileID: 100926, guid: 0a32cabbf47b3f049b623f5cab094d7f, type: 3}
+  - {fileID: 169084, guid: cfba2dd57b9429d479062ab3c67ce5a7, type: 3}

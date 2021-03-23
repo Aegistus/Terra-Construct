@@ -21,4 +21,16 @@ public class TileData
         this.type = type;
     }
 
+    public bool Equals(TileData other)
+    {
+        if (other.gameObject == gameObject && other.type == type)
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+
 }

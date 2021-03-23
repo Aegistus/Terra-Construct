@@ -13,6 +13,7 @@ public class TerrainTileSet : ScriptableObject
     public GameObject[] coastalInnerCorner;
     public GameObject[] riverMouth;
     public GameObject[] riverStraight;
-    public GameObject[] riverCorner;
+    public GameObject[] riverCornerLeft;
+    public GameObject[] riverCornerRight;
 
 }

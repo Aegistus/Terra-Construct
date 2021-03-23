@@ -4,17 +4,7 @@ using UnityEngine;
 
 public class TerrainData
 {
-    public class Coordinates
-    {
-        public int x;
-        public int z;
 
-        public Coordinates(int x, int z)
-        {
-            this.x = x;
-            this.z = z;
-        }
-    }
 
     public TileData[,] Tiles { get; set; }
 
@@ -117,7 +107,7 @@ public class TerrainData
         {
             for (int z = 0; z < Tiles.GetLength(1); z++)
             {
-                if (Tiles[x,z] == tile)
+                if (Tiles[x,z].Equals(tile))
                 {
                     return new Coordinates(x, z);
                 }
