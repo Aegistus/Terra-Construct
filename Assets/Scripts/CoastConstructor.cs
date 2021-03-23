@@ -25,7 +25,6 @@ public class CoastConstructor : MonoBehaviour
                 List<TileData> edgeAdjacentOcean = TerrainData.GetEdgeAdjacentOceanTiles(x, z);
                 if (!TerrainData.IsOceanTile(x, z) && edgeAdjacentOcean.Count > 0)
                 {
-                    print(edgeAdjacentOcean.Count);
                     if (edgeAdjacentOcean.Count == 1) // coastal straight
                     {
                         Vector3 direction = edgeAdjacentOcean[0].Transform.localPosition - TerrainData.Tiles[x, z].Transform.localPosition;

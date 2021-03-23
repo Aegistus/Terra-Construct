@@ -70,7 +70,7 @@ public class RiverConstructor : MonoBehaviour
             newTile.transform.Rotate(0, 270, 0);
             newTile.transform.localPosition += new Vector3(tileSize, 0, 0);
         }
-        TerrainData.Tiles[x, z] = new TileData(newTile, TileType.RiverMouth);
+        TerrainData.Tiles[x, z].ReplaceTile(newTile, TileType.RiverMouth);
         riverMouths.Add(newTile);
     }
 
@@ -87,12 +87,11 @@ public class RiverConstructor : MonoBehaviour
             {
                 break;
             }
-            print("test " + currentTile);
             // pick a random direction to go in
             int randIndex = Random.Range(0, adjacentLand.Count);
             TileData nextTile = adjacentLand[randIndex];
             currentTileCoords = TerrainData.GetTileCoordinates(nextTile);
-            TerrainData.Tiles[currentTileCoords.x, currentTileCoords.z] = ReplaceWithRiverTile(nextTile, currentTile);
+            TerrainData.Tiles[currentTileCoords.x, currentTileCoords.z].ReplaceTile(ReplaceWithRiverTile(nextTile, currentTile), TileType.RiverBendLeft);
             riverTiles.Add(TerrainData.Tiles[currentTileCoords.x, currentTileCoords.z]);
             currentTile = TerrainData.Tiles[currentTileCoords.x, currentTileCoords.z];
         }
@@ -101,12 +100,12 @@ public class RiverConstructor : MonoBehaviour
             if (Vector3.Angle(riverTiles[i].Transform.forward, riverTiles[i + 1].Transform.forward) != 0)
             {
                 TerrainData.Coordinates coords = TerrainData.GetTileCoordinates(riverTiles[i]);
-                TerrainData.Tiles[coords.x, coords.z] = ReplaceWithRiverBendTile(riverTiles[i], riverTiles[i + 1]);
+                TerrainData.Tiles[coords.x, coords.z].ReplaceTile(ReplaceWithRiverBendTile(riverTiles[i], riverTiles[i + 1]), TileType.RiverBendLeft);
             }
         }
     }
 
-    private TileData ReplaceWithRiverBendTile(TileData tile, TileData target)
+    private GameObject ReplaceWithRiverBendTile(TileData tile, TileData target)
     {
         int randIndex = Random.Range(0, tileSet.riverCorner.Length);
         GameObject riverBend = Instantiate(tileSet.riverCorner[randIndex], tile.Transform.position, Quaternion.identity, transform);
@@ -128,10 +127,10 @@ public class RiverConstructor : MonoBehaviour
         //    riverBend.transform.Rotate(0, 90, 0);
         //    riverBend.transform.localPosition += new Vector3(0, 0, tileSize);
         //}
-        return new TileData(riverBend, TileType.RiverBendLeft);
+        return riverBend;
     }
 
-    private TileData ReplaceWithRiverTile(TileData tile, TileData lastTile)
+    private GameObject ReplaceWithRiverTile(TileData tile, TileData lastTile)
     {
         int randIndex = Random.Range(0, tileSet.riverStraight.Length);
         GameObject riverTile = Instantiate(tileSet.riverStraight[randIndex], tile.Transform.position, Quaternion.identity, transform);
@@ -153,6 +152,6 @@ public class RiverConstructor : MonoBehaviour
             riverTile.transform.Rotate(0, 90, 0);
             riverTile.transform.localPosition += new Vector3(0, 0, tileSize);
         }
-        return new TileData(riverTile, TileType.RiverStraight);
+        return riverTile;
     }
 }
