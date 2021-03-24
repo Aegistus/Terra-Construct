@@ -27,15 +27,11 @@ MonoBehaviour:
   riverMouth:
   - {fileID: 117592, guid: 4157435ce340b204690b08fd9e59b12b, type: 3}
   riverStraight:
-  - {fileID: 162290, guid: bde71d9fcd93dc244b16e8df62feee5e, type: 3}
-  - {fileID: 115946, guid: 66ab70258e7de5f419ca7f49a7d4d658, type: 3}
-  - {fileID: 132222, guid: f6d81e6e01a80404fbded3e71635917a, type: 3}
-  - {fileID: 178258, guid: ef219a1b916c22d43b90f40625159757, type: 3}
-  riverCornerLeft:
-  - {fileID: 169904, guid: 7f3100b47caf98f4b8a44b3e42dffba1, type: 3}
-  - {fileID: 198014, guid: 33dec4c3ca470094287091126b6f0a1b, type: 3}
-  - {fileID: 198736, guid: e4afda600bb1e0643b777c07ab07bcc4, type: 3}
-  - {fileID: 139434, guid: 9d75a2a6b0e0b4f4c94d101aeaa8c891, type: 3}
+  - {fileID: 132940, guid: ee7e309ce77263040b021dfe46f39a51, type: 3}
+  - {fileID: 186810, guid: b8809c7cc24a77b43ada4c95fad50483, type: 3}
+  - {fileID: 108708, guid: f7cdd89e9d5b70b4397d357ffeb650b9, type: 3}
+  - {fileID: 106528, guid: d122a369f5f2f734e88d5e9fc5a711e8, type: 3}
+  riverCornerLeft: []
   riverCornerRight:
   - {fileID: 146716, guid: ca2d57bbb17d565479f35a99c4357363, type: 3}
   - {fileID: 141732, guid: a44de0685f001654aabaf77faed37571, type: 3}

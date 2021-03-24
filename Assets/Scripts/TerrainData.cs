@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class TerrainData
 {
-
-
     public TileData[,] Tiles { get; set; }
 
     public TerrainData(int xTiles, int zTiles)
@@ -124,5 +122,10 @@ public class TerrainData
     public bool IsLandTile(int x, int z)
     {
         return Tiles[x, z].type == TileType.FlatLand;
+    }
+
+    public TileData GetTileAtCoordinates(Coordinates coords)
+    {
+        return Tiles[coords.x, coords.z];
     }
 }

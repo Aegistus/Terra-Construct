@@ -7,7 +7,6 @@ public class TerrainConstructor : MonoBehaviour
 {
     public TerrainSettings settings;
     public TerrainTileSet tileSet;
-    public MountainSet mountainSet;
     public NoiseMap elevationNoiseMap;
 
     [Header("Tile Settings")]
@@ -71,17 +70,18 @@ public class TerrainConstructor : MonoBehaviour
 
     public void PlaceTile(int x, int z)
     {
-        if (elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z) < oceanPercent)
+        float noiseValue = elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z);
+        if (noiseValue < oceanPercent)
         {
             int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
             GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            terrainData.Tiles[x, z] = new TileData(newTile, TileType.OceanFloor);
+            terrainData.Tiles[x, z] = new TileData(newTile, TileType.OceanFloor, noiseValue);
         }
         else
         {
             int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
             GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            terrainData.Tiles[x, z] = new TileData(newTile, TileType.FlatLand);
+            terrainData.Tiles[x, z] = new TileData(newTile, TileType.FlatLand, noiseValue);
         }
         //print(elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize));
     }
