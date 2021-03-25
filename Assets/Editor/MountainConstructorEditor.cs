@@ -17,6 +17,10 @@ public class MountainConstructorEditor : Editor
         {
             constructor.PlaceMountains();
         }
+        if (GUILayout.Button("Clear"))
+        {
+            constructor.ClearMountains();
+        }
 
     }
 
