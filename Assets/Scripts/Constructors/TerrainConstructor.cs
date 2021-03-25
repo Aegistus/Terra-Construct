@@ -103,6 +103,14 @@ public class TerrainConstructor : MonoBehaviour
         terrainData = null;
     }
 
+    public void ClearTiles()
+    {
+        foreach (var chunk in chunks)
+        {
+            chunk.ClearTiles();
+        }
+    }
+
    public void ChunkTerrain()
    {
         chunks = new TerrainChunk[XTileTotal / chunkSize + 1, ZTileTotal / chunkSize + 1];

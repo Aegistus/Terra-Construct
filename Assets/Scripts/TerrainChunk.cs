@@ -20,4 +20,15 @@ public class TerrainChunk
         filter.mesh = MeshCombiner.CombineMeshesOfChildren(gameObject);
     }
 
+    public void ClearTiles()
+    {
+        while (gameObject.transform.childCount > 0)
+        {
+            for (int i = 0; i < gameObject.transform.childCount; i++)
+            {
+                Object.DestroyImmediate(gameObject.transform.GetChild(i).gameObject);
+            }
+        }
+    }
+
 }
