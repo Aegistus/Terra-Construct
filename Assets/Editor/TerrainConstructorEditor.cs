@@ -20,5 +20,9 @@ public class TerrainConstructorEditor : Editor
         {
             constructor.ClearTerrain();
         }
+        if (GUILayout.Button("Chunk Terrain"))
+        {
+            constructor.ChunkTerrain();
+        }
     }
 }

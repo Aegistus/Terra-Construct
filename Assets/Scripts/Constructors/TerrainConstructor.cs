@@ -16,9 +16,13 @@ public class TerrainConstructor : MonoBehaviour
     [Range(0f, 1f)]
     public float oceanPercent = .4f;
 
+    [Header("Chunk Settings")]
+    public int chunkSize = 3;
     public int XTileTotal { get; private set; }
     public int ZTileTotal { get; private set; }
     public TerrainData terrainData;
+
+    private TerrainChunk[,] chunks;
 
     private void Start()
     {
@@ -98,5 +102,31 @@ public class TerrainConstructor : MonoBehaviour
         elevationNoiseMap.ResetNoiseRange();
         terrainData = null;
     }
+
+   public void ChunkTerrain()
+   {
+        chunks = new TerrainChunk[XTileTotal / chunkSize + 1, ZTileTotal / chunkSize + 1];
+        for (int x = 0; x < chunks.GetLength(0); x++)
+        {
+            for (int z = 0; z < chunks.GetLength(1); z++)
+            {
+                GameObject chunkObject = new GameObject("Chunk");
+                chunkObject.transform.parent = transform;
+                chunks[x,z] = new TerrainChunk(chunkObject);
+            }
+        }
+        for (int x = 0; x < terrainData.Tiles.GetLength(0); x++)
+        {
+            for (int z = 0; z < terrainData.Tiles.GetLength(1); z++)
+            {
+                chunks[x / chunkSize, z / chunkSize].tiles.Add(terrainData.Tiles[x, z]);
+                terrainData.Tiles[x, z].Transform.parent = chunks[x / chunkSize, z / chunkSize].gameObject.transform;
+            }
+        }
+        foreach (var chunk in chunks)
+        {
+            chunk.CombineMeshes();
+        }
+   }
 
 }
