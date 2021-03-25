@@ -18,4 +18,9 @@ public class MeshCombiner
         combinedMesh.CombineMeshes(combine);
         return combinedMesh;
     }
+
+    public static Mesh CombineMeshes(List<Mesh> meshes)
+    {
+        return null;
+    }
 }

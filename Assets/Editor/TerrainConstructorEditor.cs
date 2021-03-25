@@ -16,15 +16,7 @@ public class TerrainConstructorEditor : Editor
         {
             constructor.ConstructTerrain();
         }
-        if (GUILayout.Button("Chunk Terrain"))
-        {
-            constructor.ChunkTerrain();
-        }
-        if (GUILayout.Button("Clear Tiles"))
-        {
-            constructor.ClearTiles();
-        }
-        if (GUILayout.Button("Clear All (Including Chunks)"))
+        if (GUILayout.Button("Clear All"))
         {
             constructor.ClearTerrain();
         }
