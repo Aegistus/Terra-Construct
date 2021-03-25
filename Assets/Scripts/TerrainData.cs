@@ -124,6 +124,11 @@ public class TerrainData
         return Tiles[x, z].type == TileType.FlatLand;
     }
 
+    public bool IsCoastalTile(int x, int z)
+    {
+        return Tiles[x, z].type == TileType.CoastStraight || Tiles[x, z].type == TileType.CoastOuterCorner || Tiles[x, z].type == TileType.CoastInnerCorner;
+    }
+
     public TileData GetTileAtCoordinates(Coordinates coords)
     {
         return Tiles[coords.x, coords.z];

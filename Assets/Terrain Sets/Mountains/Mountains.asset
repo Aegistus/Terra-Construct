@@ -12,53 +12,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 38e6507b0258a4f40b45f173f2198c6e, type: 3}
   m_Name: Mountains
   m_EditorClassIdentifier: 
-  smallMountains:
-  - {fileID: 142890, guid: 0fbbe6558db37b84bacb718874b0be25, type: 3}
-  - {fileID: 197798, guid: 037d65356e9be67469bd529047279993, type: 3}
-  - {fileID: 150678, guid: ab9aa911ffb93d04fa0cb97ccc5d932b, type: 3}
-  - {fileID: 166646, guid: edda0dd17123b1f479bd08e9e7e20e74, type: 3}
-  - {fileID: 141070, guid: e30fbfcefd7cfc34aaa023a9c7766fa3, type: 3}
-  - {fileID: 182348, guid: 7f81c3bb2161b9340aab197dfe554488, type: 3}
-  - {fileID: 100514, guid: df50b9c6a75e06147ac89fbbe2d90dcf, type: 3}
-  - {fileID: 109730, guid: ae6a603a62597b448847a6b558d43f5c, type: 3}
+  hills:
   - {fileID: 195328, guid: 185b8f5d558b97841a176e32b966768a, type: 3}
   - {fileID: 143152, guid: a375254b0756edd4392196fa54ca1233, type: 3}
   - {fileID: 151182, guid: ef4e47f6cc7537e4abaf7622e1ae3c0e, type: 3}
-  - {fileID: 190362, guid: cb74054fc7c8c164aaa38d5c72309eb6, type: 3}
+  - {fileID: 138332, guid: a09fc36325f993645b1bf2351039d358, type: 3}
   - {fileID: 138332, guid: a09fc36325f993645b1bf2351039d358, type: 3}
   - {fileID: 194242, guid: 0d0afeed5cac97e4e875dbce0d054177, type: 3}
   - {fileID: 136450, guid: a2ff48dcac9930b4992bce2b1ca4511e, type: 3}
   - {fileID: 170232, guid: 445cd5f1fc7dc4c4a9126b6a9685c620, type: 3}
   - {fileID: 156984, guid: c41f48519cbde4f42ba32f8f35a245fc, type: 3}
-  - {fileID: 101322, guid: dfc73424ef172e84da67dfb40df0c6be, type: 3}
-  - {fileID: 131802, guid: 88983d8a284c7bf48a12464d83c6a44d, type: 3}
-  - {fileID: 131804, guid: 6f024d4007124b74c9c1e2ce2913a8f1, type: 3}
-  - {fileID: 197588, guid: 6bdf7ed54e2a5cb4b9ea0d203aec4e0c, type: 3}
-  mediumMountains:
-  - {fileID: 192032, guid: 4cec6214f18254b40bc729d9754a64b5, type: 3}
-  - {fileID: 176122, guid: a656fedc58bd9214cbfa15d11fe9a057, type: 3}
-  - {fileID: 126058, guid: 0ffd21fc4a52c3242a9dd7ad620caf52, type: 3}
-  - {fileID: 177652, guid: 32196b830c5d7d548978eed571069ecd, type: 3}
-  - {fileID: 196004, guid: 78a2494ff5633924fb9bcee03c2a7688, type: 3}
-  - {fileID: 157750, guid: 3afcd2eac5d327945a67e3c9152ce7da, type: 3}
-  - {fileID: 115268, guid: cbca091d755d3494e916ba944e1c1763, type: 3}
-  - {fileID: 140534, guid: d55bfaacedd4cd84e98cbcc6c910b90f, type: 3}
-  - {fileID: 146564, guid: 1e185e49c283b21478ff73f8797aa4e5, type: 3}
-  - {fileID: 164874, guid: 1673dd5d2598af04e83e09285ca4f8c1, type: 3}
-  - {fileID: 109074, guid: 8e1003aeefb68e343a7e7a1c4f7e1d6d, type: 3}
-  - {fileID: 100728, guid: 50acf5d9f1cac2f4980ce50b80d910a8, type: 3}
-  - {fileID: 169572, guid: d52ec504577e7924ab29a8235666c262, type: 3}
-  - {fileID: 119782, guid: ce7ad23faf12587408d5515f5773aa8f, type: 3}
-  - {fileID: 122888, guid: cc19dd20d38e5c04da07b875c7f94f86, type: 3}
-  - {fileID: 180494, guid: c687d71c22d10374eb196349f77fa25d, type: 3}
-  - {fileID: 124510, guid: 3d25e0b698315d64db46138a5dc1754d, type: 3}
-  - {fileID: 132516, guid: 9c17da4454a427c4e9fe6a654726d4c4, type: 3}
-  - {fileID: 136620, guid: cba905320733e3e49a890677e68e451f, type: 3}
-  - {fileID: 138970, guid: 643ee08e3bbdea64bb5f99c58cb7734c, type: 3}
-  - {fileID: 164676, guid: c60818faa6a7b3647b4bbc867296623c, type: 3}
-  - {fileID: 101052, guid: 75fda466eb22dc44db69cbc0894c4b30, type: 3}
   - {fileID: 147022, guid: efea31d2b5a22664b867f6e02bbf6627, type: 3}
-  largeMountains:
+  mountains:
   - {fileID: 147458, guid: efd76d266b73d474284684bc5755fda4, type: 3}
   - {fileID: 121438, guid: 4bc713949375a0c4c9f519341695e47a, type: 3}
   - {fileID: 108954, guid: 83e09bb7f8354da4b8a885155083cf1f, type: 3}
@@ -66,8 +31,14 @@ MonoBehaviour:
   - {fileID: 101374, guid: 161a97e00be1a0c4093fca522af9b2fa, type: 3}
   - {fileID: 118560, guid: b51ec90e288f05042af902e06166b633, type: 3}
   - {fileID: 152754, guid: 350747af0b5939d41940e1ba19d31509, type: 3}
+  - {fileID: 134744, guid: e6540787f362b784a9de29b38d8ae7f8, type: 3}
+  - {fileID: 126276, guid: 1e055d5572dd8f54b84d4fab1bdc31ff, type: 3}
+  - {fileID: 109166, guid: 940d040f68520ca4cb97a1f7a90e3a1a, type: 3}
   - {fileID: 196982, guid: 2cf0fd7eeefa3b84181c552743e33bf2, type: 3}
   - {fileID: 134768, guid: f5fbd14ec53d92b4baeee409a2958281, type: 3}
+  - {fileID: 197924, guid: baa53e0884dad6b4ebc5b7a3291db3d1, type: 3}
+  - {fileID: 180834, guid: e1a069895ef399f4e9b3393363239eac, type: 3}
+  - {fileID: 106092, guid: c1b73454580ea98408df3a263bd5de9e, type: 3}
   - {fileID: 107370, guid: 6fbd5a1d634b41340895488c42e85725, type: 3}
   - {fileID: 114816, guid: 18eb71935cbf4ff4f92a1a4a2076412d, type: 3}
   - {fileID: 175154, guid: 485d9201da2a4bb43977ae10edd7525b, type: 3}
@@ -75,3 +46,4 @@ MonoBehaviour:
   - {fileID: 153734, guid: fa346183f1793264db060a693b4c9a8e, type: 3}
   - {fileID: 195230, guid: e076be622a1b09644bf3919cfa4d02ce, type: 3}
   - {fileID: 100074, guid: 42e9b58438208c24a9d7bf445cca2e9a, type: 3}
+  - {fileID: 176976, guid: 3651450f7c33f3e4a87444814607eea6, type: 3}

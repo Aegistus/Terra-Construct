@@ -7,7 +7,6 @@ public class TerrainConstructor : MonoBehaviour
 {
     public TerrainSettings settings;
     public TerrainTileSet tileSet;
-    public Material terrainMaterial;
     public NoiseMap elevationNoiseMap;
 
     [Header("Tile Settings")]

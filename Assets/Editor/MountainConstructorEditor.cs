@@ -13,9 +13,13 @@ public class MountainConstructorEditor : Editor
 
         DrawDefaultInspector();
 
-        if (GUILayout.Button("Construct"))
+        if (GUILayout.Button("Place Mountains"))
         {
             constructor.PlaceMountains();
+        }
+        if (GUILayout.Button("Place Foothills"))
+        {
+            constructor.PlaceFootHills();
         }
         if (GUILayout.Button("Clear"))
         {
