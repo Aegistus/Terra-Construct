@@ -6,7 +6,7 @@ public class MeshCombiner
 {
     public static Mesh CombineMeshesOfChildren(GameObject parent)
     {
-        MeshFilter[] filters = parent.GetComponentsInChildren<MeshFilter>();
+        MeshFilter[] filters = parent.GetComponentsInChildren<MeshFilter>(false);
         CombineInstance[] combine = new CombineInstance[filters.Length - 1];
         for (int i = 1; i < filters.Length; i++) // start at one because filters[0] is the parent's filter
         {
