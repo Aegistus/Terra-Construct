@@ -22,11 +22,6 @@ public class TerrainConstructor : MonoBehaviour
     public int ZTileTotal { get; private set; }
     public TerrainData terrainData;
 
-    private void Start()
-    {
-        //StartCoroutine(PlaceMountains());
-    }
-
     public void ConstructTerrain()
     {
         XTileTotal = settings.xSize / tileSize;
