@@ -247,8 +247,8 @@ MonoBehaviour:
   placeBelowMountainLevel: 1
   elevationMin: 0
   elevationMax: 1
-  maxTreesPerForestTile: 50
-  treeClumping: 0.93
+  maxTreesPerForestTile: 100
+  treeClumping: 0.99
 --- !u!114 &126321485
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -261,7 +261,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 217fa72ed1701b24fa2fca7b15be094c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  foregroundRenderDistance: 200
+  foregroundRenderDistance: 500
   backgroundRenderDistance: 100
   treePoolSize: 500
 --- !u!1 &705507993

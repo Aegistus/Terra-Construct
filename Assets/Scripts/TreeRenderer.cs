@@ -33,6 +33,7 @@ public class TreeRenderer : MonoBehaviour
 
     public void CreateTreePool()
     {
+        ClearTreePool();
         treePool = new List<Queue<GameObject>>();
         for (int i = 0; i < treePrefabs.commonTrees.Count; i++)
         {
