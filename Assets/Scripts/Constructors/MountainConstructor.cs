@@ -30,7 +30,7 @@ public class MountainConstructor : MonoBehaviour
             for (int z = 0; z < TerrainData.Tiles.GetLength(1); z++)
             {
                 TileData tile = TerrainData.Tiles[x, z];
-                if (tile.noiseValue > mountainLevel)
+                if (tile.noiseValue > mountainLevel && tile.type == TileType.FlatLand)
                 {
                     for (int i = 0; i < maxMountainsPerTile; i++)
                     {
@@ -38,7 +38,8 @@ public class MountainConstructor : MonoBehaviour
                         {
                             break;
                         }
-                        Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize / 2), transform.position.y, Random.Range(0, terrain.tileSize / 2));
+                        float halfExtent = terrain.tileSize / 2;
+                        Vector3 randomPosition = new Vector3(Random.Range(-halfExtent, halfExtent), transform.position.y, Random.Range(-halfExtent, halfExtent));
                         int randIndex = Random.Range(0, mountains.mountains.Length);
                         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
                         GameObject newMountain = Instantiate(mountains.mountains[randIndex], randomPosition + tile.Transform.position, randomRotation, tile.Transform);

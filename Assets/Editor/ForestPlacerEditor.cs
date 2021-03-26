@@ -16,6 +16,10 @@ public class ForestPlacerEditor : Editor
         {
             constructor.PlaceForests();
         }
+        if (GUILayout.Button("Clear Forests"))
+        {
+            constructor.ClearForests();
+        }
 
     }
 }
