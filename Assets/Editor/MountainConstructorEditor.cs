@@ -9,23 +9,24 @@ public class MountainConstructorEditor : Editor
     public override void OnInspectorGUI()
     {
         MountainConstructor constructor = (MountainConstructor)target;
-        TerrainConstructor terrain = constructor.GetComponent<TerrainConstructor>();
 
         DrawDefaultInspector();
 
         if (GUILayout.Button("Place Mountains"))
         {
             constructor.PlaceMountains();
+            EditorUtility.SetDirty(FindObjectOfType<TerrainConstructor>());
         }
         if (GUILayout.Button("Place Foothills"))
         {
             constructor.PlaceFootHills();
+            EditorUtility.SetDirty(FindObjectOfType<TerrainConstructor>());
         }
         if (GUILayout.Button("Clear"))
         {
             constructor.ClearMountains();
+            EditorUtility.SetDirty(FindObjectOfType<TerrainConstructor>());
         }
-
     }
 
 }

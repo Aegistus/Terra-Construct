@@ -16,10 +16,12 @@ public class TerrainConstructorEditor : Editor
         if (GUILayout.Button("Construct"))
         {
             constructor.ConstructTerrain();
+            EditorUtility.SetDirty(target);
         }
         if (GUILayout.Button("Clear All"))
         {
             constructor.ClearTerrain();
+            EditorUtility.SetDirty(target);
         }
     }
 }

@@ -16,10 +16,12 @@ public class OceanConstructorEditor : Editor
         if (GUILayout.Button("Construct"))
         {
             constructor.ConstructOcean(terrain.settings.xSize, terrain.settings.zSize);
+            EditorUtility.SetDirty(terrain);
         }
         if (GUILayout.Button("Clear"))
         {
             constructor.ClearOcean();
+            EditorUtility.SetDirty(terrain);
         }
     }
 }
