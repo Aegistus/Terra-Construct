@@ -26,6 +26,7 @@ public class TreeRenderer : MonoBehaviour
         terrain = GetComponent<TerrainConstructor>();
         treePrefabs = FindObjectOfType<ForestPlacer>().trees;
         StartCoroutine(CheckPlayerPosition());
+        CreateTreePool();
     }
 
     public IEnumerator CheckPlayerPosition()
@@ -80,7 +81,7 @@ public class TreeRenderer : MonoBehaviour
         {
             if (!tree.Active)
             {
-                if ((tree.position - editorCam.transform.position).sqrMagnitude <= Mathf.Pow(foregroundRenderDistance, 2))
+                if ((tree.position - mainCam.transform.position).sqrMagnitude <= Mathf.Pow(foregroundRenderDistance, 2))
                 {
                     if (treePool[tree.typeIndex].Count > 0)
                     {
@@ -90,7 +91,7 @@ public class TreeRenderer : MonoBehaviour
             }
             else
             {
-                if ((tree.position - editorCam.transform.position).sqrMagnitude > Mathf.Pow(foregroundRenderDistance, 2))
+                if ((tree.position - mainCam.transform.position).sqrMagnitude > Mathf.Pow(foregroundRenderDistance, 2))
                 {
                     treePool[tree.typeIndex].Enqueue(tree.Deactivate());
                 }

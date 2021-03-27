@@ -5,8 +5,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTerrainData", menuName = "Terrain Data", order = 5)]
 public class TerrainData : ScriptableObject
 {
-    public TileData[,] Tiles { get; set; }
-    public List<TreeData> Trees { get; set; }
+    public TileData[,] Tiles;
+    public List<TreeData> Trees;
 
     public void CreateTiles(int xSize, int zSize)
     {
