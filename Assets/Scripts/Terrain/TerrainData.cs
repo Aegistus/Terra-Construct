@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+[System.Serializable]
 [CreateAssetMenu(fileName = "NewTerrainData", menuName = "Terrain Data", order = 5)]
 public class TerrainData : ScriptableObject
 {

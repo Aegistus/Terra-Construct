@@ -10,7 +10,6 @@ public class TreeRenderer : MonoBehaviour
     public float backgroundRenderDistance = 100f;
     public int treePoolSize = 100;
     private Camera mainCam;
-    private Camera editorCam;
 
     private TerrainConstructor terrain;
     private TerrainData Data => terrain.terrainData;
@@ -23,10 +22,13 @@ public class TreeRenderer : MonoBehaviour
         {
             mainCam = Camera.main;
         }
-        terrain = GetComponent<TerrainConstructor>();
+        terrain = FindObjectOfType<TerrainConstructor>();
         treePrefabs = FindObjectOfType<ForestPlacer>().trees;
+        if (treePool == null)
+        {
+            CreateTreePool();
+        }
         StartCoroutine(CheckPlayerPosition());
-        CreateTreePool();
     }
 
     public IEnumerator CheckPlayerPosition()
@@ -45,7 +47,7 @@ public class TreeRenderer : MonoBehaviour
         for (int i = 0; i < treePrefabs.commonTrees.Count; i++)
         {
             Queue<GameObject> treeQueue = new Queue<GameObject>();
-            for (int j = 0; j < treePoolSize; j++)
+            for (int j = 0; j < treePoolSize / treePrefabs.commonTrees.Count; j++)
             {
                 GameObject tree = Instantiate(treePrefabs.commonTrees[i], transform);
                 tree.SetActive(false);
@@ -57,15 +59,11 @@ public class TreeRenderer : MonoBehaviour
 
     public void ClearTreePool()
     {
-        if (treePool == null)
+        while (transform.childCount > 0)
         {
-            return;
-        }
-        for (int i = 0; i < treePool.Count; i++)
-        {
-            while (treePool[i].Count > 0)
+            for (int i = 0; i < transform.childCount; i++)
             {
-                DestroyImmediate(treePool[i].Dequeue());
+                DestroyImmediate(transform.GetChild(i).gameObject);
             }
         }
         treePool = null;
@@ -77,6 +75,21 @@ public class TreeRenderer : MonoBehaviour
         {
             mainCam = Camera.main;
         }
+        CheckTrees();
+    }
+
+    public void UpdateTreesAroundEditorCamera()
+    {
+        if (mainCam == null && !Application.isPlaying)
+        {
+            mainCam = SceneView.GetAllSceneCameras()[0];
+        }
+        terrain = FindObjectOfType<TerrainConstructor>();
+        CheckTrees();
+    }
+
+    private void CheckTrees()
+    {
         foreach (var tree in Data.Trees)
         {
             if (!tree.Active)
@@ -85,7 +98,13 @@ public class TreeRenderer : MonoBehaviour
                 {
                     if (treePool[tree.typeIndex].Count > 0)
                     {
-                        tree.Activate(treePool[tree.typeIndex].Dequeue());
+                        GameObject treeGameObject = treePool[tree.typeIndex].Dequeue();
+                        treeGameObject.transform.position = tree.position;
+                        treeGameObject.transform.eulerAngles = tree.rotation;
+                        treeGameObject.transform.localScale = tree.scale;
+                        treeGameObject.SetActive(true);
+                        tree.Activate();
+                        treePool[tree.typeIndex].Enqueue(treeGameObject);
                     }
                 }
             }
@@ -93,36 +112,7 @@ public class TreeRenderer : MonoBehaviour
             {
                 if ((tree.position - mainCam.transform.position).sqrMagnitude > Mathf.Pow(foregroundRenderDistance, 2))
                 {
-                    treePool[tree.typeIndex].Enqueue(tree.Deactivate());
-                }
-            }
-        }
-    }
-
-    public void UpdateTreesAroundEditorCamera()
-    {
-        if (editorCam == null && !Application.isPlaying)
-        {
-            editorCam = SceneView.GetAllSceneCameras()[0];
-        }
-        terrain = GetComponent<TerrainConstructor>();
-        foreach (var tree in Data.Trees)
-        {
-            if (!tree.Active)
-            {
-                if ((tree.position - editorCam.transform.position).sqrMagnitude <= Mathf.Pow(foregroundRenderDistance, 2))
-                {
-                    if (treePool[tree.typeIndex].Count > 0)
-                    {
-                        tree.Activate(treePool[tree.typeIndex].Dequeue());
-                    }
-                }
-            }
-            else
-            {
-                if ((tree.position - editorCam.transform.position).sqrMagnitude > Mathf.Pow(foregroundRenderDistance, 2))
-                {
-                    treePool[tree.typeIndex].Enqueue(tree.Deactivate());
+                    tree.Deactivate();
                 }
             }
         }

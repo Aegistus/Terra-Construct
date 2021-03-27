@@ -20,8 +20,8 @@ public class ForestPlacer : MonoBehaviour
 
     public void PlaceForests()
     {
-        terrain = GetComponent<TerrainConstructor>();
-        mountains = GetComponent<MountainConstructor>();
+        terrain = FindObjectOfType<TerrainConstructor>();
+        mountains = FindObjectOfType<MountainConstructor>();
         ClearForests();
         Data.Trees = new List<TreeData>();
         float minValue;
@@ -51,10 +51,10 @@ public class ForestPlacer : MonoBehaviour
                 {
                     for (int i = 0; i < maxTreesPerForestTile; i++)
                     {
-                        if (Random.value > treeClumping)
-                        {
-                            break;
-                        }
+                        //if (Random.value > treeClumping)
+                        //{
+                        //    break;
+                        //}
                         // create a common tree spawnPoint
                         Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize), 0, Random.Range(0, terrain.tileSize));
                         randomPosition += tile.Transform.position;
@@ -69,6 +69,7 @@ public class ForestPlacer : MonoBehaviour
 
     public void ClearForests()
     {
+        terrain = FindObjectOfType<TerrainConstructor>();
         if (Data.Trees != null)
         {
             Data.Trees.Clear();

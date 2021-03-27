@@ -6,6 +6,7 @@ using UnityEngine;
 [CustomEditor(typeof(TerrainConstructor))]
 public class TerrainConstructorEditor : Editor
 {
+
     public override void OnInspectorGUI()
     {
         TerrainConstructor constructor = (TerrainConstructor)target;

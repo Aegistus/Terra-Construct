@@ -1,14 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEditor;
 
 [ExecuteInEditMode]
 public class TerrainConstructor : MonoBehaviour
 {
     public TerrainSettings settings;
-    public TerrainData terrainData;
     public TerrainTileSet tileSet;
     public NoiseMap elevationNoiseMap;
+
+    public TerrainData terrainData;
 
     [Header("Tile Settings")]
     public int tileSize = 100;

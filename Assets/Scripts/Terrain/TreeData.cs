@@ -10,7 +10,6 @@ public class TreeData
     public Vector3 position;
     public Vector3 rotation;
     public Vector3 scale;
-    private GameObject currentGameObject;
 
     public TreeData(int typeIndex, Vector3 position, Vector3 rotation, Vector3 scale)
     {
@@ -20,20 +19,13 @@ public class TreeData
         this.scale = scale;
     }
 
-    public void Activate(GameObject treeGameObj)
+    public void Activate()
     {
-        currentGameObject = treeGameObj;
-        currentGameObject.transform.position = position;
-        currentGameObject.transform.eulerAngles = rotation;
-        currentGameObject.transform.localScale = scale;
-        currentGameObject.SetActive(true);
         Active = true;
     }
 
-    public GameObject Deactivate()
+    public void Deactivate()
     {
         Active = false;
-        currentGameObject.SetActive(false);
-        return currentGameObject;
     }
 }
