@@ -15,10 +15,12 @@ public class TreeRendererEditor : Editor
         if (GUILayout.Button("Create Tree Pool"))
         {
             constructor.CreateTreePool();
+            EditorUtility.SetDirty(constructor);
         }
         if (GUILayout.Button("Clear Tree Pool"))
         {
             constructor.ClearTreePool();
+            EditorUtility.SetDirty(constructor);
         }
         if (GUILayout.Button("Update Trees"))
         {

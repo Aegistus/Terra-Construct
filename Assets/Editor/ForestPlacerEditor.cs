@@ -15,12 +15,12 @@ public class ForestPlacerEditor : Editor
         if (GUILayout.Button("Generate Forests"))
         {
             constructor.PlaceForests();
-            EditorUtility.SetDirty(FindObjectOfType<TerrainConstructor>());
+            EditorUtility.SetDirty(constructor);
         }
         if (GUILayout.Button("Clear Forests"))
         {
             constructor.ClearForests();
-            EditorUtility.SetDirty(FindObjectOfType<TerrainConstructor>());
+            EditorUtility.SetDirty(constructor);
         }
 
     }

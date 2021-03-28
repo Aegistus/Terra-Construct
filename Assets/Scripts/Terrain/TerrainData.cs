@@ -7,7 +7,6 @@ using UnityEngine;
 public class TerrainData : ScriptableObject
 {
     public TileData[,] Tiles;
-    public List<TreeData> Trees;
 
     public void CreateTiles(int xSize, int zSize)
     {

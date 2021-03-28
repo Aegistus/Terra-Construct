@@ -11,6 +11,8 @@ public class TreeData
     public Vector3 rotation;
     public Vector3 scale;
 
+    private GameObject currentTreeObject;
+
     public TreeData(int typeIndex, Vector3 position, Vector3 rotation, Vector3 scale)
     {
         this.typeIndex = typeIndex;
@@ -19,13 +21,19 @@ public class TreeData
         this.scale = scale;
     }
 
-    public void Activate()
+    public void Activate(GameObject treeObject)
     {
         Active = true;
+        currentTreeObject = treeObject;
     }
 
     public void Deactivate()
     {
         Active = false;
+        if (currentTreeObject)
+        {
+            currentTreeObject.SetActive(false);
+            currentTreeObject = null;
+        }
     }
 }

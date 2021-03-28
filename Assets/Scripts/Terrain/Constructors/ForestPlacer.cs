@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class ForestPlacer : MonoBehaviour
 {
-    public TreeSet trees;
+    public TreeSet treeSet;
     public bool placeAboveWaterLevel = true;
     public bool placeBelowMountainLevel = true;
     [Range(0f, 1f)]
@@ -14,6 +14,9 @@ public class ForestPlacer : MonoBehaviour
     public int maxTreesPerForestTile = 5;
     [Range(0f, 1f)]
     public float treeClumping = .5f;
+
+    [HideInInspector]
+    public List<TreeData> placedTrees;
     private TerrainConstructor terrain;
     private TerrainData Data => terrain.terrainData;
     private MountainConstructor mountains;
@@ -23,12 +26,12 @@ public class ForestPlacer : MonoBehaviour
         terrain = FindObjectOfType<TerrainConstructor>();
         mountains = FindObjectOfType<MountainConstructor>();
         ClearForests();
-        Data.Trees = new List<TreeData>();
+        placedTrees = new List<TreeData>();
         float minValue;
         float maxValue;
         if (placeAboveWaterLevel)
         {
-            minValue = terrain.oceanPercent + .05f;
+            minValue = terrain.oceanPercent + .01f;
         }
         else
         {
@@ -36,7 +39,7 @@ public class ForestPlacer : MonoBehaviour
         }
         if (placeBelowMountainLevel)
         {
-            maxValue = mountains.mountainLevel - .05f;
+            maxValue = mountains.mountainLevel - .01f;
         }
         else
         {
@@ -58,9 +61,9 @@ public class ForestPlacer : MonoBehaviour
                         // create a common tree spawnPoint
                         Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize), 0, Random.Range(0, terrain.tileSize));
                         randomPosition += tile.Transform.position;
-                        int typeIndex = Random.Range(0, trees.commonTrees.Count);
+                        int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        Data.Trees.Add(new TreeData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
+                        placedTrees.Add(new TreeData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
                     }
                 }
             }
@@ -70,9 +73,9 @@ public class ForestPlacer : MonoBehaviour
     public void ClearForests()
     {
         terrain = FindObjectOfType<TerrainConstructor>();
-        if (Data.Trees != null)
+        if (placedTrees != null)
         {
-            Data.Trees.Clear();
+            placedTrees.Clear();
         }
     }
 
@@ -95,4 +98,16 @@ public class ForestPlacer : MonoBehaviour
             elevationMax = elevationMin + .01f;
         }
     }
+
+    //private void OnDrawGizmos()
+    //{
+    //    if (placedTrees != null)
+    //    {
+    //        Gizmos.color = Color.red;
+    //        foreach (var tree in placedTrees)
+    //        {
+    //            Gizmos.DrawSphere(tree.position, 1f);
+    //        }
+    //    }
+    //}
 }
