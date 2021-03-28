@@ -15,7 +15,7 @@ public class CoastConstructorEditor : Editor
 
         if (GUILayout.Button("Construct"))
         {
-            constructor.ReplaceCoastalTiles(terrainConst.tileSize);
+            constructor.Construct();
             EditorUtility.SetDirty(terrainConst);
         }
     }

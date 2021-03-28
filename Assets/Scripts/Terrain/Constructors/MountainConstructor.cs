@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MountainConstructor : MonoBehaviour
+public class MountainConstructor : MonoBehaviour, IConstructor
 {
     public MountainSet mountains;
     [Range(0f, 1f)]
@@ -105,5 +105,11 @@ public class MountainConstructor : MonoBehaviour
         {
             foothillLevel = mountainLevel - .01f;
         }
+    }
+
+    public void Construct()
+    {
+        PlaceMountains();
+        PlaceFootHills();
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TerrainConstructor))]
-public class CoastConstructor : MonoBehaviour
+public class CoastConstructor : MonoBehaviour, IConstructor
 {
     public TerrainTileSet tileSet;
 
@@ -11,10 +11,10 @@ public class CoastConstructor : MonoBehaviour
     private TerrainConstructor constructor;
     private TerrainData TerrainData => constructor.terrainData;
 
-    public void ReplaceCoastalTiles(float tileSize)
+    public void Construct()
     {
         constructor = GetComponent<TerrainConstructor>();
-        this.tileSize = tileSize;
+        tileSize = constructor.tileSize;
         // first get rid of islands/peninsulas
         RemoveIsolatedOceanTiles();
         RemoveIslandsAndPeninsulas();

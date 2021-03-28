@@ -23,7 +23,7 @@ public class TreeRenderer : MonoBehaviour
             mainCam = Camera.main;
         }
         terrain = FindObjectOfType<TerrainConstructor>();
-        treePrefabs = FindObjectOfType<ForestPlacer>().trees;
+        treePrefabs = GetComponent<ForestPlacer>().trees;
         if (treePool == null)
         {
             CreateTreePool();
@@ -44,6 +44,7 @@ public class TreeRenderer : MonoBehaviour
     {
         ClearTreePool();
         treePool = new List<Queue<GameObject>>();
+        treePrefabs = GetComponent<ForestPlacer>().trees;
         for (int i = 0; i < treePrefabs.commonTrees.Count; i++)
         {
             Queue<GameObject> treeQueue = new Queue<GameObject>();

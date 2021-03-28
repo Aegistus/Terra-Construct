@@ -15,7 +15,7 @@ public class OceanConstructorEditor : Editor
 
         if (GUILayout.Button("Construct"))
         {
-            constructor.ConstructOcean(terrain.settings.xSize, terrain.settings.zSize);
+            constructor.Construct();
             EditorUtility.SetDirty(terrain);
         }
         if (GUILayout.Button("Clear"))

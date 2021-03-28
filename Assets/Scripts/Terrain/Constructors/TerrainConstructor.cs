@@ -4,7 +4,7 @@ using UnityEngine;
 using UnityEditor;
 
 [ExecuteInEditMode]
-public class TerrainConstructor : MonoBehaviour
+public class TerrainConstructor : MonoBehaviour, IConstructor
 {
     public TerrainSettings settings;
     public TerrainTileSet tileSet;
@@ -24,7 +24,7 @@ public class TerrainConstructor : MonoBehaviour
     public int XTileTotal { get; private set; }
     public int ZTileTotal { get; private set; }
 
-    public void ConstructTerrain()
+    public void Construct()
     {
         XTileTotal = settings.xSize / tileSize;
         ZTileTotal = settings.zSize / tileSize;

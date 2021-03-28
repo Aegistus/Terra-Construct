@@ -15,13 +15,21 @@ public class TerrainConstructorEditor : Editor
 
         if (GUILayout.Button("Construct"))
         {
-            constructor.ConstructTerrain();
+            constructor.Construct();
             EditorUtility.SetDirty(target);
         }
         if (GUILayout.Button("Clear All"))
         {
             constructor.ClearTerrain();
             EditorUtility.SetDirty(target);
+        }
+        if (GUILayout.Button("Construct All"))
+        {
+            IConstructor[] constructors = constructor.GetComponents<IConstructor>();
+            for (int i = 0; i < constructors.Length; i++)
+            {
+                constructors[i].Construct();
+            }
         }
     }
 }

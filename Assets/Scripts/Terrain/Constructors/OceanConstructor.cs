@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(TerrainConstructor))]
-public class OceanConstructor : MonoBehaviour
+public class OceanConstructor : MonoBehaviour, IConstructor
 {
     public TerrainTileSet tileSet;
     public float seaLevel = -1;
@@ -11,14 +11,15 @@ public class OceanConstructor : MonoBehaviour
 
     private GameObject[,] oceanTiles;
 
-    public void ConstructOcean(float xSize, float zSize)
+    public void Construct()
     {
         if (oceanTiles != null)
         {
             ClearOcean();
         }
-        int xTileTotal = (int)(xSize / tileSize);
-        int zTileTotal = (int)(zSize / tileSize);
+        TerrainSettings settings = GetComponent<TerrainConstructor>().settings;
+        int xTileTotal = (int)(settings.xSize / tileSize);
+        int zTileTotal = (int)(settings.zSize / tileSize);
         oceanTiles = new GameObject[xTileTotal, zTileTotal];
         for (int x = 0; x < xTileTotal; x++)
         {
