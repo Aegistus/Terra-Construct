@@ -8,8 +8,9 @@ public class TileData
     public int xPos;
     public int zPos;
 
-    private GameObject gameObject;
-    public Transform Transform => gameObject.transform;
+    public Vector3 position;
+    public Vector3 rotation;
+    public Vector3 scale;
     public TileType type;
     public float noiseValue = 0;
 
@@ -18,18 +19,24 @@ public class TileData
         this.xPos = xPos;
         this.zPos = zPos;
         type = TileType.OceanFloor;
+        scale = Vector3.one;
     }
 
-    public void ReplaceTile(GameObject newTile, TileType type)
+    public void ReplaceTile(TileType type, Vector3 position, Vector3 rotation)
     {
-        Object.DestroyImmediate(gameObject);
-        gameObject = newTile;
         this.type = type;
+        this.position = position;
+        this.rotation = rotation;
+    }
+
+    public void Rotate(float x, float y, float z)
+    {
+        rotation += new Vector3(x, y, z);
     }
 
     public bool Equals(TileData other)
     {
-        if (other.gameObject == gameObject && other.type == type)
+        if (other.type == type && other.xPos == xPos && other.zPos == zPos)
         {
             return true;
         }

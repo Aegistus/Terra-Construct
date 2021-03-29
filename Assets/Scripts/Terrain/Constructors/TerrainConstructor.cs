@@ -19,19 +19,12 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
     [Range(0f, 1f)]
     public float oceanPercent = .4f;
 
-    [Header("Chunk Settings")]
-    public int chunkSize = 3;
-    public int XTileTotal { get; private set; }
-    public int ZTileTotal { get; private set; }
-
     public void Construct()
     {
-        XTileTotal = settings.xSize / tileSize;
-        ZTileTotal = settings.zSize / tileSize;
         elevationNoiseMap.XRandomOffset = Random.Range(0, 10000);
         elevationNoiseMap.ZRandomOffset = Random.Range(0, 10000);
         ClearTerrain();
-        terrainData.CreateTiles(XTileTotal, ZTileTotal);
+        terrainData.CreateTiles(settings.xSize / tileSize, settings.zSize / tileSize);
         if (Application.isPlaying)
         {
             StartCoroutine(PlaceTileGrid());
@@ -44,9 +37,9 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
 
     public IEnumerator PlaceTileGrid()
     {
-        for (int x = 0; x < XTileTotal; x++)
+        for (int x = 0; x < terrainData.xSize; x++)
         {
-            for (int z = 0; z < ZTileTotal; z++)
+            for (int z = 0; z < terrainData.zSize; z++)
             {
                 PlaceTile(x, z);
                 yield return null;
@@ -56,9 +49,9 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
 
     public void PlaceTileGridEditor()
     {
-        for (int x = 0; x < XTileTotal; x++)
+        for (int x = 0; x < terrainData.xSize; x++)
         {
-            for (int z = 0; z < ZTileTotal; z++)
+            for (int z = 0; z < terrainData.zSize; z++)
             {
                 PlaceTile(x, z);
             }
@@ -70,16 +63,14 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
         float noiseValue = elevationNoiseMap.GetLayeredPerlinValueAtPosition(x, z);
         if (noiseValue < oceanPercent)
         {
-            int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
-            GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            terrainData.GetTileAtCoordinates(x,z).ReplaceTile(newTile, TileType.OceanFloor);
+            Vector3 position = new Vector3(x * tileSize, transform.position.y, z * tileSize);
+            terrainData.GetTileAtCoordinates(x,z).ReplaceTile(TileType.OceanFloor, position, Vector3.zero);
             terrainData.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
         }
         else
         {
-            int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
-            GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            terrainData.GetTileAtCoordinates(x, z).ReplaceTile(newTile, TileType.FlatLand);
+            Vector3 position = new Vector3(x * tileSize, transform.position.y, z * tileSize);
+            terrainData.GetTileAtCoordinates(x, z).ReplaceTile(TileType.FlatLand, position, Vector3.zero);
             terrainData.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
         }
         //print(elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize));
@@ -97,5 +88,13 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
         elevationNoiseMap.ResetNoiseRange();
     }
 
+    public void LoadTerrain(TerrainData data)
+    {
+        ClearTerrain();
+        terrainData = data;
+        for (int x = 0; x < terrainData.xSize; x++)
+        {
 
+        }
+    }
 }

@@ -60,7 +60,7 @@ public class ForestGenerator : MonoBehaviour, IGenerator
                         //}
                         // create a common tree spawnPoint
                         Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize), 0, Random.Range(0, terrain.tileSize));
-                        randomPosition += tile.Transform.position;
+                        randomPosition += tile.position;
                         int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
                         placedTrees.Add(new TerrainObjectData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));

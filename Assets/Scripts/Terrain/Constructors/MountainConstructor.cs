@@ -11,7 +11,6 @@ public class MountainConstructor : MonoBehaviour, IConstructor
     public float foothillLevel = .4f;
     [Range(0f, 1f)]
     public float mountainClumping = .5f;
-    //public float mountainSpacing = 10f;
     public float sizeVariationLower = .8f;
     public float sizeVariationUpper = 1.2f;
     public int maxMountainsPerTile = 5;
@@ -40,9 +39,13 @@ public class MountainConstructor : MonoBehaviour, IConstructor
                         }
                         float halfExtent = terrain.tileSize / 2;
                         Vector3 randomPosition = new Vector3(Random.Range(-halfExtent, halfExtent), transform.position.y, Random.Range(-halfExtent, halfExtent));
+                        if (TerrainData.IsOceanTile(x, z) || TerrainData.IsCoastalTile(x, z))
+                        {
+                            randomPosition.y = seaMountainLevel;
+                        }
                         int randIndex = Random.Range(0, mountains.mountains.Length);
                         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-                        GameObject newMountain = Instantiate(mountains.mountains[randIndex], randomPosition + tile.Transform.position, randomRotation, tile.Transform);
+                        GameObject newMountain = Instantiate(mountains.mountains[randIndex], randomPosition + tile.position, randomRotation);
                         newMountain.transform.localScale = newMountain.transform.localScale * Random.Range(sizeVariationLower, sizeVariationUpper);
                         placedMountains.Add(newMountain);
                     }
@@ -74,7 +77,7 @@ public class MountainConstructor : MonoBehaviour, IConstructor
                         }
                         int randIndex = Random.Range(0, mountains.hills.Length);
                         Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-                        GameObject newMountain = Instantiate(mountains.hills[randIndex], randomPosition + tile.Transform.position, randomRotation, tile.Transform);
+                        GameObject newMountain = Instantiate(mountains.hills[randIndex], randomPosition + tile.position, randomRotation);
                         newMountain.transform.localScale = newMountain.transform.localScale * Random.Range(sizeVariationLower, sizeVariationUpper);
                         placedMountains.Add(newMountain);
                     }

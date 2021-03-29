@@ -44,7 +44,7 @@ public class RiverConstructor : MonoBehaviour
         for (int i = 0; i < potentialTiles.Count; i++)
         {
             List<TileData> oceanTiles = TerrainData.GetEdgeAdjacentOceanTiles(potentialTiles[i].x, potentialTiles[i].z);
-            PlaceRiverMouthTile(potentialTiles[i].x, potentialTiles[i].z, oceanTiles[0].Transform.position);
+            PlaceRiverMouthTile(potentialTiles[i].x, potentialTiles[i].z, oceanTiles[0].position);
             List<TileData> riverPath = new List<TileData>();
             riverPath.Add(TerrainData.GetTileAtCoordinates(potentialTiles[i])); // add the river mouth to the start of the path
             for (int j = 0; j < maxRiverLength; j++)
@@ -70,15 +70,15 @@ public class RiverConstructor : MonoBehaviour
         {
             if (riverPath[i] != null && i + 1 < riverPath.Count)
             {
-                Vector3 directionFrom = riverPath[i - 1].Transform.localPosition - riverPath[i].Transform.localPosition;
+                Vector3 directionFrom = riverPath[i - 1].position - riverPath[i].position;
                 directionFrom = directionFrom.normalized;
-                Vector3 directionTo = riverPath[i + 1].Transform.localPosition - riverPath[i].Transform.localPosition;
+                Vector3 directionTo = riverPath[i + 1].position - riverPath[i].position;
                 directionTo = directionTo.normalized;
                 if (Vector3.Angle(directionFrom, directionTo) == 180) // straight
                 {
                     int randIndex = Random.Range(0, tileSet.riverStraight.Length);
-                    GameObject newTile = Instantiate(tileSet.riverStraight[randIndex], riverPath[i].Transform.position, Quaternion.identity, transform);
-                    riverPath[i].ReplaceTile(newTile, TileType.RiverStraight);
+                    GameObject newTile = Instantiate(tileSet.riverStraight[randIndex], riverPath[i].position, Quaternion.identity, transform);
+                    riverPath[i].ReplaceTile(TileType.RiverStraight, Vector3.zero, Vector3.zero); // temporary
                     if (directionFrom == -transform.right)
                     {
                         newTile.transform.Rotate(0, -90, 0);
@@ -93,8 +93,8 @@ public class RiverConstructor : MonoBehaviour
                 else if (Vector3.SignedAngle(directionFrom, directionTo, Vector3.up) == 90) // right bend
                 {
                     int randIndex = Random.Range(0, tileSet.riverCornerRight.Length);
-                    GameObject newTile = Instantiate(tileSet.riverCornerRight[randIndex], riverPath[i].Transform.position, Quaternion.identity, transform);
-                    riverPath[i].ReplaceTile(newTile, TileType.RiverBendRight);
+                    GameObject newTile = Instantiate(tileSet.riverCornerRight[randIndex], riverPath[i].position, Quaternion.identity, transform);
+                    riverPath[i].ReplaceTile(TileType.RiverBendRight, Vector3.zero, Vector3.zero); // temporary
                     if (directionFrom == transform.forward && directionTo == -transform.right || directionTo == transform.forward && directionFrom == -transform.right)
                     {
                         newTile.transform.Rotate(0, -90, 0);
@@ -140,7 +140,7 @@ public class RiverConstructor : MonoBehaviour
             newTile.transform.Rotate(0, 270, 0);
             newTile.transform.localPosition += new Vector3(tileSize, 0, 0);
         }
-        TerrainData.GetTileAtCoordinates(x, z).ReplaceTile(newTile, TileType.RiverMouth);
+        //TerrainData.GetTileAtCoordinates(x, z).ReplaceTile(TileType.RiverMouth);
         riverMouths.Add(newTile);
     }
 

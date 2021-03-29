@@ -14,7 +14,7 @@ public class ChunkConstructor : MonoBehaviour
     public void ArrangeChunks()
     {
         terrain = GetComponent<TerrainConstructor>();
-        chunks = new TerrainChunk[terrain.XTileTotal / chunkSize + 1, terrain.ZTileTotal / chunkSize + 1];
+        chunks = new TerrainChunk[Data.xSize / chunkSize + 1, Data.zSize / chunkSize + 1];
         for (int x = 0; x < chunks.GetLength(0); x++)
         {
             for (int z = 0; z < chunks.GetLength(1); z++)
@@ -27,7 +27,7 @@ public class ChunkConstructor : MonoBehaviour
         {
             for (int z = 0; z < Data.zSize; z++)
             {
-                chunks[x / terrain.XTileTotal, z / terrain.ZTileTotal].baseTiles.Add(Data.GetTileAtCoordinates(x, z).Transform.gameObject);
+                //chunks[x / Data.xSize, z / Data.zSize].baseTiles.Add(Data.GetTileAtCoordinates(x, z).Transform.gameObject);
             }
         }
     }

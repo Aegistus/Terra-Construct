@@ -38,7 +38,7 @@ public class GrassGenerator : MonoBehaviour, IGenerator
                         //}
                         // create a common grass spawnPoint
                         Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize), 0, Random.Range(0, terrain.tileSize));
-                        randomPosition += tile.Transform.position;
+                        randomPosition += tile.position;
                         int typeIndex = Random.Range(0, grassSet.common.Length);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
                         placedGrass.Add(new TerrainObjectData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
