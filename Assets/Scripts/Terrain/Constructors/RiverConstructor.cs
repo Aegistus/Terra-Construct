@@ -21,9 +21,9 @@ public class RiverConstructor : MonoBehaviour
 
         // find all potential river mouths
         List<Coordinates> potentialTiles = new List<Coordinates>();
-        for (int x = 0; x < TerrainData.Tiles.GetLength(0); x++)
+        for (int x = 0; x < TerrainData.xSize; x++)
         {
-            for (int z = 0; z < TerrainData.Tiles.GetLength(1); z++)
+            for (int z = 0; z < TerrainData.zSize; z++)
             {
                 if (!TerrainData.IsOceanTile(x,z) && TerrainData.AdjacentOceanTilesCount(x,z) == 1)
                 {
@@ -46,7 +46,7 @@ public class RiverConstructor : MonoBehaviour
             List<TileData> oceanTiles = TerrainData.GetEdgeAdjacentOceanTiles(potentialTiles[i].x, potentialTiles[i].z);
             PlaceRiverMouthTile(potentialTiles[i].x, potentialTiles[i].z, oceanTiles[0].Transform.position);
             List<TileData> riverPath = new List<TileData>();
-            riverPath.Add(TerrainData.Tiles[potentialTiles[i].x, potentialTiles[i].z]); // add the river mouth to the start of the path
+            riverPath.Add(TerrainData.GetTileAtCoordinates(potentialTiles[i])); // add the river mouth to the start of the path
             for (int j = 0; j < maxRiverLength; j++)
             {
                 riverPath.Add(FindNextTileInRiverPath(riverPath));
@@ -140,7 +140,7 @@ public class RiverConstructor : MonoBehaviour
             newTile.transform.Rotate(0, 270, 0);
             newTile.transform.localPosition += new Vector3(tileSize, 0, 0);
         }
-        TerrainData.Tiles[x, z].ReplaceTile(newTile, TileType.RiverMouth);
+        TerrainData.GetTileAtCoordinates(x, z).ReplaceTile(newTile, TileType.RiverMouth);
         riverMouths.Add(newTile);
     }
 

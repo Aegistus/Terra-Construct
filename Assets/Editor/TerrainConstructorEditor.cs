@@ -31,5 +31,9 @@ public class TerrainConstructorEditor : Editor
                 constructors[i].Construct();
             }
         }
+        if (GUILayout.Button("Save Terrain"))
+        {
+            TerrainSaver.SaveTerrain(constructor.terrainData);
+        }
     }
 }

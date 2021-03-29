@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [System.Serializable]
-public class TreeData
+public class TerrainObjectData
 {
     public bool Active { get; private set; }
     public int typeIndex;
@@ -11,9 +11,9 @@ public class TreeData
     public Vector3 rotation;
     public Vector3 scale;
 
-    private GameObject currentTreeObject;
+    private GameObject currentObject;
 
-    public TreeData(int typeIndex, Vector3 position, Vector3 rotation, Vector3 scale)
+    public TerrainObjectData(int typeIndex, Vector3 position, Vector3 rotation, Vector3 scale)
     {
         this.typeIndex = typeIndex;
         this.position = position;
@@ -21,19 +21,19 @@ public class TreeData
         this.scale = scale;
     }
 
-    public void Activate(GameObject treeObject)
+    public void Activate(GameObject terrainObject)
     {
         Active = true;
-        currentTreeObject = treeObject;
+        currentObject = terrainObject;
     }
 
     public void Deactivate()
     {
         Active = false;
-        if (currentTreeObject)
+        if (currentObject)
         {
-            currentTreeObject.SetActive(false);
-            currentTreeObject = null;
+            currentObject.SetActive(false);
+            currentObject = null;
         }
     }
 }

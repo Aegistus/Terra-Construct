@@ -11,14 +11,14 @@ public class TreeRenderer : MonoBehaviour
     public int treePoolSize = 100;
     private Camera mainCam;
 
-    private ForestPlacer forestPlacer;
+    private ForestGenerator forestPlacer;
     private TreeSet treePrefabs;
     private List<Queue<GameObject>> treePool;
 
     private void Start()
     {
         mainCam = Camera.main;
-        forestPlacer = GetComponent<ForestPlacer>();
+        forestPlacer = GetComponent<ForestGenerator>();
         treePrefabs = forestPlacer.treeSet;
         if (treePool == null)
         {
@@ -41,7 +41,7 @@ public class TreeRenderer : MonoBehaviour
     {
         ClearTreePool();
         treePool = new List<Queue<GameObject>>();
-        treePrefabs = GetComponent<ForestPlacer>().treeSet;
+        treePrefabs = GetComponent<ForestGenerator>().treeSet;
         for (int i = 0; i < treePrefabs.commonTrees.Count; i++)
         {
             Queue<GameObject> treeQueue = new Queue<GameObject>();

@@ -6,12 +6,41 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTerrainData", menuName = "Terrain Data", order = 5)]
 public class TerrainData : ScriptableObject
 {
-    public TileData[,] Tiles;
+    public int xSize;
+    public int zSize;
+    [SerializeField] private List<TileData> tiles;
 
     public void CreateTiles(int xSize, int zSize)
     {
-        Tiles = new TileData[xSize, zSize];
+        this.xSize = xSize;
+        this.zSize = zSize;
+        tiles = new List<TileData>();
+        for (int x = 0; x < xSize; x++)
+        {
+            for (int z = 0; z < zSize; z++)
+            {
+                tiles.Add(new TileData(x,z));
+            }
+        }
     }
+
+    public TileData GetTileAtCoordinates(int x, int z)
+    {
+        for (int i = 0; i < tiles.Count; i++)
+        {
+            if (tiles[i].xPos == x && tiles[i].zPos == z)
+            {
+                return tiles[i];
+            }
+        }
+        return null;
+    }
+
+    public TileData GetTileAtCoordinates(Coordinates coords)
+    {
+        return GetTileAtCoordinates(coords.x, coords.z);
+    }
+
 
     public int AdjacentOceanTilesCount(int x, int z)
     {
@@ -20,7 +49,7 @@ public class TerrainData : ScriptableObject
         {
             landTilesCount++;
         }
-        if (x + 1 < Tiles.GetLength(0) && IsOceanTile(x + 1, z))
+        if (x + 1 < xSize && IsOceanTile(x + 1, z))
         {
             landTilesCount++;
         }
@@ -28,7 +57,7 @@ public class TerrainData : ScriptableObject
         {
             landTilesCount++;
         }
-        if (z + 1 < Tiles.GetLength(1) && IsOceanTile(x, z + 1))
+        if (z + 1 < zSize && IsOceanTile(x, z + 1))
         {
             landTilesCount++;
         }
@@ -40,19 +69,19 @@ public class TerrainData : ScriptableObject
         List<TileData> oceanTiles = new List<TileData>();
         if (x - 1 >= 0 && IsOceanTile(x - 1, z))
         {
-            oceanTiles.Add(Tiles[x - 1, z]);
+            oceanTiles.Add(GetTileAtCoordinates(x - 1, z));
         }
-        if (x + 1 < Tiles.GetLength(0) && IsOceanTile(x + 1, z))
+        if (x + 1 < xSize && IsOceanTile(x + 1, z))
         {
-            oceanTiles.Add(Tiles[x + 1, z]);
+            oceanTiles.Add(GetTileAtCoordinates(x + 1, z));
         }
         if (z - 1 >= 0 && IsOceanTile(x, z - 1))
         {
-            oceanTiles.Add(Tiles[x, z - 1]);
+            oceanTiles.Add(GetTileAtCoordinates(x, z - 1));
         }
-        if (z + 1 < Tiles.GetLength(1) && IsOceanTile(x, z + 1))
+        if (z + 1 < zSize && IsOceanTile(x, z + 1))
         {
-            oceanTiles.Add(Tiles[x, z + 1]);
+            oceanTiles.Add(GetTileAtCoordinates(x, z + 1));
         }
         return oceanTiles;
     }
@@ -62,19 +91,19 @@ public class TerrainData : ScriptableObject
         List<TileData> oceanTiles = new List<TileData>();
         if (x - 1 >= 0 && z - 1 >= 0 && IsOceanTile(x - 1, z - 1))
         {
-            oceanTiles.Add(Tiles[x - 1, z - 1]);
+            oceanTiles.Add(GetTileAtCoordinates(x - 1, z - 1));
         }
-        if (x + 1 < Tiles.GetLength(0) && z + 1 < Tiles.GetLength(1) && IsOceanTile(x + 1, z + 1))
+        if (x + 1 < xSize && z + 1 < zSize && IsOceanTile(x + 1, z + 1))
         {
-            oceanTiles.Add(Tiles[x + 1, z + 1]);
+            oceanTiles.Add(GetTileAtCoordinates(x + 1, z + 1));
         }
-        if (x - 1 >= 0 && z + 1 < Tiles.GetLength(1) && IsOceanTile(x - 1, z + 1))
+        if (x - 1 >= 0 && z + 1 < zSize && IsOceanTile(x - 1, z + 1))
         {
-            oceanTiles.Add(Tiles[x - 1, z + 1]);
+            oceanTiles.Add(GetTileAtCoordinates(x - 1, z + 1));
         }
-        if (x + 1 < Tiles.GetLength(1) && z - 1 >= 0 && IsOceanTile(x + 1, z - 1))
+        if (x + 1 < zSize && z - 1 >= 0 && IsOceanTile(x + 1, z - 1))
         {
-            oceanTiles.Add(Tiles[x + 1, z - 1]);
+            oceanTiles.Add(GetTileAtCoordinates(x + 1, z - 1));
         }
         return oceanTiles;
     }
@@ -84,30 +113,30 @@ public class TerrainData : ScriptableObject
         List<TileData> landTiles = new List<TileData>();
         if (x - 1 >= 0 && IsLandTile(x - 1, z))
         {
-            landTiles.Add(Tiles[x - 1, z]);
+            landTiles.Add(GetTileAtCoordinates(x - 1, z));
         }
-        if (x + 1 < Tiles.GetLength(0) && IsLandTile(x + 1, z))
+        if (x + 1 < xSize && IsLandTile(x + 1, z))
         {
-            landTiles.Add(Tiles[x + 1, z]);
+            landTiles.Add(GetTileAtCoordinates(x + 1, z));
         }
-        if (z + 1 < Tiles.GetLength(1) && IsLandTile(x, z + 1))
+        if (z + 1 < zSize && IsLandTile(x, z + 1))
         {
-            landTiles.Add(Tiles[x, z + 1]);
+            landTiles.Add(GetTileAtCoordinates(x, z + 1));
         }
         if (z - 1 >= 0 && IsLandTile(x, z - 1))
         {
-            landTiles.Add(Tiles[x, z - 1]);
+            landTiles.Add(GetTileAtCoordinates(x, z - 1));
         }
         return landTiles;
     }
 
     public Coordinates GetTileCoordinates(TileData tile)
     {
-        for (int x = 0; x < Tiles.GetLength(0); x++)
+        for (int x = 0; x < xSize; x++)
         {
-            for (int z = 0; z < Tiles.GetLength(1); z++)
+            for (int z = 0; z < zSize; z++)
             {
-                if (Tiles[x,z].Equals(tile))
+                if (GetTileAtCoordinates(x,z).Equals(tile))
                 {
                     return new Coordinates(x, z);
                 }
@@ -118,21 +147,18 @@ public class TerrainData : ScriptableObject
 
     public bool IsOceanTile(int x, int z)
     {
-        return Tiles[x, z].type == TileType.OceanFloor;
+        return GetTileAtCoordinates(x, z).type == TileType.OceanFloor;
     }
 
     public bool IsLandTile(int x, int z)
     {
-        return Tiles[x, z].type == TileType.FlatLand;
+        return GetTileAtCoordinates(x, z).type == TileType.FlatLand;
     }
 
     public bool IsCoastalTile(int x, int z)
     {
-        return Tiles[x, z].type == TileType.CoastStraight || Tiles[x, z].type == TileType.CoastOuterCorner || Tiles[x, z].type == TileType.CoastInnerCorner;
+        return GetTileAtCoordinates(x, z).type == TileType.CoastStraight || GetTileAtCoordinates(x, z).type == TileType.CoastOuterCorner || GetTileAtCoordinates(x, z).type == TileType.CoastInnerCorner;
     }
 
-    public TileData GetTileAtCoordinates(Coordinates coords)
-    {
-        return Tiles[coords.x, coords.z];
-    }
+
 }

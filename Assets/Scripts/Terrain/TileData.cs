@@ -5,16 +5,19 @@ using UnityEngine;
 [System.Serializable]
 public class TileData
 {
+    public int xPos;
+    public int zPos;
+
     private GameObject gameObject;
     public Transform Transform => gameObject.transform;
     public TileType type;
-    public readonly float noiseValue = 0;
+    public float noiseValue = 0;
 
-    public TileData(GameObject gameObject, TileType type, float noiseValue)
+    public TileData(int xPos, int zPos)
     {
-        this.gameObject = gameObject;
-        this.type = type;
-        this.noiseValue = noiseValue;
+        this.xPos = xPos;
+        this.zPos = zPos;
+        type = TileType.OceanFloor;
     }
 
     public void ReplaceTile(GameObject newTile, TileType type)

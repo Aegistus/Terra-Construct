@@ -25,11 +25,11 @@ public class MountainConstructor : MonoBehaviour, IConstructor
     public void PlaceMountains()
     {
         terrain = GetComponent<TerrainConstructor>();
-        for (int x = 0; x < TerrainData.Tiles.GetLength(0); x++)
+        for (int x = 0; x < TerrainData.xSize; x++)
         {
-            for (int z = 0; z < TerrainData.Tiles.GetLength(1); z++)
+            for (int z = 0; z < TerrainData.zSize; z++)
             {
-                TileData tile = TerrainData.Tiles[x, z];
+                TileData tile = TerrainData.GetTileAtCoordinates(x, z);
                 if (tile.noiseValue > mountainLevel && tile.type == TileType.FlatLand)
                 {
                     for (int i = 0; i < maxMountainsPerTile; i++)
@@ -54,11 +54,11 @@ public class MountainConstructor : MonoBehaviour, IConstructor
     public void PlaceFootHills()
     {
         terrain = GetComponent<TerrainConstructor>();
-        for (int x = 0; x < TerrainData.Tiles.GetLength(0); x++)
+        for (int x = 0; x < TerrainData.xSize; x++)
         {
-            for (int z = 0; z < TerrainData.Tiles.GetLength(1); z++)
+            for (int z = 0; z < TerrainData.zSize; z++)
             {
-                TileData tile = TerrainData.Tiles[x, z];
+                TileData tile = TerrainData.GetTileAtCoordinates(x, z);
                 if (tile.noiseValue > foothillLevel && tile.noiseValue < mountainLevel)
                 {
                     for (int i = 0; i < maxFoothillsPerTile; i++)

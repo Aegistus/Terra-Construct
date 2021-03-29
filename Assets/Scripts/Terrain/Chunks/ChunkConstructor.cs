@@ -23,11 +23,11 @@ public class ChunkConstructor : MonoBehaviour
                 chunks[x,z] = new TerrainChunk(chunkObject);
             }
         }
-        for (int x = 0; x < Data.Tiles.GetLength(0); x++)
+        for (int x = 0; x < Data.xSize; x++)
         {
-            for (int z = 0; z < Data.Tiles.GetLength(1); z++)
+            for (int z = 0; z < Data.zSize; z++)
             {
-                chunks[x / terrain.XTileTotal, z / terrain.ZTileTotal].baseTiles.Add(Data.Tiles[x, z].Transform.gameObject);
+                chunks[x / terrain.XTileTotal, z / terrain.ZTileTotal].baseTiles.Add(Data.GetTileAtCoordinates(x, z).Transform.gameObject);
             }
         }
     }

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForestPlacer : MonoBehaviour
+public class ForestGenerator : MonoBehaviour, IGenerator
 {
     public TreeSet treeSet;
     public bool placeAboveWaterLevel = true;
@@ -16,17 +16,17 @@ public class ForestPlacer : MonoBehaviour
     public float treeClumping = .5f;
 
     [HideInInspector]
-    public List<TreeData> placedTrees;
+    public List<TerrainObjectData> placedTrees;
     private TerrainConstructor terrain;
     private TerrainData Data => terrain.terrainData;
     private MountainConstructor mountains;
 
-    public void PlaceForests()
+    public void Generate()
     {
         terrain = FindObjectOfType<TerrainConstructor>();
         mountains = FindObjectOfType<MountainConstructor>();
-        ClearForests();
-        placedTrees = new List<TreeData>();
+        Clear();
+        placedTrees = new List<TerrainObjectData>();
         float minValue;
         float maxValue;
         if (placeAboveWaterLevel)
@@ -45,11 +45,11 @@ public class ForestPlacer : MonoBehaviour
         {
             maxValue = elevationMax;
         }
-        for (int x = 0; x < Data.Tiles.GetLength(0); x++)
+        for (int x = 0; x < Data.xSize; x++)
         {
-            for (int z = 0; z < Data.Tiles.GetLength(1); z++)
+            for (int z = 0; z < Data.zSize; z++)
             {
-                TileData tile = Data.Tiles[x, z];
+                TileData tile = Data.GetTileAtCoordinates(x, z);
                 if (tile.noiseValue > minValue && tile.noiseValue < maxValue && tile.type == TileType.FlatLand)
                 {
                     for (int i = 0; i < maxTreesPerForestTile; i++)
@@ -63,14 +63,14 @@ public class ForestPlacer : MonoBehaviour
                         randomPosition += tile.Transform.position;
                         int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        placedTrees.Add(new TreeData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
+                        placedTrees.Add(new TerrainObjectData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
                     }
                 }
             }
         }
     }
 
-    public void ClearForests()
+    public void Clear()
     {
         terrain = FindObjectOfType<TerrainConstructor>();
         if (placedTrees != null)

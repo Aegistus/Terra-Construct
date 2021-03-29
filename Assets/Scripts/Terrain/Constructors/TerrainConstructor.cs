@@ -44,7 +44,6 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
 
     public IEnumerator PlaceTileGrid()
     {
-        terrainData.Tiles = new TileData[XTileTotal, ZTileTotal];
         for (int x = 0; x < XTileTotal; x++)
         {
             for (int z = 0; z < ZTileTotal; z++)
@@ -57,7 +56,6 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
 
     public void PlaceTileGridEditor()
     {
-        terrainData.Tiles = new TileData[XTileTotal, ZTileTotal];
         for (int x = 0; x < XTileTotal; x++)
         {
             for (int z = 0; z < ZTileTotal; z++)
@@ -74,13 +72,15 @@ public class TerrainConstructor : MonoBehaviour, IConstructor
         {
             int randomTileIndex = Random.Range(0, tileSet.oceanFloorTiles.Length);
             GameObject newTile = Instantiate(tileSet.oceanFloorTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            terrainData.Tiles[x, z] = new TileData(newTile, TileType.OceanFloor, noiseValue);
+            terrainData.GetTileAtCoordinates(x,z).ReplaceTile(newTile, TileType.OceanFloor);
+            terrainData.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
         }
         else
         {
             int randomTileIndex = Random.Range(0, tileSet.landTiles.Length);
             GameObject newTile = Instantiate(tileSet.landTiles[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-            terrainData.Tiles[x, z] = new TileData(newTile, TileType.FlatLand, noiseValue);
+            terrainData.GetTileAtCoordinates(x, z).ReplaceTile(newTile, TileType.FlatLand);
+            terrainData.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
         }
         //print(elevationNoiseMap.GetLayeredPerlinValueAtPosition(x * tileSize, z * tileSize));
     }
