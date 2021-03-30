@@ -38,5 +38,7 @@ public class TerrainConstructorEditor : Editor
             terrain.terrainData = data;
             terrain.ConstructTerrain();
         }
+        serializedObject.Update();
+        serializedObject.ApplyModifiedProperties();
     }
 }

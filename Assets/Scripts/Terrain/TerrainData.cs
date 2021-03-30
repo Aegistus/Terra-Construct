@@ -8,6 +8,7 @@ public class TerrainData
     public int xSize;
     public int zSize;
     [SerializeField] public List<TileData> tiles;
+    public List<TerrainObjectData> grass;
     public List<TerrainObjectData> trees;
     public List<TerrainObjectData> mountains;
     public List<TerrainObjectData> foothills;

@@ -6,24 +6,23 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class TreeRenderer : MonoBehaviour
 {
+    public TreeSet treePrefabs;
     public float foregroundRenderDistance = 40f;
     public float backgroundRenderDistance = 100f;
     public int treePoolSize = 100;
     private Camera mainCam;
 
-    private ForestGenerator forestPlacer;
-    private TreeSet treePrefabs;
+    private TerrainConstructor terrain;
     private List<Queue<GameObject>> treePool;
 
     private void Start()
     {
         mainCam = Camera.main;
-        forestPlacer = GetComponent<ForestGenerator>();
-        //treePrefabs = forestPlacer.treeSet;
         if (treePool == null)
         {
             CreateTreePool();
         }
+        terrain = FindObjectOfType<TerrainConstructor>();
         CheckTrees();
         StartCoroutine(CheckPlayerPosition());
     }
@@ -41,7 +40,6 @@ public class TreeRenderer : MonoBehaviour
     {
         ClearTreePool();
         treePool = new List<Queue<GameObject>>();
-        //treePrefabs = GetComponent<ForestGenerator>().treeSet;
         for (int i = 0; i < treePrefabs.commonTrees.Count; i++)
         {
             Queue<GameObject> treeQueue = new Queue<GameObject>();
@@ -73,6 +71,7 @@ public class TreeRenderer : MonoBehaviour
         {
             mainCam = SceneView.GetAllSceneCameras()[0];
         }
+        terrain = FindObjectOfType<TerrainConstructor>();
         CheckTrees();
     }
 
@@ -82,29 +81,29 @@ public class TreeRenderer : MonoBehaviour
         {
             mainCam = Camera.main;
         }
-        //foreach (var tree in forestPlacer.placedTrees)
-        //{
-        //    if (!tree.Active)
-        //    {
-        //        if (Vector3.Distance(mainCam.transform.position, tree.position) <= foregroundRenderDistance)
-        //        {
-        //            GameObject treeGameObject = treePool[tree.typeIndex].Dequeue();
-        //            treeGameObject.transform.position = tree.position;
-        //            treeGameObject.transform.eulerAngles = tree.rotation;
-        //            treeGameObject.transform.localScale = tree.scale;
-        //            treeGameObject.SetActive(true);
-        //            tree.Activate(treeGameObject);
-        //            treePool[tree.typeIndex].Enqueue(treeGameObject);
-        //        }
-        //    }
-        //    else
-        //    {
-        //        if (Vector3.Distance(mainCam.transform.position, tree.position) > foregroundRenderDistance)
-        //        {
-        //            tree.Deactivate();
-        //        }
-        //    }
-        //}
+        foreach (var tree in terrain.terrainData.trees)
+        {
+            if (!tree.Active)
+            {
+                if (Vector3.Distance(mainCam.transform.position, tree.Position) <= foregroundRenderDistance)
+                {
+                    GameObject treeGameObject = treePool[tree.typeIndex].Dequeue();
+                    treeGameObject.transform.position = tree.Position;
+                    treeGameObject.transform.eulerAngles = tree.Rotation;
+                    treeGameObject.transform.localScale = tree.Scale;
+                    treeGameObject.SetActive(true);
+                    tree.Activate(treeGameObject);
+                    treePool[tree.typeIndex].Enqueue(treeGameObject);
+                }
+            }
+            else
+            {
+                if (Vector3.Distance(mainCam.transform.position, tree.Position) > foregroundRenderDistance)
+                {
+                    tree.Deactivate();
+                }
+            }
+        }
     }
 
 

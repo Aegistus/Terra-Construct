@@ -11,6 +11,7 @@ public class TerrainSettings : ScriptableObject
 
     [Header("Tile Settings")]
     public int tileSize = 100;
+    public int waterTileSize = 500;
 
     [Header("Ocean Settings")]
     [Range(0f, 1f)]
@@ -30,14 +31,15 @@ public class TerrainSettings : ScriptableObject
     public int maxFoothillsPerTile = 2;
     public float seaMountainLevel = -3f;
 
-    [Header("Forest Settings")]
+    [Header("Flora Settings")]
     public bool placeAboveWaterLevel = true;
     public bool placeBelowMountainLevel = true;
     [Range(0f, 1f)]
     public float elevationMin = 0f;
     [Range(0f, 1f)]
     public float elevationMax = 0f;
-    public int maxTreesPerForestTile = 5;
+    public int maxTreesPerForestTile = 10;
+    public int maxGrassPerTile = 20;
     [Range(0f, 1f)]
     public float treeClumping = .5f;
 }

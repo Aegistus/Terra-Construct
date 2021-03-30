@@ -8,6 +8,7 @@ public class TerrainConstructor : MonoBehaviour
     public TerrainTileSet tileSet;
     public MountainSet mountainSet;
     public TreeSet treeSet;
+    public GrassSet grassSet;
     public NoiseMap elevationNoiseMap;
     public string terrainFileName = "save.txt";
 
@@ -23,7 +24,7 @@ public class TerrainConstructor : MonoBehaviour
         terrainData = CoastConstructor.GenerateCoasts(terrainData, settings);
         terrainData = MountainConstructor.GenerateMountains(terrainData, settings, mountainSet);
         terrainData = MountainConstructor.GenerateFoothills(terrainData, settings, mountainSet);
-        terrainData = ForestGenerator.Generate(terrainData, settings, treeSet);
+        terrainData = FloraGenerator.Generate(terrainData, settings, treeSet, grassSet);
     }
 
 
@@ -56,7 +57,7 @@ public class TerrainConstructor : MonoBehaviour
             TerrainObjectData foothill = terrainData.foothills[i];
             Instantiate(mountainSet.hills[foothill.typeIndex], foothill.Position, Quaternion.Euler(foothill.Rotation), transform);
         }
-        //GenerateOcean();
+        GenerateOcean();
     }
 
     public void GenerateOcean()
@@ -65,15 +66,15 @@ public class TerrainConstructor : MonoBehaviour
         {
             ClearOcean();
         }
-        int xTileTotal = settings.xSize / settings.tileSize;
-        int zTileTotal = settings.zSize / settings.tileSize;
+        int xTileTotal = settings.xSize / settings.waterTileSize;
+        int zTileTotal = settings.zSize / settings.waterTileSize;
         oceanTiles = new List<GameObject>();
         for (int x = 0; x < xTileTotal; x++)
         {
             for (int z = 0; z < zTileTotal; z++)
             {
                 int randIndex = Random.Range(0, tileSet.waterTiles.Length);
-                oceanTiles.Add(Instantiate(tileSet.waterTiles[randIndex], new Vector3(x * settings.tileSize, settings.seaLevel, z * settings.tileSize), Quaternion.identity, transform));
+                oceanTiles.Add(Instantiate(tileSet.waterTiles[randIndex], new Vector3(x * settings.waterTileSize, settings.seaLevel, z * settings.waterTileSize), Quaternion.identity, transform));
             }
         }
     }

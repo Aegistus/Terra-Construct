@@ -15,6 +15,7 @@ MonoBehaviour:
   xSize: 2000
   zSize: 2000
   tileSize: 100
+  waterTileSize: 500
   oceanPercent: 0.47
   seaLevel: -1
   mountainLevel: 0.64
@@ -29,5 +30,6 @@ MonoBehaviour:
   placeBelowMountainLevel: 1
   elevationMin: 0
   elevationMax: 0
-  maxTreesPerForestTile: 5
+  maxTreesPerForestTile: 50
+  maxGrassPerTile: 50
   treeClumping: 0.5
