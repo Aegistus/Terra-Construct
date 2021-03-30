@@ -9,8 +9,11 @@ public class TerrainConstructor : MonoBehaviour
     public MountainSet mountainSet;
     public TreeSet treeSet;
     public NoiseMap elevationNoiseMap;
+    public string terrainFileName = "save.txt";
 
     [HideInInspector] public TerrainData terrainData;
+
+    private List<GameObject> oceanTiles = new List<GameObject>();
 
     public void GenerateTerrain()
     {
@@ -40,18 +43,38 @@ public class TerrainConstructor : MonoBehaviour
                     case TileType.FlatLand: tileGameObject = tileSet.landTiles[0]; break;
                     case TileType.OceanFloor: tileGameObject = tileSet.oceanFloorTiles[0]; break;
                 }
-                Instantiate(tileGameObject, tile.position, Quaternion.Euler(tile.rotation), transform);
+                Instantiate(tileGameObject, tile.Position, Quaternion.Euler(tile.Rotation), transform);
             }
         }
         for (int i = 0; i < terrainData.mountains.Count; i++)
         {
             TerrainObjectData mountain = terrainData.mountains[i];
-            Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.position, Quaternion.Euler(mountain.rotation), transform);
+            Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.Position, Quaternion.Euler(mountain.Rotation), transform);
         }
         for (int i = 0; i < terrainData.foothills.Count; i++)
         {
             TerrainObjectData foothill = terrainData.foothills[i];
-            Instantiate(mountainSet.hills[foothill.typeIndex], foothill.position, Quaternion.Euler(foothill.rotation), transform);
+            Instantiate(mountainSet.hills[foothill.typeIndex], foothill.Position, Quaternion.Euler(foothill.Rotation), transform);
+        }
+        //GenerateOcean();
+    }
+
+    public void GenerateOcean()
+    {
+        if (oceanTiles != null)
+        {
+            ClearOcean();
+        }
+        int xTileTotal = settings.xSize / settings.tileSize;
+        int zTileTotal = settings.zSize / settings.tileSize;
+        oceanTiles = new List<GameObject>();
+        for (int x = 0; x < xTileTotal; x++)
+        {
+            for (int z = 0; z < zTileTotal; z++)
+            {
+                int randIndex = Random.Range(0, tileSet.waterTiles.Length);
+                oceanTiles.Add(Instantiate(tileSet.waterTiles[randIndex], new Vector3(x * settings.tileSize, settings.seaLevel, z * settings.tileSize), Quaternion.identity, transform));
+            }
         }
     }
 
@@ -65,5 +88,19 @@ public class TerrainConstructor : MonoBehaviour
             }
         }
         elevationNoiseMap.ResetNoiseRange();
+    }
+
+    public void ClearOcean()
+    {
+        if (oceanTiles == null)
+        {
+            return;
+        }
+        for (int i = 0; i < oceanTiles.Count; i++)
+        {
+            DestroyImmediate(oceanTiles[i]);
+            oceanTiles[i] = null;
+        }
+        oceanTiles = null;
     }
 }

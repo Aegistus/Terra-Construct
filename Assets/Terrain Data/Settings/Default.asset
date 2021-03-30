@@ -17,8 +17,8 @@ MonoBehaviour:
   tileSize: 100
   oceanPercent: 0.47
   seaLevel: -1
-  mountainLevel: 0.61
-  foothillLevel: 0.55
+  mountainLevel: 0.64
+  foothillLevel: 0.46
   mountainClumping: 0.5
   sizeVariationLower: 0.8
   sizeVariationUpper: 1.2

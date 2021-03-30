@@ -19,7 +19,7 @@ public class CoastConstructor
                 {
                     if (edgeAdjacentOcean.Count == 1) // coastal straight
                     {
-                        Vector3 direction = edgeAdjacentOcean[0].position - data.GetTileAtCoordinates(x, z).position;
+                        Vector3 direction = edgeAdjacentOcean[0].Position - data.GetTileAtCoordinates(x, z).Position;
                         direction = direction.normalized;
                         Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);
                         TileData tile = data.GetTileAtCoordinates(x, z);
@@ -27,24 +27,24 @@ public class CoastConstructor
                         if (direction == -Vector3.forward)
                         {
                             tile.Rotate(0, 180, 0);
-                            tile.position += new Vector3(settings.tileSize, 0, settings.tileSize);
+                            tile.AddPosition(new Vector3(settings.tileSize, 0, settings.tileSize));
                         }
                         else if (direction == Vector3.right)
                         {
                             tile.Rotate(0, 90, 0);
-                            tile.position += new Vector3(0, 0, settings.tileSize);
+                            tile.AddPosition(new Vector3(0, 0, settings.tileSize));
                         }
                         else if (direction == -Vector3.right)
                         {
                             tile.Rotate(0, 270, 0);
-                            tile.position += new Vector3(settings.tileSize, 0, 0);
+                            tile.AddPosition(new Vector3(settings.tileSize, 0, 0));
                         }
                     }
                     else if (edgeAdjacentOcean.Count == 2)
                     {
-                        Vector3 directionOne = edgeAdjacentOcean[0].position - data.GetTileAtCoordinates(x, z).position;
+                        Vector3 directionOne = edgeAdjacentOcean[0].Position - data.GetTileAtCoordinates(x, z).Position;
                         directionOne = directionOne.normalized;
-                        Vector3 directionTwo = edgeAdjacentOcean[1].position - data.GetTileAtCoordinates(x, z).position;
+                        Vector3 directionTwo = edgeAdjacentOcean[1].Position - data.GetTileAtCoordinates(x, z).Position;
                         directionTwo = directionTwo.normalized;
                         if (Vector3.Angle(directionOne, directionTwo) <= 90) // coastal outer corner
                         {
@@ -54,17 +54,17 @@ public class CoastConstructor
                             if (directionOne == Vector3.forward && directionTwo == -Vector3.right || directionTwo == Vector3.forward && directionOne == -Vector3.right)
                             {
                                 tile.Rotate(0, -90, 0);
-                                tile.position += new Vector3(settings.tileSize, 0, 0);
+                                tile.AddPosition(new Vector3(settings.tileSize, 0, 0));
                             }
                             else if (directionOne == Vector3.right && directionTwo == -Vector3.forward || directionTwo == Vector3.right && directionOne == -Vector3.forward)
                             {
                                 tile.Rotate(0, 90, 0);
-                                tile.position += new Vector3(0, 0, settings.tileSize);
+                                tile.AddPosition(new Vector3(0, 0, settings.tileSize));
                             }
                             else if (directionOne == -Vector3.forward && directionTwo == -Vector3.right || directionTwo == -Vector3.forward && directionOne == -Vector3.right)
                             {
                                 tile.Rotate(0, 180, 0);
-                                tile.position += new Vector3(settings.tileSize, 0, settings.tileSize);
+                                tile.AddPosition(new Vector3(settings.tileSize, 0, settings.tileSize));
                             }
                         }
                     }
@@ -72,7 +72,7 @@ public class CoastConstructor
                 List<TileData> cornerAdjacentOcean = data.GetCornerAdjacentOceanTiles(x, z);
                 if (cornerAdjacentOcean.Count == 1 && edgeAdjacentOcean.Count == 0) // coastal inner corner
                 {
-                    Vector3 direction = cornerAdjacentOcean[0].position - data.GetTileAtCoordinates(x, z).position;
+                    Vector3 direction = cornerAdjacentOcean[0].Position - data.GetTileAtCoordinates(x, z).Position;
                     direction = direction.normalized;
                     Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);
                     TileData tile = data.GetTileAtCoordinates(x, z);
@@ -81,17 +81,17 @@ public class CoastConstructor
                     if (angle > 90 && angle <= 180)
                     {
                         tile.Rotate(0, -90, 0);
-                        tile.position += new Vector3(settings.tileSize, 0, 0);
+                        tile.AddPosition(new Vector3(settings.tileSize, 0, 0));
                     }
                     else if (angle < -90 && angle >= -180)
                     {
                         tile.Rotate(0, 180, 0);
-                        tile.position += new Vector3(settings.tileSize, 0, settings.tileSize);
+                        tile.AddPosition(new Vector3(settings.tileSize, 0, settings.tileSize));
                     }
                     else if (angle < 0 && angle >= -90)
                     {
                         tile.Rotate(0, 90, 0);
-                        tile.position += new Vector3(0, 0, settings.tileSize);
+                        tile.AddPosition(new Vector3(0, 0, settings.tileSize));
                     }
                 }
             }
@@ -128,9 +128,9 @@ public class CoastConstructor
                     List<TileData> edgeAdjacentOcean = data.GetEdgeAdjacentOceanTiles(x, z);
                     if (edgeAdjacentOcean.Count == 2)
                     {
-                        Vector3 directionOne = edgeAdjacentOcean[0].position - data.GetTileAtCoordinates(x, z).position;
+                        Vector3 directionOne = edgeAdjacentOcean[0].Position - data.GetTileAtCoordinates(x, z).Position;
                         directionOne = directionOne.normalized;
-                        Vector3 directionTwo = edgeAdjacentOcean[1].position - data.GetTileAtCoordinates(x, z).position;
+                        Vector3 directionTwo = edgeAdjacentOcean[1].Position - data.GetTileAtCoordinates(x, z).Position;
                         directionTwo = directionTwo.normalized;
                         if (Vector3.Angle(directionOne, directionTwo) > 90)
                         {

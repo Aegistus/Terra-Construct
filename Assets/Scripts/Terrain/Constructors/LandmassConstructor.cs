@@ -6,7 +6,6 @@ using UnityEditor;
 [ExecuteInEditMode]
 public class LandmassConstructor
 {
-
     public static TerrainData GenerateLandmasses(TerrainData data, TerrainSettings settings, NoiseMap noiseMap)
     {
         noiseMap.XRandomOffset = Random.Range(0, 10000);
@@ -33,8 +32,6 @@ public class LandmassConstructor
         return data;
     }
 
-
-
     //public void ClearTerrain()
     //{
     //    while (transform.childCount > 0)
@@ -46,5 +43,4 @@ public class LandmassConstructor
     //    }
     //    elevationNoiseMap.ResetNoiseRange();
     //}
-
 }

@@ -7,7 +7,7 @@ public class TerrainData
 {
     public int xSize;
     public int zSize;
-    [SerializeField] private List<TileData> tiles;
+    [SerializeField] public List<TileData> tiles;
     public List<TerrainObjectData> trees;
     public List<TerrainObjectData> mountains;
     public List<TerrainObjectData> foothills;
@@ -30,7 +30,7 @@ public class TerrainData
     {
         for (int i = 0; i < tiles.Count; i++)
         {
-            if (tiles[i].xPos == x && tiles[i].zPos == z)
+            if (tiles[i].xCoordinate == x && tiles[i].zCoordinate == z)
             {
                 return tiles[i];
             }
@@ -161,6 +161,4 @@ public class TerrainData
     {
         return GetTileAtCoordinates(x, z).type == TileType.CoastStraight || GetTileAtCoordinates(x, z).type == TileType.CoastOuterCorner || GetTileAtCoordinates(x, z).type == TileType.CoastInnerCorner;
     }
-
-
 }

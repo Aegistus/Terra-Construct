@@ -6,17 +6,17 @@ using UnityEditor;
 
 public class TerrainSaver
 {
-    public static void SaveTerrain(TerrainData terrain)
+    public static void SaveTerrain(TerrainData terrain, string fileName)
     {
-        string json = JsonUtility.ToJson(terrain);
-        File.WriteAllText(Application.dataPath + "/saves.txt", json);
+        string json = JsonUtility.ToJson(terrain, true);
+        File.WriteAllText(Application.dataPath + "/" + fileName, json);
     }
 
-    public static TerrainData LoadTerrain()
+    public static TerrainData LoadTerrain(string fileName)
     {
-        if (File.Exists(Application.dataPath + "/saves.txt"))
+        if (File.Exists(Application.dataPath + "/" + fileName))
         {
-            string saveString = File.ReadAllText(Application.dataPath + "/saves.txt");
+            string saveString = File.ReadAllText(Application.dataPath + "/" + fileName);
             TerrainData data = JsonUtility.FromJson<TerrainData>(saveString);
             return data;
         }

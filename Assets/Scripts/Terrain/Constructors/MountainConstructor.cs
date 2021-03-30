@@ -28,7 +28,7 @@ public class MountainConstructor
                         }
                         int randIndex = Random.Range(0, mountainSet.mountains.Length);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+                        TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
                         
                         mountains.Add(newMountain);
                     }
@@ -63,7 +63,7 @@ public class MountainConstructor
                         }
                         int randIndex = Random.Range(0, mountainSet.hills.Length);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        TerrainObjectData newFoothill = new TerrainObjectData(randIndex, randomPosition + tile.position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+                        TerrainObjectData newFoothill = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
 
                         foothills.Add(newFoothill);
                     }
