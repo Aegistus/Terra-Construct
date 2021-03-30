@@ -2,101 +2,54 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ForestGenerator : MonoBehaviour, IGenerator
+public class ForestGenerator
 {
-    public TreeSet treeSet;
-    public bool placeAboveWaterLevel = true;
-    public bool placeBelowMountainLevel = true;
-    [Range(0f, 1f)]
-    public float elevationMin = 0f;
-    [Range(0f, 1f)]
-    public float elevationMax = 0f;
-    public int maxTreesPerForestTile = 5;
-    [Range(0f, 1f)]
-    public float treeClumping = .5f;
-
-    [HideInInspector]
-    public List<TerrainObjectData> placedTrees;
-    private TerrainConstructor terrain;
-    private TerrainData Data => terrain.terrainData;
-    private MountainConstructor mountains;
-
-    public void Generate()
+    public TerrainData Generate(TerrainData data, TerrainSettings settings)
     {
-        terrain = FindObjectOfType<TerrainConstructor>();
-        mountains = FindObjectOfType<MountainConstructor>();
-        Clear();
-        placedTrees = new List<TerrainObjectData>();
+        List<TerrainObjectData> placedTrees = new List<TerrainObjectData>();
         float minValue;
         float maxValue;
-        if (placeAboveWaterLevel)
+        if (settings.placeAboveWaterLevel)
         {
-            minValue = terrain.oceanPercent + .01f;
+            minValue = settings.oceanPercent + .01f;
         }
         else
         {
-            minValue = elevationMin;
+            minValue = settings.elevationMin;
         }
-        if (placeBelowMountainLevel)
+        if (settings.placeBelowMountainLevel)
         {
-            maxValue = mountains.mountainLevel - .01f;
+            maxValue = settings.mountainLevel - .01f;
         }
         else
         {
-            maxValue = elevationMax;
+            maxValue = settings.elevationMax;
         }
-        for (int x = 0; x < Data.xSize; x++)
+        for (int x = 0; x < data.xSize; x++)
         {
-            for (int z = 0; z < Data.zSize; z++)
+            for (int z = 0; z < data.zSize; z++)
             {
-                TileData tile = Data.GetTileAtCoordinates(x, z);
+                TileData tile = data.GetTileAtCoordinates(x, z);
                 if (tile.noiseValue > minValue && tile.noiseValue < maxValue && tile.type == TileType.FlatLand)
                 {
-                    for (int i = 0; i < maxTreesPerForestTile; i++)
+                    for (int i = 0; i < settings.maxTreesPerForestTile; i++)
                     {
                         //if (Random.value > treeClumping)
                         //{
                         //    break;
                         //}
                         // create a common tree spawnPoint
-                        Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize), 0, Random.Range(0, terrain.tileSize));
+                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
                         randomPosition += tile.position;
-                        int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
+                        int typeIndex = Random.Range(0, settings.treeSet.commonTrees.Count);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
                         placedTrees.Add(new TerrainObjectData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
                     }
                 }
             }
         }
-    }
-
-    public void Clear()
-    {
-        terrain = FindObjectOfType<TerrainConstructor>();
-        if (placedTrees != null)
-        {
-            placedTrees.Clear();
-        }
-    }
-
-    private void OnValidate()
-    {
-        if (placeAboveWaterLevel)
-        {
-            elevationMin = 0f;
-        }
-        else if (elevationMin >= elevationMax)
-        {
-            elevationMin = elevationMax - .01f;
-        }
-        if (placeBelowMountainLevel)
-        {
-            elevationMax = 1f;
-        }
-        else if (elevationMax <= elevationMin)
-        {
-            elevationMax = elevationMin + .01f;
-        }
+        data.trees = placedTrees;
+        return data;
     }
 
     //private void OnDrawGizmos()

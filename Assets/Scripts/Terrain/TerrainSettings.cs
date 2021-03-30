@@ -7,4 +7,38 @@ public class TerrainSettings : ScriptableObject
 {
     public int xSize = 1000;
     public int zSize = 1000;
+
+    [Header("Tile Settings")]
+    public int tileSize = 100;
+
+    [Header("Ocean Settings")]
+    [Range(0f, 1f)]
+    public float oceanPercent = .4f;
+    public float seaLevel = -1;
+
+    [Header("Mountain Settings")]
+    public MountainSet mountains;
+    [Range(0f, 1f)]
+    public float mountainLevel = .5f;
+    [Range(0f, 1f)]
+    public float foothillLevel = .4f;
+    [Range(0f, 1f)]
+    public float mountainClumping = .5f;
+    public float sizeVariationLower = .8f;
+    public float sizeVariationUpper = 1.2f;
+    public int maxMountainsPerTile = 5;
+    public int maxFoothillsPerTile = 2;
+    public float seaMountainLevel = -3f;
+
+    [Header("Forest Settings")]
+    public TreeSet treeSet;
+    public bool placeAboveWaterLevel = true;
+    public bool placeBelowMountainLevel = true;
+    [Range(0f, 1f)]
+    public float elevationMin = 0f;
+    [Range(0f, 1f)]
+    public float elevationMax = 0f;
+    public int maxTreesPerForestTile = 5;
+    [Range(0f, 1f)]
+    public float treeClumping = .5f;
 }

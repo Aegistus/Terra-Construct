@@ -2,117 +2,76 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class MountainConstructor : MonoBehaviour, IConstructor
+public class MountainConstructor
 {
-    public MountainSet mountains;
-    [Range(0f, 1f)]
-    public float mountainLevel = .5f;
-    [Range(0f, 1f)]
-    public float foothillLevel = .4f;
-    [Range(0f, 1f)]
-    public float mountainClumping = .5f;
-    public float sizeVariationLower = .8f;
-    public float sizeVariationUpper = 1.2f;
-    public int maxMountainsPerTile = 5;
-    public int maxFoothillsPerTile = 2;
-    public float seaMountainLevel = -3f;
 
-    private TerrainConstructor terrain;
-    private TerrainData TerrainData => terrain.terrainData;
-    private List<GameObject> placedMountains = new List<GameObject>();
-
-    public void PlaceMountains()
+    public TerrainData GenerateMountains(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
     {
-        terrain = GetComponent<TerrainConstructor>();
-        for (int x = 0; x < TerrainData.xSize; x++)
+        List<TerrainObjectData> mountains = new List<TerrainObjectData>();
+        for (int x = 0; x < data.xSize; x++)
         {
-            for (int z = 0; z < TerrainData.zSize; z++)
+            for (int z = 0; z < data.zSize; z++)
             {
-                TileData tile = TerrainData.GetTileAtCoordinates(x, z);
-                if (tile.noiseValue > mountainLevel && tile.type == TileType.FlatLand)
+                TileData tile = data.GetTileAtCoordinates(x, z);
+                if (tile.noiseValue > settings.mountainLevel && tile.type == TileType.FlatLand)
                 {
-                    for (int i = 0; i < maxMountainsPerTile; i++)
+                    for (int i = 0; i < settings.maxMountainsPerTile; i++)
                     {
-                        if (Random.value > mountainClumping)
+                        if (Random.value > settings.mountainClumping)
                         {
                             break;
                         }
-                        float halfExtent = terrain.tileSize / 2;
-                        Vector3 randomPosition = new Vector3(Random.Range(-halfExtent, halfExtent), transform.position.y, Random.Range(-halfExtent, halfExtent));
-                        if (TerrainData.IsOceanTile(x, z) || TerrainData.IsCoastalTile(x, z))
+                        float halfExtent = settings.tileSize / 2;
+                        Vector3 randomPosition = new Vector3(Random.Range(-halfExtent, halfExtent), 0, Random.Range(-halfExtent, halfExtent));
+                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
                         {
-                            randomPosition.y = seaMountainLevel;
+                            randomPosition.y = settings.seaMountainLevel;
                         }
-                        int randIndex = Random.Range(0, mountains.mountains.Length);
-                        Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-                        GameObject newMountain = Instantiate(mountains.mountains[randIndex], randomPosition + tile.position, randomRotation);
-                        newMountain.transform.localScale = newMountain.transform.localScale * Random.Range(sizeVariationLower, sizeVariationUpper);
-                        placedMountains.Add(newMountain);
+                        int randIndex = Random.Range(0, mountainSet.mountains.Length);
+                        Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+                        TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+                        
+                        mountains.Add(newMountain);
                     }
                 }
             }
         }
+        data.mountains = mountains;
+        return data;
     }
 
-    public void PlaceFootHills()
+    public TerrainData GenerateFoothills(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
     {
-        terrain = GetComponent<TerrainConstructor>();
-        for (int x = 0; x < TerrainData.xSize; x++)
+        List<TerrainObjectData> foothills = new List<TerrainObjectData>();
+        for (int x = 0; x < data.xSize; x++)
         {
-            for (int z = 0; z < TerrainData.zSize; z++)
+            for (int z = 0; z < data.zSize; z++)
             {
-                TileData tile = TerrainData.GetTileAtCoordinates(x, z);
-                if (tile.noiseValue > foothillLevel && tile.noiseValue < mountainLevel)
+                TileData tile = data.GetTileAtCoordinates(x, z);
+                if (tile.noiseValue > settings.mountainLevel && tile.type == TileType.FlatLand)
                 {
-                    for (int i = 0; i < maxFoothillsPerTile; i++)
+                    for (int i = 0; i < settings.maxMountainsPerTile; i++)
                     {
-                        if (Random.value > mountainClumping)
+                        if (Random.value > settings.mountainClumping)
                         {
                             break;
                         }
-                        Vector3 randomPosition = new Vector3(Random.Range(0, terrain.tileSize / 2), transform.position.y, Random.Range(0, terrain.tileSize / 2));
-                        if (TerrainData.IsOceanTile(x, z) || TerrainData.IsCoastalTile(x, z))
+                        float halfExtent = settings.tileSize / 2;
+                        Vector3 randomPosition = new Vector3(Random.Range(-halfExtent, halfExtent), 0, Random.Range(-halfExtent, halfExtent));
+                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
                         {
-                            randomPosition.y = seaMountainLevel;
+                            randomPosition.y = settings.seaMountainLevel;
                         }
-                        int randIndex = Random.Range(0, mountains.hills.Length);
-                        Quaternion randomRotation = Quaternion.Euler(0, Random.Range(0, 360), 0);
-                        GameObject newMountain = Instantiate(mountains.hills[randIndex], randomPosition + tile.position, randomRotation);
-                        newMountain.transform.localScale = newMountain.transform.localScale * Random.Range(sizeVariationLower, sizeVariationUpper);
-                        placedMountains.Add(newMountain);
+                        int randIndex = Random.Range(0, mountainSet.mountains.Length);
+                        Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+                        TerrainObjectData newFoothill = new TerrainObjectData(randIndex, randomPosition + tile.position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+
+                        foothills.Add(newFoothill);
                     }
                 }
             }
         }
-    }
-
-    public void ClearMountains()
-    {
-        while (placedMountains.Count > 0)
-        {
-            for (int i = 0; i < placedMountains.Count; i++)
-            {
-                DestroyImmediate(placedMountains[i]);
-                placedMountains.RemoveAt(i);
-            }
-        }
-    }
-
-    private void OnValidate()
-    {
-        if (sizeVariationLower >= sizeVariationUpper)
-        {
-            sizeVariationLower = sizeVariationUpper - .01f;
-        }
-        if (foothillLevel >= mountainLevel)
-        {
-            foothillLevel = mountainLevel - .01f;
-        }
-    }
-
-    public void Construct()
-    {
-        PlaceMountains();
-        PlaceFootHills();
+        data.foothills = foothills;
+        return data;
     }
 }

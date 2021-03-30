@@ -19,7 +19,7 @@ public class TreeRenderer : MonoBehaviour
     {
         mainCam = Camera.main;
         forestPlacer = GetComponent<ForestGenerator>();
-        treePrefabs = forestPlacer.treeSet;
+        //treePrefabs = forestPlacer.treeSet;
         if (treePool == null)
         {
             CreateTreePool();
@@ -41,7 +41,7 @@ public class TreeRenderer : MonoBehaviour
     {
         ClearTreePool();
         treePool = new List<Queue<GameObject>>();
-        treePrefabs = GetComponent<ForestGenerator>().treeSet;
+        //treePrefabs = GetComponent<ForestGenerator>().treeSet;
         for (int i = 0; i < treePrefabs.commonTrees.Count; i++)
         {
             Queue<GameObject> treeQueue = new Queue<GameObject>();
@@ -82,29 +82,29 @@ public class TreeRenderer : MonoBehaviour
         {
             mainCam = Camera.main;
         }
-        foreach (var tree in forestPlacer.placedTrees)
-        {
-            if (!tree.Active)
-            {
-                if (Vector3.Distance(mainCam.transform.position, tree.position) <= foregroundRenderDistance)
-                {
-                    GameObject treeGameObject = treePool[tree.typeIndex].Dequeue();
-                    treeGameObject.transform.position = tree.position;
-                    treeGameObject.transform.eulerAngles = tree.rotation;
-                    treeGameObject.transform.localScale = tree.scale;
-                    treeGameObject.SetActive(true);
-                    tree.Activate(treeGameObject);
-                    treePool[tree.typeIndex].Enqueue(treeGameObject);
-                }
-            }
-            else
-            {
-                if (Vector3.Distance(mainCam.transform.position, tree.position) > foregroundRenderDistance)
-                {
-                    tree.Deactivate();
-                }
-            }
-        }
+        //foreach (var tree in forestPlacer.placedTrees)
+        //{
+        //    if (!tree.Active)
+        //    {
+        //        if (Vector3.Distance(mainCam.transform.position, tree.position) <= foregroundRenderDistance)
+        //        {
+        //            GameObject treeGameObject = treePool[tree.typeIndex].Dequeue();
+        //            treeGameObject.transform.position = tree.position;
+        //            treeGameObject.transform.eulerAngles = tree.rotation;
+        //            treeGameObject.transform.localScale = tree.scale;
+        //            treeGameObject.SetActive(true);
+        //            tree.Activate(treeGameObject);
+        //            treePool[tree.typeIndex].Enqueue(treeGameObject);
+        //        }
+        //    }
+        //    else
+        //    {
+        //        if (Vector3.Distance(mainCam.transform.position, tree.position) > foregroundRenderDistance)
+        //        {
+        //            tree.Deactivate();
+        //        }
+        //    }
+        //}
     }
 
 

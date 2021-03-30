@@ -8,7 +8,11 @@ public class TerrainData : ScriptableObject
 {
     public int xSize;
     public int zSize;
+    public NoiseMap noiseMap;
     [SerializeField] private List<TileData> tiles;
+    public List<TerrainObjectData> trees;
+    public List<TerrainObjectData> mountains;
+    public List<TerrainObjectData> foothills;
 
     public void CreateTiles(int xSize, int zSize)
     {
