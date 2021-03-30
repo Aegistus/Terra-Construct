@@ -17,7 +17,6 @@ public class TerrainSettings : ScriptableObject
     public float seaLevel = -1;
 
     [Header("Mountain Settings")]
-    public MountainSet mountains;
     [Range(0f, 1f)]
     public float mountainLevel = .5f;
     [Range(0f, 1f)]
@@ -31,7 +30,6 @@ public class TerrainSettings : ScriptableObject
     public float seaMountainLevel = -3f;
 
     [Header("Forest Settings")]
-    public TreeSet treeSet;
     public bool placeAboveWaterLevel = true;
     public bool placeBelowMountainLevel = true;
     [Range(0f, 1f)]

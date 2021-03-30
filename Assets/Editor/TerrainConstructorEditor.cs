@@ -9,31 +9,29 @@ public class TerrainConstructorEditor : Editor
 
     public override void OnInspectorGUI()
     {
-        TerrainConstructor constructor = (TerrainConstructor)target;
+        TerrainConstructor terrain = (TerrainConstructor)target;
 
         DrawDefaultInspector();
 
-        if (GUILayout.Button("Construct"))
+        if (GUILayout.Button("Generate Terrain"))
         {
-            constructor.Construct();
-            EditorUtility.SetDirty(target);
+            terrain.GenerateTerrain();
+            EditorUtility.SetDirty(terrain);
+        }
+        if (GUILayout.Button("Construct Terrain"))
+        {
+            terrain.ClearTerrain();
+            terrain.ConstructTerrain();
+            EditorUtility.SetDirty(terrain);
         }
         if (GUILayout.Button("Clear All"))
         {
-            constructor.ClearTerrain();
-            EditorUtility.SetDirty(target);
-        }
-        if (GUILayout.Button("Construct All"))
-        {
-            IConstructor[] constructors = constructor.GetComponents<IConstructor>();
-            for (int i = 0; i < constructors.Length; i++)
-            {
-                constructors[i].Construct();
-            }
+            terrain.ClearTerrain();
+            EditorUtility.SetDirty(terrain);
         }
         if (GUILayout.Button("Save Terrain"))
         {
-            TerrainSaver.SaveTerrain(constructor.terrainData);
+            TerrainSaver.SaveTerrain(terrain.terrainData);
         }
     }
 }

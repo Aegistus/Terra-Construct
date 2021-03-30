@@ -7,15 +7,15 @@ using UnityEditor;
 public class LandmassConstructor
 {
 
-    public static TerrainData GenerateLandmasses(TerrainData data, TerrainSettings settings)
+    public static TerrainData GenerateLandmasses(TerrainData data, TerrainSettings settings, NoiseMap noiseMap)
     {
-        data.noiseMap.XRandomOffset = Random.Range(0, 10000);
-        data.noiseMap.ZRandomOffset = Random.Range(0, 10000);
+        noiseMap.XRandomOffset = Random.Range(0, 10000);
+        noiseMap.ZRandomOffset = Random.Range(0, 10000);
         for (int x = 0; x < data.xSize; x++)
         {
             for (int z = 0; z < data.zSize; z++)
             {
-                float noiseValue = data.noiseMap.GetLayeredPerlinValueAtPosition(x, z);
+                float noiseValue = noiseMap.GetLayeredPerlinValueAtPosition(x, z);
                 if (noiseValue < settings.oceanPercent)
                 {
                     Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);

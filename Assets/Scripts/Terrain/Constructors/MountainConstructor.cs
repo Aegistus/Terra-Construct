@@ -4,8 +4,7 @@ using UnityEngine;
 
 public class MountainConstructor
 {
-
-    public TerrainData GenerateMountains(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
+    public static TerrainData GenerateMountains(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
     {
         List<TerrainObjectData> mountains = new List<TerrainObjectData>();
         for (int x = 0; x < data.xSize; x++)
@@ -40,7 +39,7 @@ public class MountainConstructor
         return data;
     }
 
-    public TerrainData GenerateFoothills(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
+    public static TerrainData GenerateFoothills(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
     {
         List<TerrainObjectData> foothills = new List<TerrainObjectData>();
         for (int x = 0; x < data.xSize; x++)
@@ -62,7 +61,7 @@ public class MountainConstructor
                         {
                             randomPosition.y = settings.seaMountainLevel;
                         }
-                        int randIndex = Random.Range(0, mountainSet.mountains.Length);
+                        int randIndex = Random.Range(0, mountainSet.hills.Length);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
                         TerrainObjectData newFoothill = new TerrainObjectData(randIndex, randomPosition + tile.position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
 

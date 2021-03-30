@@ -10,7 +10,24 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 394a128e05223ce499f64af04250df47, type: 3}
-  m_Name: DefaultSize
+  m_Name: Default
   m_EditorClassIdentifier: 
   xSize: 2000
   zSize: 2000
+  tileSize: 100
+  oceanPercent: 0.38
+  seaLevel: -1
+  mountainLevel: 0.54
+  foothillLevel: 0.66
+  mountainClumping: 0.5
+  sizeVariationLower: 0.8
+  sizeVariationUpper: 1.2
+  maxMountainsPerTile: 4
+  maxFoothillsPerTile: 2
+  seaMountainLevel: -3
+  placeAboveWaterLevel: 1
+  placeBelowMountainLevel: 1
+  elevationMin: 0
+  elevationMax: 0
+  maxTreesPerForestTile: 5
+  treeClumping: 0.5

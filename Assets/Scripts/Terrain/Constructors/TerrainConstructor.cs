@@ -4,17 +4,27 @@ using UnityEngine;
 
 public class TerrainConstructor : MonoBehaviour
 {
-    public TerrainData terrainData;
     public TerrainSettings settings;
     public TerrainTileSet tileSet;
+    public MountainSet mountainSet;
+    public TreeSet treeSet;
     public NoiseMap elevationNoiseMap;
 
-    public void GenerateTerrainData()
+    [HideInInspector] public TerrainData terrainData;
+
+    public void GenerateTerrain()
     {
+        terrainData = new TerrainData();
         terrainData.CreateTiles(settings.xSize / settings.tileSize, settings.zSize / settings.tileSize);
+        terrainData = LandmassConstructor.GenerateLandmasses(terrainData, settings, elevationNoiseMap);
+        terrainData = CoastConstructor.GenerateCoasts(terrainData, settings);
+        terrainData = MountainConstructor.GenerateMountains(terrainData, settings, mountainSet);
+        terrainData = MountainConstructor.GenerateFoothills(terrainData, settings, mountainSet);
+        terrainData = ForestGenerator.Generate(terrainData, settings, treeSet);
     }
 
-    public void Construct()
+
+    public void ConstructTerrain()
     {
         for (int x = 0; x < terrainData.xSize; x++)
         {
@@ -32,6 +42,16 @@ public class TerrainConstructor : MonoBehaviour
                 }
                 Instantiate(tileGameObject, tile.position, Quaternion.Euler(tile.rotation), transform);
             }
+        }
+        for (int i = 0; i < terrainData.mountains.Count; i++)
+        {
+            TerrainObjectData mountain = terrainData.mountains[i];
+            Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.position, Quaternion.Euler(mountain.rotation), transform);
+        }
+        for (int i = 0; i < terrainData.foothills.Count; i++)
+        {
+            TerrainObjectData foothill = terrainData.foothills[i];
+            Instantiate(mountainSet.hills[foothill.typeIndex], foothill.position, Quaternion.Euler(foothill.rotation), transform);
         }
     }
 
