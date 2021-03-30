@@ -15,14 +15,14 @@ MonoBehaviour:
   xSize: 2000
   zSize: 2000
   tileSize: 100
-  oceanPercent: 0.38
+  oceanPercent: 0.47
   seaLevel: -1
-  mountainLevel: 0.54
-  foothillLevel: 0.66
+  mountainLevel: 0.61
+  foothillLevel: 0.55
   mountainClumping: 0.5
   sizeVariationLower: 0.8
   sizeVariationUpper: 1.2
-  maxMountainsPerTile: 4
+  maxMountainsPerTile: 3
   maxFoothillsPerTile: 2
   seaMountainLevel: -3
   placeAboveWaterLevel: 1

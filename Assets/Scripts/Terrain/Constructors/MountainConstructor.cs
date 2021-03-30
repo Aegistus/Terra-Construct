@@ -47,9 +47,9 @@ public class MountainConstructor
             for (int z = 0; z < data.zSize; z++)
             {
                 TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.noiseValue > settings.mountainLevel && tile.type == TileType.FlatLand)
+                if (tile.noiseValue > settings.foothillLevel)
                 {
-                    for (int i = 0; i < settings.maxMountainsPerTile; i++)
+                    for (int i = 0; i < settings.maxFoothillsPerTile; i++)
                     {
                         if (Random.value > settings.mountainClumping)
                         {
