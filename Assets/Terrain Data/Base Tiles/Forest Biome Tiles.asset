@@ -31,9 +31,12 @@ MonoBehaviour:
   - {fileID: 186810, guid: b8809c7cc24a77b43ada4c95fad50483, type: 3}
   - {fileID: 108708, guid: f7cdd89e9d5b70b4397d357ffeb650b9, type: 3}
   - {fileID: 106528, guid: d122a369f5f2f734e88d5e9fc5a711e8, type: 3}
-  riverCornerLeft: []
+  riverCornerLeft:
+  - {fileID: 196292, guid: 5e70d9f97ecbe0945b05471c000902f5, type: 3}
   riverCornerRight:
   - {fileID: 146716, guid: ca2d57bbb17d565479f35a99c4357363, type: 3}
   - {fileID: 141732, guid: a44de0685f001654aabaf77faed37571, type: 3}
   - {fileID: 100926, guid: 0a32cabbf47b3f049b623f5cab094d7f, type: 3}
   - {fileID: 169084, guid: cfba2dd57b9429d479062ab3c67ce5a7, type: 3}
+  riverEnd:
+  - {fileID: 162036, guid: 5f191f9698be44740a925aa3792943f7, type: 3}

@@ -22,6 +22,7 @@ public class TerrainConstructor : MonoBehaviour
         terrainData.CreateTiles(settings.xSize / settings.tileSize, settings.zSize / settings.tileSize);
         terrainData = LandmassConstructor.GenerateLandmasses(terrainData, settings, elevationNoiseMap);
         terrainData = CoastConstructor.GenerateCoasts(terrainData, settings);
+        terrainData = RiverConstructor.GenerateRiver(terrainData, settings);
         terrainData = MountainConstructor.GenerateMountains(terrainData, settings, mountainSet);
         terrainData = MountainConstructor.GenerateFoothills(terrainData, settings, mountainSet);
         terrainData = FloraGenerator.Generate(terrainData, settings, treeSet, grassSet);
@@ -43,6 +44,12 @@ public class TerrainConstructor : MonoBehaviour
                     case TileType.CoastStraight: tileGameObject = tileSet.coastalStraight[0]; break;
                     case TileType.FlatLand: tileGameObject = tileSet.landTiles[0]; break;
                     case TileType.OceanFloor: tileGameObject = tileSet.oceanFloorTiles[0]; break;
+                    case TileType.RiverMouth: tileGameObject = tileSet.riverMouth[0]; break;
+                    case TileType.RiverStraight: tileGameObject = tileSet.riverStraight[0]; break;
+                    case TileType.RiverBendRight: tileGameObject = tileSet.riverCornerRight[0]; break;
+                    case TileType.RiverBendLeft: tileGameObject = tileSet.riverCornerLeft[0]; break;
+                    case TileType.RiverEnd: tileGameObject = tileSet.riverEnd[0]; break;
+                    default: tileGameObject = tileSet.landTiles[0]; break;
                 }
                 Instantiate(tileGameObject, tile.Position, Quaternion.Euler(tile.Rotation), transform);
             }

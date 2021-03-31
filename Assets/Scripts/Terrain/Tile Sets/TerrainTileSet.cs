@@ -15,5 +15,6 @@ public class TerrainTileSet : ScriptableObject
     public GameObject[] riverStraight;
     public GameObject[] riverCornerLeft;
     public GameObject[] riverCornerRight;
+    public GameObject[] riverEnd;
 
 }

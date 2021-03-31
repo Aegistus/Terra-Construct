@@ -32,6 +32,8 @@ public class TileData
         this.zCoordinate = zCoordinate;
         type = TileType.OceanFloor;
         SetScale(Vector3.one);
+        SetPosition(Vector3.zero);
+        SetRotation(Vector3.zero);
     }
 
     public void SetPosition(Vector3 position)
@@ -46,6 +48,13 @@ public class TileData
         xPos += position.x;
         yPos += position.y;
         zPos += position.z;
+    }
+
+    public void AddPosition(float x, float y, float z)
+    {
+        xPos += x;
+        yPos += y;
+        zPos += z;
     }
 
     public void SetRotation(Vector3 rotation)

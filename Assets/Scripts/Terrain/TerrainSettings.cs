@@ -18,6 +18,10 @@ public class TerrainSettings : ScriptableObject
     public float oceanPercent = .4f;
     public float seaLevel = -1;
 
+    [Header("River Settings")]
+    public int numberOfRivers = 1;
+    public int riverMaxLength = 5;
+
     [Header("Mountain Settings")]
     [Range(0f, 1f)]
     public float mountainLevel = .5f;

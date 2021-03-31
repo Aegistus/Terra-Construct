@@ -2,146 +2,91 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class RiverConstructor : MonoBehaviour
+public class RiverConstructor
 {
-    //public TerrainTileSet tileSet;
-    //public int numOfRivers = 3;
-    //public int maxRiverLength = 4;
+    
+    public static TerrainData GenerateRiver(TerrainData data, TerrainSettings settings)
+    {
+        // Find all potential river starting places
+        List<TileData> potentialStarts = new List<TileData>();
+        foreach (var tile in data.tiles)
+        {
+            if (tile.type == TileType.CoastStraight)
+            {
+                potentialStarts.Add(tile);
+            }
+        }
+        for (int i = 0; i < settings.numberOfRivers; i++)
+        {
+            TileData start = potentialStarts[Random.Range(0, potentialStarts.Count)]; // pick random start
+            potentialStarts.Remove(start);
+            TileData oceanTile = data.GetEdgeAdjacentOceanTiles(start.xCoordinate, start.zCoordinate)[0];
+            start.type = TileType.RiverMouth;
+            // Construct river
+            List<TileData> riverPath = new List<TileData>();
+            riverPath.Add(start);
+            int nextXCoordinate = start.xCoordinate + (start.xCoordinate - oceanTile.xCoordinate);
+            int nextZCoordinate = start.zCoordinate + (start.zCoordinate - oceanTile.zCoordinate);
+            TileData currentTile = data.GetTileAtCoordinates(nextXCoordinate, nextZCoordinate);
+            currentTile.type = TileType.RiverStraight;
+            TileData nextTile = null;
+            for (int j = 0; j < settings.riverMaxLength; j++)
+            {
+                List<TileData> potentialNextTiles = data.GetEdgeAdjacentLandTiles(currentTile.xCoordinate, currentTile.zCoordinate);
+                potentialNextTiles.Remove(riverPath[j]);
+                // Remove all left turn tiles
+                for (int k = 0; k < potentialNextTiles.Count; k++)
+                {
+                    Vector2 pastDirection = new Vector2(riverPath[j].xCoordinate - currentTile.xCoordinate, riverPath[j].zCoordinate - currentTile.zCoordinate);
+                    Vector2 futureDirection = new Vector2(potentialNextTiles[k].xCoordinate - currentTile.xCoordinate, potentialNextTiles[k].zCoordinate - currentTile.zCoordinate);
+                    if (Vector2.SignedAngle(pastDirection, futureDirection) == -90)
+                    {
+                        potentialNextTiles.Remove(potentialNextTiles[k]);
+                    }
+                }
+                // If no more potential tiles, end river
+                if (potentialNextTiles.Count == 0 || j == settings.riverMaxLength - 1)
+                {
+                    currentTile.type = TileType.RiverEnd;
+                }
+                else // otherwise make either straight or right turn
+                {
+                    nextTile = potentialNextTiles[Random.Range(0, potentialNextTiles.Count)];
+                    Vector2 directionOne = new Vector2(riverPath[j].xCoordinate - currentTile.xCoordinate, riverPath[j].zCoordinate - currentTile.zCoordinate);
+                    Vector2 directionTwo = new Vector2(nextTile.xCoordinate - currentTile.xCoordinate, nextTile.zCoordinate - currentTile.zCoordinate);
+                    if (Vector2.SignedAngle(directionOne, directionTwo) == 90)
+                    {
+                        currentTile.type = TileType.RiverBendRight;
+                    }
+                    else
+                    {
+                        currentTile.type = TileType.RiverStraight;
+                    }
+                }
 
-    //LandmassConstructor constructor;
-    //TerrainData TerrainData => constructor.terrainData;
-    //List<GameObject> riverMouths;
-    //float tileSize;
-
-    //public void ConstructRivers(float tileSize)
-    //{
-    //    constructor = GetComponent<LandmassConstructor>();
-    //    this.tileSize = tileSize;
-    //    riverMouths = new List<GameObject>();
-
-    //    // find all potential river mouths
-    //    List<Coordinates> potentialTiles = new List<Coordinates>();
-    //    for (int x = 0; x < TerrainData.xSize; x++)
-    //    {
-    //        for (int z = 0; z < TerrainData.zSize; z++)
-    //        {
-    //            if (!TerrainData.IsOceanTile(x,z) && TerrainData.AdjacentOceanTilesCount(x,z) == 1)
-    //            {
-    //                potentialTiles.Add(new Coordinates(x, z));
-    //            }
-    //        }
-    //    }
-    //    if (numOfRivers < 0)
-    //    {
-    //        numOfRivers = 0;
-    //    }
-    //    // create a list of random candidates. length == numOfRivers
-    //    while (potentialTiles.Count != numOfRivers)
-    //    {
-    //        potentialTiles.RemoveAt(Random.Range(0, potentialTiles.Count));
-    //    }
-    //    // create all rivers
-    //    for (int i = 0; i < potentialTiles.Count; i++)
-    //    {
-    //        List<TileData> oceanTiles = TerrainData.GetEdgeAdjacentOceanTiles(potentialTiles[i].x, potentialTiles[i].z);
-    //        PlaceRiverMouthTile(potentialTiles[i].x, potentialTiles[i].z, oceanTiles[0].position);
-    //        List<TileData> riverPath = new List<TileData>();
-    //        riverPath.Add(TerrainData.GetTileAtCoordinates(potentialTiles[i])); // add the river mouth to the start of the path
-    //        for (int j = 0; j < maxRiverLength; j++)
-    //        {
-    //            riverPath.Add(FindNextTileInRiverPath(riverPath));
-    //        }
-    //        ConstructRiverFromPath(riverPath);
-    //    }
-    //}
-
-    //private TileData FindNextTileInRiverPath(List<TileData> riverPath)
-    //{
-    //    Coordinates currentCoords = TerrainData.GetTileCoordinates(riverPath[riverPath.Count - 1]);
-    //    List<TileData> adjacentLandTiles = TerrainData.GetEdgeAdjacentLandTiles(currentCoords.x, currentCoords.z);
-    //    adjacentLandTiles.Remove(riverPath[riverPath.Count - 1]); // removes the current tile to avoid backtracking
-    //    int randIndex = Random.Range(0, adjacentLandTiles.Count - 1);
-    //    return adjacentLandTiles[randIndex];
-    //}
-
-    //private void ConstructRiverFromPath(List<TileData> riverPath)
-    //{
-    //    for (int i = 1; i < riverPath.Count; i++)
-    //    {
-    //        if (riverPath[i] != null && i + 1 < riverPath.Count)
-    //        {
-    //            Vector3 directionFrom = riverPath[i - 1].position - riverPath[i].position;
-    //            directionFrom = directionFrom.normalized;
-    //            Vector3 directionTo = riverPath[i + 1].position - riverPath[i].position;
-    //            directionTo = directionTo.normalized;
-    //            if (Vector3.Angle(directionFrom, directionTo) == 180) // straight
-    //            {
-    //                int randIndex = Random.Range(0, tileSet.riverStraight.Length);
-    //                GameObject newTile = Instantiate(tileSet.riverStraight[randIndex], riverPath[i].position, Quaternion.identity, transform);
-    //                riverPath[i].ReplaceTile(TileType.RiverStraight, Vector3.zero, Vector3.zero); // temporary
-    //                if (directionFrom == -transform.right)
-    //                {
-    //                    newTile.transform.Rotate(0, -90, 0);
-    //                    newTile.transform.localPosition += new Vector3(tileSize, 0, 0);
-    //                }
-    //                else if (directionFrom == transform.right)
-    //                {
-    //                    newTile.transform.Rotate(0, 90, 0);
-    //                    newTile.transform.localPosition += new Vector3(0, 0, tileSize);
-    //                }
-    //            }
-    //            else if (Vector3.SignedAngle(directionFrom, directionTo, Vector3.up) == 90) // right bend
-    //            {
-    //                int randIndex = Random.Range(0, tileSet.riverCornerRight.Length);
-    //                GameObject newTile = Instantiate(tileSet.riverCornerRight[randIndex], riverPath[i].position, Quaternion.identity, transform);
-    //                riverPath[i].ReplaceTile(TileType.RiverBendRight, Vector3.zero, Vector3.zero); // temporary
-    //                if (directionFrom == transform.forward && directionTo == -transform.right || directionTo == transform.forward && directionFrom == -transform.right)
-    //                {
-    //                    newTile.transform.Rotate(0, -90, 0);
-    //                    newTile.transform.localPosition += new Vector3(tileSize, 0, 0);
-    //                }
-    //                else if (directionFrom == transform.right && directionTo == -transform.forward || directionTo == transform.right && directionFrom == -transform.forward)
-    //                {
-    //                    newTile.transform.Rotate(0, 90, 0);
-    //                    newTile.transform.localPosition += new Vector3(0, 0, tileSize);
-    //                }
-    //                else if (directionFrom == -transform.forward && directionTo == -transform.right || directionTo == -transform.forward && directionFrom == -transform.right)
-    //                {
-    //                    newTile.transform.Rotate(0, 180, 0);
-    //                    newTile.transform.localPosition += new Vector3(tileSize, 0, tileSize);
-    //                }
-    //            }
-    //        }
-    //        else
-    //        {
-    //            // place river end tile
-    //        }
-    //    }
-    //}
-
-    //public void PlaceRiverMouthTile(int x, int z, Vector3 oceanTilePosition)
-    //{
-    //    int randomTileIndex = Random.Range(0, tileSet.riverMouth.Length);
-    //    GameObject newTile = Instantiate(tileSet.riverMouth[randomTileIndex], new Vector3(x * tileSize, transform.position.y, z * tileSize), Quaternion.identity, transform);
-    //    Vector3 direction = oceanTilePosition - newTile.transform.localPosition;
-    //    direction = direction.normalized;
-    //    if (direction == -transform.forward)
-    //    {
-    //        newTile.transform.Rotate(0, 180, 0);
-    //        newTile.transform.localPosition += new Vector3(tileSize, 0, tileSize);
-    //    }
-    //    else if (direction == transform.right)
-    //    {
-    //        newTile.transform.Rotate(0, 90, 0);
-    //        newTile.transform.localPosition += new Vector3(0, 0, tileSize);
-    //    }
-    //    else if (direction == -transform.right)
-    //    {
-    //        newTile.transform.Rotate(0, 270, 0);
-    //        newTile.transform.localPosition += new Vector3(tileSize, 0, 0);
-    //    }
-    //    //TerrainData.GetTileAtCoordinates(x, z).ReplaceTile(TileType.RiverMouth);
-    //    riverMouths.Add(newTile);
-    //}
+                // correctly orient tile
+                Vector3 facingDirection = new Vector3(riverPath[j].xCoordinate - currentTile.xCoordinate, 0, riverPath[j].zCoordinate - currentTile.zCoordinate);
+                facingDirection = facingDirection.normalized;
+                if (facingDirection == Vector3.left)
+                {
+                    currentTile.Rotate(0, 90, 0);
+                    currentTile.AddPosition(0, 0, settings.tileSize);
+                }
+                else if (facingDirection == Vector3.forward)
+                {
+                    currentTile.Rotate(0, 180, 0);
+                    currentTile.AddPosition(settings.tileSize, 0, settings.tileSize);
+                }
+                else if (facingDirection == Vector3.right)
+                {
+                    currentTile.Rotate(0, -90, 0);
+                    currentTile.AddPosition(settings.tileSize, 0, 0);
+                }
+                riverPath.Add(currentTile);
+                currentTile = nextTile;
+            }
+        }
+        return data;
+    }
 
 }
