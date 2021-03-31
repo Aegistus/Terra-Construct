@@ -16,6 +16,10 @@ public class RiverConstructor
                 potentialStarts.Add(tile);
             }
         }
+        if (potentialStarts.Count < settings.numberOfRivers)
+        {
+            return data;
+        }
         for (int i = 0; i < settings.numberOfRivers; i++)
         {
             TileData start = potentialStarts[Random.Range(0, potentialStarts.Count)]; // pick random start

@@ -18,8 +18,10 @@ MonoBehaviour:
   waterTileSize: 500
   oceanPercent: 0.47
   seaLevel: -1
+  numberOfRivers: 1
+  riverMaxLength: 5
   mountainLevel: 0.64
-  foothillLevel: 0.46
+  foothillLevel: 0.48
   mountainClumping: 0.5
   sizeVariationLower: 0.8
   sizeVariationUpper: 1.2

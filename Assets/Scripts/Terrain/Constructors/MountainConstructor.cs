@@ -12,7 +12,7 @@ public class MountainConstructor
             for (int z = 0; z < data.zSize; z++)
             {
                 TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.noiseValue > settings.mountainLevel && tile.type == TileType.FlatLand)
+                if (tile.noiseValue > settings.mountainLevel && tile.type == TileType.FlatLand && !TileData.IsRiverTile(tile))
                 {
                     for (int i = 0; i < settings.maxMountainsPerTile; i++)
                     {
@@ -47,7 +47,7 @@ public class MountainConstructor
             for (int z = 0; z < data.zSize; z++)
             {
                 TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.noiseValue > settings.foothillLevel)
+                if (tile.noiseValue > settings.foothillLevel && !TileData.IsRiverTile(tile))
                 {
                     for (int i = 0; i < settings.maxFoothillsPerTile; i++)
                     {
@@ -55,8 +55,7 @@ public class MountainConstructor
                         {
                             break;
                         }
-                        float halfExtent = settings.tileSize / 2;
-                        Vector3 randomPosition = new Vector3(Random.Range(-halfExtent, halfExtent), 0, Random.Range(-halfExtent, halfExtent));
+                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
                         if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
                         {
                             randomPosition.y = settings.seaMountainLevel;

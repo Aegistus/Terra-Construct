@@ -13,7 +13,6 @@ public class TerrainConstructor : MonoBehaviour
     public string terrainFileName = "save.txt";
 
     [HideInInspector] public TerrainData terrainData;
-
     private List<GameObject> oceanTiles = new List<GameObject>();
 
     public void GenerateTerrain()
@@ -36,22 +35,22 @@ public class TerrainConstructor : MonoBehaviour
             for (int z = 0; z < terrainData.zSize; z++)
             {
                 TileData tile = terrainData.GetTileAtCoordinates(x, z);
-                GameObject tileGameObject = null;
+                GameObject[] variants;
                 switch(tile.type)
                 {
-                    case TileType.CoastInnerCorner: tileGameObject = tileSet.coastalInnerCorner[0];break;
-                    case TileType.CoastOuterCorner: tileGameObject = tileSet.coastalOuterCorner[0];break;
-                    case TileType.CoastStraight: tileGameObject = tileSet.coastalStraight[0]; break;
-                    case TileType.FlatLand: tileGameObject = tileSet.landTiles[0]; break;
-                    case TileType.OceanFloor: tileGameObject = tileSet.oceanFloorTiles[0]; break;
-                    case TileType.RiverMouth: tileGameObject = tileSet.riverMouth[0]; break;
-                    case TileType.RiverStraight: tileGameObject = tileSet.riverStraight[0]; break;
-                    case TileType.RiverBendRight: tileGameObject = tileSet.riverCornerRight[0]; break;
-                    case TileType.RiverBendLeft: tileGameObject = tileSet.riverCornerLeft[0]; break;
-                    case TileType.RiverEnd: tileGameObject = tileSet.riverEnd[0]; break;
-                    default: tileGameObject = tileSet.landTiles[0]; break;
+                    case TileType.CoastInnerCorner: variants = tileSet.coastalInnerCorner;break;
+                    case TileType.CoastOuterCorner: variants = tileSet.coastalOuterCorner;break;
+                    case TileType.CoastStraight: variants = tileSet.coastalStraight; break;
+                    case TileType.FlatLand: variants = tileSet.landTiles; break;
+                    case TileType.OceanFloor: variants = tileSet.oceanFloorTiles; break;
+                    case TileType.RiverMouth: variants = tileSet.riverMouth; break;
+                    case TileType.RiverStraight: variants = tileSet.riverStraight; break;
+                    case TileType.RiverBendRight: variants = tileSet.riverCornerRight; break;
+                    case TileType.RiverBendLeft: variants = tileSet.riverCornerLeft; break;
+                    case TileType.RiverEnd: variants = tileSet.riverEnd; break;
+                    default: variants = tileSet.landTiles; break;
                 }
-                Instantiate(tileGameObject, tile.Position, Quaternion.Euler(tile.Rotation), transform);
+                Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
             }
         }
         for (int i = 0; i < terrainData.mountains.Count; i++)
