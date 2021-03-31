@@ -13,7 +13,10 @@ public class RiverConstructor
         {
             if (tile.type == TileType.CoastStraight)
             {
-                potentialStarts.Add(tile);
+                if (data.GetEdgeAdjacentLandTiles(tile.xCoordinate, tile.zCoordinate).Count > 0)
+                {
+                    potentialStarts.Add(tile);
+                }
             }
         }
         if (potentialStarts.Count < settings.numberOfRivers)
@@ -62,12 +65,15 @@ public class RiverConstructor
                     {
                         currentTile.type = TileType.RiverBendRight;
                     }
+                    else if (Vector2.SignedAngle(directionOne, directionTwo) == -90)
+                    {
+                        currentTile.type = TileType.RiverEnd;
+                    }
                     else
                     {
                         currentTile.type = TileType.RiverStraight;
                     }
                 }
-
                 // correctly orient tile
                 Vector3 facingDirection = new Vector3(riverPath[j].xCoordinate - currentTile.xCoordinate, 0, riverPath[j].zCoordinate - currentTile.zCoordinate);
                 facingDirection = facingDirection.normalized;
@@ -85,6 +91,11 @@ public class RiverConstructor
                 {
                     currentTile.Rotate(0, -90, 0);
                     currentTile.AddPosition(settings.tileSize, 0, 0);
+                }
+                // if the river has ended, break from the loop
+                if (currentTile.type == TileType.RiverEnd)
+                {
+                    break;
                 }
                 riverPath.Add(currentTile);
                 currentTile = nextTile;

@@ -96,16 +96,4 @@ public class TileData
             return false;
         }
     }
-
-    public static bool IsRiverTile(TileData tile)
-    {
-        if (tile.type == TileType.RiverStraight || tile.type == TileType.RiverMouth || tile.type == TileType.RiverEnd || tile.type == TileType.RiverBendRight || tile.type == TileType.RiverBendLeft)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-    }
 }
