@@ -24,6 +24,10 @@ public class TerrainConstructor : MonoBehaviour
         terrainData = RiverConstructor.GenerateRiver(terrainData, settings);
         terrainData = MountainConstructor.GenerateMountains(terrainData, settings, mountainSet);
         terrainData = MountainConstructor.GenerateFoothills(terrainData, settings, mountainSet);
+    }
+
+    public void GenerateFlora()
+    {
         terrainData = FloraGenerator.Generate(terrainData, settings, treeSet, grassSet);
     }
 

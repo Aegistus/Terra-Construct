@@ -33,27 +33,21 @@ public class FloraGenerator
                 TileData tile = data.GetTileAtCoordinates(x, z);
                 if (tile.noiseValue > minValue && tile.noiseValue < maxValue && tile.type == TileType.FlatLand)
                 {
-                    for (int i = 0; i < settings.maxTreesPerForestTile; i++)
+                    List<Vector2> treeSpawns = PoissonDiscSampling.GeneratePoints(settings.treePlacementRadius, Vector2.one * settings.tileSize);
+                    Debug.Log(treeSpawns.Count);
+                    for (int i = 0; i < treeSpawns.Count; i++)
                     {
-                        //if (Random.value > treeClumping)
-                        //{
-                        //    break;
-                        //}
-                        // create a common tree spawnPoint
-                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
-                        randomPosition += tile.Position;
                         int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        placedTrees.Add(new TerrainObjectData(typeIndex, randomPosition, randomRotation, Vector3.one * 2));
+                        placedTrees.Add(new TerrainObjectData(typeIndex, tile.Position + new Vector3(treeSpawns[i].x, 0, treeSpawns[i].y), randomRotation, Vector3.one * 2));
                     }
                     // create grass
-                    for (int i = 0; i < settings.maxGrassPerTile; i++)
+                    List<Vector2> grassSpawns = PoissonDiscSampling.GeneratePoints(settings.grassPlacementRadius, Vector2.one * settings.tileSize);
+                    for (int i = 0; i < grassSpawns.Count; i++)
                     {
-                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
-                        randomPosition += tile.Position;
                         int typeIndex = Random.Range(0, grassSet.common.Length);
                         Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        placedGrass.Add(new TerrainObjectData(typeIndex, randomPosition, randomRotation, Vector3.one));
+                        placedGrass.Add(new TerrainObjectData(typeIndex, tile.Position + new Vector3(grassSpawns[i].x, 0, grassSpawns[i].y), randomRotation, Vector3.one));
                     }
                 }
             }

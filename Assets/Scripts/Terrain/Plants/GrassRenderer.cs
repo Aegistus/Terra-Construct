@@ -9,7 +9,7 @@ public class GrassRenderer : MonoBehaviour
     public GrassSet grassSet;
     public float foregroundRenderDistance = 40f;
     //public float backgroundRenderDistance = 100f;
-    public int grassPoolSize = 100;
+    public int grassPoolSize = 500;
     private Camera mainCam;
 
     private TerrainConstructor terrain;

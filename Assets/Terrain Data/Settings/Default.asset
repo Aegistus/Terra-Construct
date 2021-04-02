@@ -32,6 +32,5 @@ MonoBehaviour:
   placeBelowMountainLevel: 1
   elevationMin: 0
   elevationMax: 0
-  maxTreesPerForestTile: 50
-  maxGrassPerTile: 50
-  treeClumping: 0.5
+  treePlacementRadius: 7
+  grassPlacementRadius: 7

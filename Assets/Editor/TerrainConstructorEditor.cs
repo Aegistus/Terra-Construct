@@ -17,6 +17,11 @@ public class TerrainConstructorEditor : Editor
             terrain.GenerateTerrain();
             EditorUtility.SetDirty(terrain);
         }
+        if (GUILayout.Button("Generate Flora"))
+        {
+            terrain.GenerateFlora();
+            EditorUtility.SetDirty(terrain);
+        }
         if (GUILayout.Button("Construct Terrain"))
         {
             terrain.ClearTerrain();

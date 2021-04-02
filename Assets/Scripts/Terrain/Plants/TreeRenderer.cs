@@ -9,7 +9,7 @@ public class TreeRenderer : MonoBehaviour
     public TreeSet treePrefabs;
     public float foregroundRenderDistance = 40f;
     public float backgroundRenderDistance = 100f;
-    public int treePoolSize = 100;
+    public int treePoolSize = 500;
     private Camera mainCam;
 
     private TerrainConstructor terrain;
@@ -85,15 +85,22 @@ public class TreeRenderer : MonoBehaviour
         {
             if (!tree.Active)
             {
-                if (Vector3.Distance(mainCam.transform.position, tree.Position) <= foregroundRenderDistance)
+                if (Vector3.Distance(mainCam.transform.position, tree.Position) <= foregroundRenderDistance && treePool.Count > 0)
                 {
                     GameObject treeGameObject = treePool[tree.typeIndex].Dequeue();
-                    treeGameObject.transform.position = tree.Position;
-                    treeGameObject.transform.eulerAngles = tree.Rotation;
-                    treeGameObject.transform.localScale = tree.Scale;
-                    treeGameObject.SetActive(true);
-                    tree.Activate(treeGameObject);
-                    treePool[tree.typeIndex].Enqueue(treeGameObject);
+                    if (Vector3.Distance(mainCam.transform.position, treeGameObject.transform.position) > foregroundRenderDistance)
+                    {
+                        treeGameObject.transform.position = tree.Position;
+                        treeGameObject.transform.eulerAngles = tree.Rotation;
+                        treeGameObject.transform.localScale = tree.Scale;
+                        treeGameObject.SetActive(true);
+                        tree.Activate(treeGameObject);
+                        treePool[tree.typeIndex].Enqueue(treeGameObject);
+                    }
+                    else
+                    {
+                        treePool[tree.typeIndex].Enqueue(treeGameObject);
+                    }
                 }
             }
             else

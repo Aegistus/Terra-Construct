@@ -42,8 +42,6 @@ public class TerrainSettings : ScriptableObject
     public float elevationMin = 0f;
     [Range(0f, 1f)]
     public float elevationMax = 0f;
-    public int maxTreesPerForestTile = 10;
-    public int maxGrassPerTile = 20;
-    [Range(0f, 1f)]
-    public float treeClumping = .5f;
+    public float treePlacementRadius = 7f;
+    public float grassPlacementRadius = 7f;
 }
