@@ -16,11 +16,11 @@ MonoBehaviour:
   zSize: 2000
   tileSize: 100
   waterTileSize: 500
-  oceanPercent: 0.47
+  oceanPercent: 0.43
   seaLevel: -1
   numberOfRivers: 3
   riverMaxLength: 5
-  mountainLevel: 0.64
+  mountainLevel: 0.6
   foothillLevel: 0.48
   mountainClumping: 0.5
   sizeVariationLower: 0.8
