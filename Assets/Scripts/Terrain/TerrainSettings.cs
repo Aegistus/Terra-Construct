@@ -43,6 +43,6 @@ public class TerrainSettings : ScriptableObject
     public float elevationMin = 0f;
     [Range(0f, 1f)]
     public float elevationMax = 0f;
-    public float treePlacementRadius = 7f;
-    public float grassPlacementRadius = 7f;
+    public Vector2 treePlacementRadius = new Vector2(4, 8);
+    public Vector2 grassPlacementRadius = new Vector2(3, 6);
 }

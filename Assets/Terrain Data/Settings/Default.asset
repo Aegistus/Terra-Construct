@@ -34,4 +34,4 @@ MonoBehaviour:
   elevationMin: 0
   elevationMax: 0
   treePlacementRadius: 7
-  grassPlacementRadius: 7
+  grassPlacementRadius: 4

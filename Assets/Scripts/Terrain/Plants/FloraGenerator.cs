@@ -33,8 +33,7 @@ public class FloraGenerator
                 TileData tile = data.GetTileAtCoordinates(x, z);
                 if (tile.noiseValue > minValue && tile.noiseValue < maxValue && tile.type == TileType.FlatLand)
                 {
-                    List<Vector2> treeSpawns = PoissonDiscSampling.GeneratePoints(settings.treePlacementRadius, Vector2.one * settings.tileSize);
-                    Debug.Log(treeSpawns.Count);
+                    List<Vector3> treeSpawns = PoissonDiscSampling.GeneratePointsOfDifferentSize(settings.treePlacementRadius, Vector2.one * settings.tileSize);
                     for (int i = 0; i < treeSpawns.Count; i++)
                     {
                         int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
@@ -42,7 +41,7 @@ public class FloraGenerator
                         placedTrees.Add(new TerrainObjectData(typeIndex, tile.Position + new Vector3(treeSpawns[i].x, 0, treeSpawns[i].y), randomRotation, Vector3.one * 2));
                     }
                     // create grass
-                    List<Vector2> grassSpawns = PoissonDiscSampling.GeneratePoints(settings.grassPlacementRadius, Vector2.one * settings.tileSize);
+                    List<Vector3> grassSpawns = PoissonDiscSampling.GeneratePointsOfDifferentSize(settings.grassPlacementRadius, Vector2.one * settings.tileSize);
                     for (int i = 0; i < grassSpawns.Count; i++)
                     {
                         int typeIndex = Random.Range(0, grassSet.common.Length);
