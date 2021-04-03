@@ -29,4 +29,9 @@ public static class TileTypeExtensions
             default: return false;
         }
     }
+
+    public static bool IsOceanTile(this TileType type)
+    {
+        return type == TileType.OceanFloor;
+    }
 }

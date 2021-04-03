@@ -24,6 +24,7 @@ public class TerrainConstructor : MonoBehaviour
         terrainData = RiverConstructor.GenerateRiver(terrainData, settings);
         terrainData = MountainConstructor.GenerateMountains(terrainData, settings, mountainSet);
         terrainData = MountainConstructor.GenerateFoothills(terrainData, settings, mountainSet);
+        terrainData = MountainConstructor.GenerateBoulders(terrainData, settings, mountainSet);
     }
 
     public void GenerateFlora()
@@ -66,6 +67,11 @@ public class TerrainConstructor : MonoBehaviour
         {
             TerrainObjectData foothill = terrainData.foothills[i];
             Instantiate(mountainSet.hills[foothill.typeIndex], foothill.Position, Quaternion.Euler(foothill.Rotation), transform);
+        }
+        for (int i = 0; i < terrainData.boulders.Count; i++)
+        {
+            TerrainObjectData boulder = terrainData.boulders[i];
+            Instantiate(mountainSet.boulders[boulder.typeIndex], boulder.Position, Quaternion.Euler(boulder.Rotation), transform);
         }
         GenerateOcean();
     }

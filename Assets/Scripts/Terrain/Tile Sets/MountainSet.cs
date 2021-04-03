@@ -5,6 +5,7 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewMountainSet", menuName = "Mountain Set", order = 3)]
 public class MountainSet : ScriptableObject
 {
+    public GameObject[] boulders;
     public GameObject[] hills;
     public GameObject[] mountains;
 }

@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/**
+ * Made by Sebastian Lague. Modifications by Joe Ballanderson
+ */
 public static class PoissonDiscSampling
 {
 

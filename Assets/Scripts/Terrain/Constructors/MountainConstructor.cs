@@ -72,4 +72,34 @@ public class MountainConstructor
         data.foothills = foothills;
         return data;
     }
+
+    public static TerrainData GenerateBoulders(TerrainData data, TerrainSettings settings, MountainSet mountainSet)
+    {
+        List<TerrainObjectData> boulders = new List<TerrainObjectData>();
+        for (int x = 0; x < data.xSize; x++)
+        {
+            for (int z = 0; z < data.zSize; z++)
+            {
+                TileData tile = data.GetTileAtCoordinates(x, z);
+                if (tile.noiseValue > settings.foothillLevel && !tile.type.IsRiverTile())
+                {
+                    for (int i = 0; i < settings.maxBouldersPerTile; i++)
+                    {
+                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
+                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
+                        {
+                            randomPosition.y = settings.seaMountainLevel;
+                        }
+                        int randIndex = Random.Range(0, mountainSet.boulders.Length);
+                        Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+                        TerrainObjectData newBoulder = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+
+                        boulders.Add(newBoulder);
+                    }
+                }
+            }
+        }
+        data.boulders = boulders;
+        return data;
+    }
 }

@@ -33,6 +33,7 @@ public class TerrainSettings : ScriptableObject
     public float sizeVariationUpper = 1.2f;
     public int maxMountainsPerTile = 5;
     public int maxFoothillsPerTile = 2;
+    public int maxBouldersPerTile = 2;
     public float seaMountainLevel = -3f;
 
     [Header("Flora Settings")]

@@ -27,6 +27,7 @@ MonoBehaviour:
   sizeVariationUpper: 1.2
   maxMountainsPerTile: 3
   maxFoothillsPerTile: 2
+  maxBouldersPerTile: 3
   seaMountainLevel: -3
   placeAboveWaterLevel: 1
   placeBelowMountainLevel: 1
