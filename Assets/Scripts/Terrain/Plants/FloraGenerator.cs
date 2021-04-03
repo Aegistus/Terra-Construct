@@ -7,6 +7,7 @@ public class FloraGenerator
     public static TerrainData Generate(TerrainData data, TerrainSettings settings, TreeSet treeSet, GrassSet grassSet)
     {
         List<TerrainObjectData> placedTrees = new List<TerrainObjectData>();
+        List<TerrainObjectData> placedRareTrees = new List<TerrainObjectData>();
         List<TerrainObjectData> placedGrass = new List<TerrainObjectData>();
         float minValue;
         float maxValue;
@@ -36,9 +37,18 @@ public class FloraGenerator
                     List<Vector3> treeSpawns = PoissonDiscSampling.GeneratePointsOfDifferentSize(settings.treePlacementRadius, Vector2.one * settings.tileSize);
                     for (int i = 0; i < treeSpawns.Count; i++)
                     {
-                        int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
-                        Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        placedTrees.Add(new TerrainObjectData(typeIndex, tile.Position + new Vector3(treeSpawns[i].x, 0, treeSpawns[i].y), randomRotation, Vector3.one * 2));
+                        if (Random.value > settings.rareTreePercent)
+                        {
+                            int typeIndex = Random.Range(0, treeSet.commonTrees.Count);
+                            Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+                            placedTrees.Add(new TerrainObjectData(typeIndex, tile.Position + new Vector3(treeSpawns[i].x, 0, treeSpawns[i].y), randomRotation, Vector3.one * 2));
+                        }
+                        else
+                        {
+                            int typeIndex = Random.Range(0, treeSet.rareTrees.Count);
+                            Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+                            placedRareTrees.Add(new TerrainObjectData(typeIndex, tile.Position + new Vector3(treeSpawns[i].x, 0, treeSpawns[i].y), randomRotation, Vector3.one * 2));
+                        }
                     }
                     // create grass
                     List<Vector3> grassSpawns = PoissonDiscSampling.GeneratePointsOfDifferentSize(settings.grassPlacementRadius, Vector2.one * settings.tileSize);
@@ -51,6 +61,7 @@ public class FloraGenerator
                 }
             }
         }
+        data.rareTrees = placedRareTrees;
         data.trees = placedTrees;
         data.grass = placedGrass;
         return data;
