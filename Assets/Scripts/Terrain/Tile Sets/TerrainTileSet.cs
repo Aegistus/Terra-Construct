@@ -6,6 +6,7 @@ using UnityEngine;
 public class TerrainTileSet : ScriptableObject
 {
     public GameObject[] landTiles;
+    public GameObject[] swampTiles;
     public GameObject[] waterTiles;
     public GameObject[] oceanFloorTiles;
     public GameObject[] coastalStraight;

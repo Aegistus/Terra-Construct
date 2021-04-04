@@ -14,6 +14,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   landTiles:
   - {fileID: 139454, guid: 380272978726d224cb57e616c2f52241, type: 3}
+  swampTiles:
+  - {fileID: 3702808096230290739, guid: 2c57a1cbad6180d4e924e75cb074ec64, type: 3}
   waterTiles:
   - {fileID: 181212, guid: b61a478071d929c408d721342c8a6a91, type: 3}
   oceanFloorTiles:
