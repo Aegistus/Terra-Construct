@@ -13,7 +13,7 @@ public class RiverConstructor
         {
             if (tile.type == TileType.CoastStraight)
             {
-                if (data.GetEdgeAdjacentLandTiles(tile.xCoordinate, tile.zCoordinate).Count > 0)
+                if (data.GetEdgeAdjacentTilesOfType(tile.xCoordinate, tile.zCoordinate, TileType.FlatLand).Count > 0)
                 {
                     potentialStarts.Add(tile);
                 }
@@ -27,7 +27,7 @@ public class RiverConstructor
         {
             TileData start = potentialStarts[Random.Range(0, potentialStarts.Count)]; // pick random start
             potentialStarts.Remove(start);
-            TileData oceanTile = data.GetEdgeAdjacentOceanTiles(start.xCoordinate, start.zCoordinate)[0];
+            TileData oceanTile = data.GetEdgeAdjacentTilesOfType(start.xCoordinate, start.zCoordinate, TileType.OceanFloor)[0];
             start.type = TileType.RiverMouth;
             // Construct river
             List<TileData> riverPath = new List<TileData>();
@@ -39,7 +39,7 @@ public class RiverConstructor
             TileData nextTile = null;
             for (int j = 0; j < settings.riverMaxLength; j++)
             {
-                List<TileData> potentialNextTiles = data.GetEdgeAdjacentLandTiles(currentTile.xCoordinate, currentTile.zCoordinate);
+                List<TileData> potentialNextTiles = data.GetEdgeAdjacentTilesOfType(currentTile.xCoordinate, currentTile.zCoordinate, TileType.OceanFloor);
                 potentialNextTiles.Remove(riverPath[j]);
                 // Remove all left turn tiles
                 for (int k = 0; k < potentialNextTiles.Count; k++)

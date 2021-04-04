@@ -45,12 +45,10 @@ public class NoiseMap
             float amplitude = Mathf.Pow(persistance, o);
             maxValue += 1 * amplitude;
         }
-        Debug.Log("Max Value: " + maxValue);
         for (int o = 0; o < octaves; o++)
         {
             float amplitude = Mathf.Pow(persistance, o);
             minValue += .01f * amplitude;
         }
-        Debug.Log("Min Value: " + minValue);
     }
 }

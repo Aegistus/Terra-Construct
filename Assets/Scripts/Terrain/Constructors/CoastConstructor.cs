@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class CoastConstructor
 {
@@ -14,7 +15,7 @@ public class CoastConstructor
         {
             for (int z = 0; z < data.zSize; z++)
             {
-                List<TileData> edgeAdjacentOcean = data.GetEdgeAdjacentOceanTiles(x, z);
+                List<TileData> edgeAdjacentOcean = data.GetEdgeAdjacentTilesOfType(x, z, TileType.OceanFloor);
                 if (!data.IsOceanTile(x, z) && edgeAdjacentOcean.Count > 0)
                 {
                     if (edgeAdjacentOcean.Count == 1) // coastal straight
@@ -69,7 +70,7 @@ public class CoastConstructor
                         }
                     }
                 }
-                List<TileData> cornerAdjacentOcean = data.GetCornerAdjacentOceanTiles(x, z);
+                List<TileData> cornerAdjacentOcean = data.GetCornerAdjacentTilesOfType(x, z, TileType.OceanFloor);
                 if (cornerAdjacentOcean.Count == 1 && edgeAdjacentOcean.Count == 0) // coastal inner corner
                 {
                     Vector3 direction = cornerAdjacentOcean[0].Position - data.GetTileAtCoordinates(x, z).Position;
@@ -125,7 +126,7 @@ public class CoastConstructor
             {
                 if (!data.IsOceanTile(x,z))
                 {
-                    List<TileData> edgeAdjacentOcean = data.GetEdgeAdjacentOceanTiles(x, z);
+                    List<TileData> edgeAdjacentOcean = data.GetEdgeAdjacentTilesOfType(x, z, TileType.OceanFloor);
                     if (edgeAdjacentOcean.Count == 2)
                     {
                         Vector3 directionOne = edgeAdjacentOcean[0].Position - data.GetTileAtCoordinates(x, z).Position;

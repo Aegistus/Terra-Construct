@@ -25,6 +25,7 @@ public class TerrainConstructor : MonoBehaviour
         terrainData.mountains = MountainConstructor.Generate(terrainData, settings, mountainSet.mountains, settings.mountainLevel);
         terrainData.foothills = MountainConstructor.Generate(terrainData, settings, mountainSet.hills, settings.foothillLevel);
         terrainData.boulders = MountainConstructor.Generate(terrainData, settings, mountainSet.boulders);
+        terrainData = BiomeConstructor.GenerateBiomes(terrainData, settings);
     }
 
     public void GenerateFlora()
@@ -120,5 +121,37 @@ public class TerrainConstructor : MonoBehaviour
             oceanTiles[i] = null;
         }
         oceanTiles = null;
+    }
+
+    private void OnDrawGizmos()
+    {
+        foreach (var tile in terrainData.tiles)
+        {
+            if (tile.moistureValue == 0)
+            {
+                Gizmos.color = Color.white;
+            }
+            if (tile.moistureValue == 1)
+            {
+                Gizmos.color = Color.red;
+            }
+            if (tile.moistureValue == 2)
+            {
+                Gizmos.color = new Color(255, 165, 0);
+            }
+            if (tile.moistureValue == 3)
+            {
+                Gizmos.color = Color.yellow;
+            }
+            if (tile.moistureValue == 4)
+            {
+                Gizmos.color = Color.blue;
+            }
+            if (tile.moistureValue == 5)
+            {
+                Gizmos.color = Color.cyan;
+            }
+            Gizmos.DrawSphere(tile.Position + new Vector3(50, 0, 50), 10f);
+        }
     }
 }

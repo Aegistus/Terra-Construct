@@ -24,7 +24,9 @@ public class TileData
     [SerializeField] private float zScale;
 
     public TileType type;
-    public float noiseValue = 0;
+    public float elevationValue = 0;
+    public int moistureValue = 0;
+    public int temperatureValue = 0;
 
     public TileData(int xCoordinate, int zCoordinate)
     {

@@ -46,7 +46,6 @@ public class TerrainData
         return GetTileAtCoordinates(coords.x, coords.z);
     }
 
-
     public int AdjacentOceanTilesCount(int x, int z)
     {
         int landTilesCount = 0;
@@ -69,85 +68,70 @@ public class TerrainData
         return landTilesCount;
     }
 
-    public List<TileData> GetEdgeAdjacentOceanTiles(int x, int z)
+    public List<TileData> GetAllEdgeAdjacentTiles(int x, int z)
     {
-        List<TileData> oceanTiles = new List<TileData>();
-        if (x - 1 >= 0 && IsOceanTile(x - 1, z))
+        List<TileData> tiles = new List<TileData>();
+        if (x - 1 >= 0)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x - 1, z));
+            tiles.Add(GetTileAtCoordinates(x - 1, z));
         }
-        if (x + 1 < xSize && IsOceanTile(x + 1, z))
+        if (x + 1 < xSize)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x + 1, z));
+            tiles.Add(GetTileAtCoordinates(x + 1, z));
         }
-        if (z - 1 >= 0 && IsOceanTile(x, z - 1))
+        if (z - 1 >= 0)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x, z - 1));
+            tiles.Add(GetTileAtCoordinates(x, z - 1));
         }
-        if (z + 1 < zSize && IsOceanTile(x, z + 1))
+        if (z + 1 < zSize)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x, z + 1));
+            tiles.Add(GetTileAtCoordinates(x, z + 1));
         }
-        return oceanTiles;
+        return tiles;
     }
 
-    public List<TileData> GetCornerAdjacentOceanTiles(int x, int z)
+    public List<TileData> GetEdgeAdjacentTilesOfType(int x, int z, TileType type)
     {
-        List<TileData> oceanTiles = new List<TileData>();
-        if (x - 1 >= 0 && z - 1 >= 0 && IsOceanTile(x - 1, z - 1))
+        List<TileData> tilesOfType = new List<TileData>();
+        if (x - 1 >= 0 && GetTileAtCoordinates(x - 1, z).type == type)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x - 1, z - 1));
+            tilesOfType.Add(GetTileAtCoordinates(x - 1, z));
         }
-        if (x + 1 < xSize && z + 1 < zSize && IsOceanTile(x + 1, z + 1))
+        if (x + 1 < xSize && GetTileAtCoordinates(x + 1, z).type == type)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x + 1, z + 1));
+            tilesOfType.Add(GetTileAtCoordinates(x + 1, z));
         }
-        if (x - 1 >= 0 && z + 1 < zSize && IsOceanTile(x - 1, z + 1))
+        if (z - 1 >= 0 && GetTileAtCoordinates(x, z - 1).type == type)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x - 1, z + 1));
+            tilesOfType.Add(GetTileAtCoordinates(x, z - 1));
         }
-        if (x + 1 < zSize && z - 1 >= 0 && IsOceanTile(x + 1, z - 1))
+        if (z + 1 < zSize && GetTileAtCoordinates(x, z + 1).type == type)
         {
-            oceanTiles.Add(GetTileAtCoordinates(x + 1, z - 1));
+            tilesOfType.Add(GetTileAtCoordinates(x, z + 1));
         }
-        return oceanTiles;
+        return tilesOfType;
     }
 
-    public List<TileData> GetEdgeAdjacentLandTiles(int x, int z)
+    public List<TileData> GetCornerAdjacentTilesOfType(int x, int z, TileType type)
     {
-        List<TileData> landTiles = new List<TileData>();
-        if (x - 1 >= 0 && IsLandTile(x - 1, z))
+        List<TileData> cornerTilesOfType = new List<TileData>();
+        if (x - 1 >= 0 && z - 1 >= 0 && GetTileAtCoordinates(x - 1, z - 1).type == type)
         {
-            landTiles.Add(GetTileAtCoordinates(x - 1, z));
+            cornerTilesOfType.Add(GetTileAtCoordinates(x - 1, z - 1));
         }
-        if (x + 1 < xSize && IsLandTile(x + 1, z))
+        if (x + 1 < xSize && z + 1 < zSize && GetTileAtCoordinates(x + 1, z + 1).type == type)
         {
-            landTiles.Add(GetTileAtCoordinates(x + 1, z));
+            cornerTilesOfType.Add(GetTileAtCoordinates(x + 1, z + 1));
         }
-        if (z + 1 < zSize && IsLandTile(x, z + 1))
+        if (x - 1 >= 0 && z + 1 < zSize && GetTileAtCoordinates(x - 1, z + 1).type == type)
         {
-            landTiles.Add(GetTileAtCoordinates(x, z + 1));
+            cornerTilesOfType.Add(GetTileAtCoordinates(x - 1, z + 1));
         }
-        if (z - 1 >= 0 && IsLandTile(x, z - 1))
+        if (x + 1 < zSize && z - 1 >= 0 && GetTileAtCoordinates(x + 1, z - 1).type == type)
         {
-            landTiles.Add(GetTileAtCoordinates(x, z - 1));
+            cornerTilesOfType.Add(GetTileAtCoordinates(x + 1, z - 1));
         }
-        return landTiles;
-    }
-
-    public Coordinates GetTileCoordinates(TileData tile)
-    {
-        for (int x = 0; x < xSize; x++)
-        {
-            for (int z = 0; z < zSize; z++)
-            {
-                if (GetTileAtCoordinates(x,z).Equals(tile))
-                {
-                    return new Coordinates(x, z);
-                }
-            }
-        }
-        return new Coordinates(-1, -1);
+        return cornerTilesOfType;
     }
 
     public bool IsOceanTile(int x, int z)

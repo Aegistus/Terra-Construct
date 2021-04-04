@@ -34,4 +34,16 @@ public static class TileTypeExtensions
     {
         return type == TileType.OceanFloor;
     }
+
+    public static bool IsWaterTile(this TileType type)
+    {
+        if (type.IsCoastalTile() || type.IsOceanTile() || type.IsRiverTile())
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
 }

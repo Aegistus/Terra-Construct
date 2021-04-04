@@ -12,12 +12,12 @@ public class MountainConstructor
             for (int z = 0; z < data.zSize; z++)
             {
                 TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.noiseValue > elevationLevel && !tile.type.IsRiverTile() && !tile.type.IsOceanTile())
+                if (tile.elevationValue > elevationLevel && !tile.type.IsRiverTile() && !tile.type.IsOceanTile() && tile.type != TileType.Swamp)
                 {
                     for (int i = 0; i < settings.maxMountainsPerTile; i++)
                     {
                         Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
-                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z) || tile.type == TileType.Swamp)
+                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
                         {
                             randomPosition.y = settings.seaMountainLevel;
                         }

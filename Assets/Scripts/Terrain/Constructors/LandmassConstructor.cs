@@ -19,17 +19,12 @@ public class LandmassConstructor
                 if (noiseValue < settings.oceanPercent)
                 {
                     data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.OceanFloor, position, Vector3.zero);
-                    data.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
-                }
-                else if (Random.value < settings.swampTileChance)
-                {
-                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.Swamp, position, Vector3.zero);
-                    data.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
+                    data.GetTileAtCoordinates(x, z).elevationValue = noiseValue;
                 }
                 else
                 {
                     data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.FlatLand, position, Vector3.zero);
-                    data.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
+                    data.GetTileAtCoordinates(x, z).elevationValue = noiseValue;
                 }
             }
         }
