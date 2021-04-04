@@ -137,7 +137,6 @@ public class BiomeConstructor
             {TileType.Forest, settings.forest },
             {TileType.Plains, settings.plains },
             {TileType.RainForest, settings.rainForest },
-            {TileType.Swamp, settings.swamp },
             {TileType.Taiga, settings.taiga },
             {TileType.Tundra, settings.tundra }
         };

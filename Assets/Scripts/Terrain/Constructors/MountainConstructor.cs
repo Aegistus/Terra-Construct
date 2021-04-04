@@ -46,7 +46,7 @@ public class MountainConstructor
                     for (int i = 0; i < settings.maxMountainsPerTile; i++)
                     {
                         Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
-                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z) || tile.type == TileType.Swamp)
+                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
                         {
                             randomPosition.y = settings.seaMountainLevel;
                         }

@@ -29,7 +29,6 @@ public class TerrainSettings : ScriptableObject
     public Vector3 windDirection = new Vector3(0, 0, 0);
 
     [Header("Biome Moisture/Temperature Settings")]
-    public Vector2 swamp = new Vector2(.8f, .4f);
     public Vector2 desert = new Vector2(.1f, 1f);
     public Vector2 forest = new Vector2(.5f, .5f);
     public Vector2 plains = new Vector2(.4f, .6f);

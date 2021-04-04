@@ -6,5 +6,5 @@ using UnityEngine;
 public enum TileType
 {
     Plains, OceanFloor, CoastStraight, CoastInnerCorner, CoastOuterCorner, RiverMouth, RiverStraight, RiverBendLeft, RiverBendRight,
-    RiverEnd, Forest, Swamp, Mountain, Desert, RainForest, Taiga, Tundra
+    RiverEnd, Forest, Mountain, Desert, RainForest, Taiga, Tundra
 }

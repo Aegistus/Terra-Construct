@@ -52,7 +52,6 @@ public class TerrainConstructor : MonoBehaviour
                     case TileType.Forest:
                     case TileType.Plains: variants = tileSet.plainsTiles; break;
                     case TileType.Mountain: variants = tileSet.plainsTiles; break;
-                    case TileType.Swamp: variants = tileSet.swampTiles; break;
                     case TileType.Taiga:
                     case TileType.Tundra: variants = tileSet.snowTiles; break;
                     case TileType.Desert: variants = tileSet.desertTiles; break;
@@ -65,7 +64,7 @@ public class TerrainConstructor : MonoBehaviour
                     case TileType.RiverEnd: variants = tileSet.riverEnd; break;
                     default: variants = tileSet.plainsTiles; break;
                 }
-                Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
+                GameObject tileGameObject = Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
             }
         }
         for (int i = 0; i < terrainData.mountains.Count; i++)
