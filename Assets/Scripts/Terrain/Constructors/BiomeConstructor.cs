@@ -13,19 +13,19 @@ public class BiomeConstructor
         {
             if (tile.type.IsWaterTile())
             {
-                tile.moistureValue = settings.maxMoistureLevel;
+                tile.moistureValue = 1;
             }
         }
         // evaluate all tiles for moisture value
         while (!allTilesEvaluated)
         {
-            Dictionary<TileData, int> tileMoistureValue = new Dictionary<TileData, int>(); // keeps a record of all tiles changed this iteration. Sets values of each tile at end
+            Dictionary<TileData, float> tileMoistureValue = new Dictionary<TileData, float>(); // keeps a record of all tiles changed this iteration. Sets values of each tile at end
             foreach (var tile in data.tiles)
             {
                 if (tile.moistureValue == 0)
                 {
                     List<TileData> adjacentTiles = data.GetAllEdgeAdjacentTiles(tile.xCoordinate, tile.zCoordinate);
-                    int highestAdjacentMoistureValue = 0;
+                    float highestAdjacentMoistureValue = 0;
                     bool moistureBlockedByMountain = false;
                     for (int i = 0; i < adjacentTiles.Count; i++)
                     {
@@ -47,11 +47,11 @@ public class BiomeConstructor
                     {
                         if (moistureBlockedByMountain)
                         {
-                            tileMoistureValue.Add(tile, Mathf.Clamp(highestAdjacentMoistureValue - 3, 1, settings.maxMoistureLevel));
+                            tileMoistureValue.Add(tile, Mathf.Clamp(highestAdjacentMoistureValue - settings.moistureDegradeRate * 3, .001f, 1f));
                         }
                         else
                         {
-                            tileMoistureValue.Add(tile, Mathf.Clamp(highestAdjacentMoistureValue - 1, 1, settings.maxMoistureLevel));
+                            tileMoistureValue.Add(tile, Mathf.Clamp(highestAdjacentMoistureValue - settings.moistureDegradeRate, .001f, 1f));
                         }
                     }
                 }
@@ -107,7 +107,7 @@ public class BiomeConstructor
                         }
                         if (highestTempValue != 0)
                         {
-                            tile.temperatureValue = Mathf.Clamp(highestTempValue - settings.temperatureChangeRate, .001f, 1);
+                            tile.temperatureValue = Mathf.Clamp(highestTempValue - settings.temperatureDegradeRate, .001f, 1);
                         }
                     }
                 }
@@ -125,6 +125,39 @@ public class BiomeConstructor
         else
         {
             Debug.LogWarning("Equator = null");
+        }
+        return data;
+    }
+
+    public static TerrainData GenerateBiomes(TerrainData data, TerrainSettings settings)
+    {
+        Dictionary<TileType, Vector2> biomesToClimateValues = new Dictionary<TileType, Vector2>()
+        {
+            {TileType.Desert, settings.desert },
+            {TileType.Forest, settings.forest },
+            {TileType.Plains, settings.plains },
+            {TileType.RainForest, settings.rainForest },
+            {TileType.Swamp, settings.swamp },
+            {TileType.Taiga, settings.taiga },
+            {TileType.Tundra, settings.tundra }
+        };
+        foreach (var tile in data.tiles)
+        {
+            if (!tile.type.IsWaterTile() && tile.type != TileType.Mountain)
+            {
+                Vector2 tileBiomeValue = new Vector2(tile.moistureValue, tile.temperatureValue);
+                TileType closestBiome = TileType.Plains;
+                float closestDistance = float.MaxValue;
+                foreach (var biome in biomesToClimateValues)
+                {
+                    if (Vector2.Distance(tileBiomeValue, biome.Value) < closestDistance)
+                    {
+                        closestDistance = Vector2.Distance(tileBiomeValue, biome.Value);
+                        closestBiome = biome.Key;
+                    }
+                }
+                tile.type = closestBiome;
+            }
         }
         return data;
     }

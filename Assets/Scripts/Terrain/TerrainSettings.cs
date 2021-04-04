@@ -1,4 +1,5 @@
-﻿using System;
+﻿using JetBrains.Annotations;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -20,11 +21,21 @@ public class TerrainSettings : ScriptableObject
     public float seaLevel = -1;
 
     [Header("Biome Settings")]
-    public int maxMoistureLevel = 7;
     [Range(0f, 1f)]
-    public float temperatureChangeRate = .05f;
+    public float moistureDegradeRate = .15f;
+    [Range(0f, 1f)]
+    public float temperatureDegradeRate = .05f;
     public Vector3 equatorPosition = new Vector3(0, 0, 0);
     public Vector3 windDirection = new Vector3(0, 0, 0);
+
+    [Header("Biome Moisture/Temperature Settings")]
+    public Vector2 swamp = new Vector2(.8f, .4f);
+    public Vector2 desert = new Vector2(.1f, 1f);
+    public Vector2 forest = new Vector2(.5f, .5f);
+    public Vector2 plains = new Vector2(.4f, .6f);
+    public Vector2 tundra = new Vector2(.2f, .2f);
+    public Vector2 taiga = new Vector2(.5f, .2f);
+    public Vector2 rainForest = new Vector2(1f, 1f);
 
     [Header("River Settings")]
     public int numberOfRivers = 1;

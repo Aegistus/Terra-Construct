@@ -16,12 +16,19 @@ MonoBehaviour:
   zSize: 2000
   tileSize: 100
   waterTileSize: 500
-  oceanPercent: 0.445
+  oceanPercent: 0.325
   seaLevel: -1
-  maxMoistureLevel: 7
-  temperatureChangeRate: 0.032
+  moistureDegradeRate: 0.15
+  temperatureDegradeRate: 0.05
   equatorPosition: {x: 0, y: 0, z: 1000}
   windDirection: {x: 0, y: 0, z: 1}
+  swamp: {x: 0.9, y: 0.5}
+  desert: {x: 0.1, y: 1}
+  forest: {x: 0.5, y: 0.5}
+  plains: {x: 0.4, y: 0.6}
+  tundra: {x: 0.2, y: 0.2}
+  taiga: {x: 0.5, y: 0.2}
+  rainForest: {x: 1, y: 0.8}
   numberOfRivers: 3
   riverMaxLength: 5
   mountainLevel: 0.6

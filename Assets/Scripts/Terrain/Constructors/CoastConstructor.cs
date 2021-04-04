@@ -111,7 +111,7 @@ public class CoastConstructor
                 if (!data.IsOceanTile(x,z) && data.AdjacentOceanTilesCount(x,z) == 4)
                 {
                     Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);
-                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.FlatLand, position, Vector3.zero);
+                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.Plains, position, Vector3.zero);
                 }
             }
         }

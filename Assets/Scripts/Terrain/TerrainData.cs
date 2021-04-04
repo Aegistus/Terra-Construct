@@ -141,7 +141,7 @@ public class TerrainData
 
     public bool IsLandTile(int x, int z)
     {
-        return GetTileAtCoordinates(x, z).type == TileType.FlatLand;
+        return GetTileAtCoordinates(x, z).type == TileType.Plains;
     }
 
     public bool IsCoastalTile(int x, int z)

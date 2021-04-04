@@ -12,10 +12,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 02685659a78e3384a98337d963c4c227, type: 3}
   m_Name: Forest Biome Tiles
   m_EditorClassIdentifier: 
-  landTiles:
+  plainsTiles:
   - {fileID: 139454, guid: 380272978726d224cb57e616c2f52241, type: 3}
   swampTiles:
   - {fileID: 3702808096230290739, guid: 2c57a1cbad6180d4e924e75cb074ec64, type: 3}
+  desertTiles:
+  - {fileID: 135064, guid: b3eb25cec04ae9b4ba2151154630d02b, type: 3}
+  snowTiles:
+  - {fileID: 134954, guid: 5ef7370148f70e147bf3b2fffd42a564, type: 3}
+  rainForestTiles:
+  - {fileID: 139454, guid: 380272978726d224cb57e616c2f52241, type: 3}
   waterTiles:
   - {fileID: 181212, guid: b61a478071d929c408d721342c8a6a91, type: 3}
   oceanFloorTiles:

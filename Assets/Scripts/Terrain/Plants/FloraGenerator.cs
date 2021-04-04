@@ -32,7 +32,7 @@ public class FloraGenerator
             for (int z = 0; z < data.zSize; z++)
             {
                 TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.elevationValue > minValue && tile.elevationValue < maxValue && tile.type == TileType.FlatLand)
+                if (tile.elevationValue > minValue && tile.elevationValue < maxValue && tile.type == TileType.Plains)
                 {
                     List<Vector3> treeSpawns = PoissonDiscSampling.GeneratePointsOfDifferentSize(settings.treePlacementRadius, Vector2.one * settings.tileSize);
                     for (int i = 0; i < treeSpawns.Count; i++)

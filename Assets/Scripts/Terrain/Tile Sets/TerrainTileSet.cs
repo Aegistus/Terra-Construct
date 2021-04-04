@@ -5,8 +5,11 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "NewTerrainTileSet", menuName = "Terrain Tile Set", order = 2)]
 public class TerrainTileSet : ScriptableObject
 {
-    public GameObject[] landTiles;
+    public GameObject[] plainsTiles;
     public GameObject[] swampTiles;
+    public GameObject[] desertTiles;
+    public GameObject[] snowTiles;
+    public GameObject[] rainForestTiles;
     public GameObject[] waterTiles;
     public GameObject[] oceanFloorTiles;
     public GameObject[] coastalStraight;

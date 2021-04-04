@@ -5,6 +5,6 @@ using UnityEngine;
 [System.Serializable]
 public enum TileType
 {
-    FlatLand, OceanFloor, CoastStraight, CoastInnerCorner, CoastOuterCorner, RiverMouth, RiverStraight, RiverBendLeft, RiverBendRight,
-    RiverEnd, Forest, Swamp, Plains, Mountain
+    Plains, OceanFloor, CoastStraight, CoastInnerCorner, CoastOuterCorner, RiverMouth, RiverStraight, RiverBendLeft, RiverBendRight,
+    RiverEnd, Forest, Swamp, Mountain, Desert, RainForest, Taiga, Tundra
 }

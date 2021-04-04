@@ -27,6 +27,7 @@ public class TerrainConstructor : MonoBehaviour
         terrainData.boulders = MountainConstructor.GenerateScatteredBoulders(terrainData, settings, mountainSet.boulders);
         terrainData = BiomeConstructor.GenerateMoistureLevels(terrainData, settings);
         terrainData = BiomeConstructor.GenerateTemperatureLevels(terrainData, settings);
+        terrainData = BiomeConstructor.GenerateBiomes(terrainData, settings);
     }
 
     public void GenerateFlora()
@@ -48,16 +49,21 @@ public class TerrainConstructor : MonoBehaviour
                     case TileType.CoastInnerCorner: variants = tileSet.coastalInnerCorner;break;
                     case TileType.CoastOuterCorner: variants = tileSet.coastalOuterCorner;break;
                     case TileType.CoastStraight: variants = tileSet.coastalStraight; break;
-                    case TileType.FlatLand: variants = tileSet.landTiles; break;
-                    case TileType.Mountain: variants = tileSet.landTiles; break;
+                    case TileType.Forest:
+                    case TileType.Plains: variants = tileSet.plainsTiles; break;
+                    case TileType.Mountain: variants = tileSet.plainsTiles; break;
                     case TileType.Swamp: variants = tileSet.swampTiles; break;
+                    case TileType.Taiga:
+                    case TileType.Tundra: variants = tileSet.snowTiles; break;
+                    case TileType.Desert: variants = tileSet.desertTiles; break;
+                    case TileType.RainForest: variants = tileSet.rainForestTiles; break;
                     case TileType.OceanFloor: variants = tileSet.oceanFloorTiles; break;
                     case TileType.RiverMouth: variants = tileSet.riverMouth; break;
                     case TileType.RiverStraight: variants = tileSet.riverStraight; break;
                     case TileType.RiverBendRight: variants = tileSet.riverCornerRight; break;
                     case TileType.RiverBendLeft: variants = tileSet.riverCornerLeft; break;
                     case TileType.RiverEnd: variants = tileSet.riverEnd; break;
-                    default: variants = tileSet.landTiles; break;
+                    default: variants = tileSet.plainsTiles; break;
                 }
                 Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
             }
@@ -125,12 +131,12 @@ public class TerrainConstructor : MonoBehaviour
         oceanTiles = null;
     }
 
-    private void OnDrawGizmos()
-    {
-        foreach (var tile in terrainData.tiles)
-        {
-            Gizmos.color = new Color(tile.temperatureValue, 0, 1 - tile.temperatureValue);
-            Gizmos.DrawSphere(tile.Position + new Vector3(50, 0, 50), 10f);
-        }
-    }
+    //private void OnDrawGizmos()
+    //{
+    //    foreach (var tile in terrainData.tiles)
+    //    {
+    //        Gizmos.color = new Color(tile.temperatureValue, 0, 1 - tile.temperatureValue);
+    //        Gizmos.DrawSphere(tile.Position + new Vector3(50, 0, 50), 10f);
+    //    }
+    //}
 }

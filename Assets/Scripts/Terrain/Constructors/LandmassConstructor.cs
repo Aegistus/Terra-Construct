@@ -28,7 +28,7 @@ public class LandmassConstructor
                 }
                 else
                 {
-                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.FlatLand, position, Vector3.zero);
+                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.Plains, position, Vector3.zero);
                     data.GetTileAtCoordinates(x, z).elevationValue = noiseValue;
                 }
             }
