@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class MountainConstructor
 {
-    public static List<TerrainObjectData> Generate(TerrainData data, TerrainSettings settings, GameObject[] variants, float elevationLevel)
+    public static List<TerrainObjectData> Generate(TerrainData data, TerrainSettings settings, GameObject[] variants)
     {
         List<TerrainObjectData> mountains = new List<TerrainObjectData>();
         for (int x = 0; x < data.xSize; x++)
@@ -12,7 +12,7 @@ public class MountainConstructor
             for (int z = 0; z < data.zSize; z++)
             {
                 TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.elevationValue > elevationLevel && !tile.type.IsRiverTile() && !tile.type.IsOceanTile() && tile.type != TileType.Swamp)
+                if (tile.type == TileType.Mountain)
                 {
                     for (int i = 0; i < settings.maxMountainsPerTile; i++)
                     {
@@ -33,7 +33,7 @@ public class MountainConstructor
         return mountains;
     }
 
-    public static List<TerrainObjectData> Generate(TerrainData data, TerrainSettings settings, GameObject[] variants)
+    public static List<TerrainObjectData> GenerateScatteredBoulders(TerrainData data, TerrainSettings settings, GameObject[] variants)
     {
         List<TerrainObjectData> mountains = new List<TerrainObjectData>();
         for (int x = 0; x < data.xSize; x++)

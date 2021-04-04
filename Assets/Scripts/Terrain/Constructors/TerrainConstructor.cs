@@ -22,10 +22,10 @@ public class TerrainConstructor : MonoBehaviour
         terrainData = LandmassConstructor.GenerateLandmasses(terrainData, settings, elevationNoiseMap);
         terrainData = CoastConstructor.GenerateCoasts(terrainData, settings);
         terrainData = RiverConstructor.GenerateRiver(terrainData, settings);
-        terrainData.mountains = MountainConstructor.Generate(terrainData, settings, mountainSet.mountains, settings.mountainLevel);
-        terrainData.foothills = MountainConstructor.Generate(terrainData, settings, mountainSet.hills, settings.foothillLevel);
-        terrainData.boulders = MountainConstructor.Generate(terrainData, settings, mountainSet.boulders);
-        terrainData = BiomeConstructor.GenerateBiomes(terrainData, settings);
+        terrainData.mountains = MountainConstructor.Generate(terrainData, settings, mountainSet.mountains);
+        terrainData.foothills = MountainConstructor.Generate(terrainData, settings, mountainSet.hills);
+        terrainData.boulders = MountainConstructor.GenerateScatteredBoulders(terrainData, settings, mountainSet.boulders);
+        terrainData = BiomeConstructor.GenerateMoistureLevels(terrainData, settings);
     }
 
     public void GenerateFlora()
@@ -48,6 +48,7 @@ public class TerrainConstructor : MonoBehaviour
                     case TileType.CoastOuterCorner: variants = tileSet.coastalOuterCorner;break;
                     case TileType.CoastStraight: variants = tileSet.coastalStraight; break;
                     case TileType.FlatLand: variants = tileSet.landTiles; break;
+                    case TileType.Mountain: variants = tileSet.landTiles; break;
                     case TileType.Swamp: variants = tileSet.swampTiles; break;
                     case TileType.OceanFloor: variants = tileSet.oceanFloorTiles; break;
                     case TileType.RiverMouth: variants = tileSet.riverMouth; break;

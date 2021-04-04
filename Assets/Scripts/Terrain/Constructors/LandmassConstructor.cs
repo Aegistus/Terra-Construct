@@ -21,6 +21,11 @@ public class LandmassConstructor
                     data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.OceanFloor, position, Vector3.zero);
                     data.GetTileAtCoordinates(x, z).elevationValue = noiseValue;
                 }
+                else if (noiseValue > settings.mountainLevel)
+                {
+                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.Mountain, position, Vector3.zero);
+                    data.GetTileAtCoordinates(x, z).elevationValue = noiseValue;
+                }
                 else
                 {
                     data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.FlatLand, position, Vector3.zero);

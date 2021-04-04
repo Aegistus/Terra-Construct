@@ -16,9 +16,10 @@ MonoBehaviour:
   zSize: 2000
   tileSize: 100
   waterTileSize: 500
-  oceanPercent: 0.36
+  oceanPercent: 0.445
   seaLevel: -1
-  swampTileChance: 0.1
+  maxMoistureLevel: 7
+  windDirection: {x: 0, y: 0, z: 1}
   numberOfRivers: 3
   riverMaxLength: 5
   mountainLevel: 0.6
