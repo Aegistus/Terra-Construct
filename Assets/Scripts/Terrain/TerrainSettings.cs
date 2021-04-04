@@ -21,7 +21,8 @@ public class TerrainSettings : ScriptableObject
 
     [Header("Biome Settings")]
     public int maxMoistureLevel = 7;
-    public int maxTemperatureLevel = 10;
+    [Range(0f, 1f)]
+    public float temperatureChangeRate = .05f;
     public Vector3 equatorPosition = new Vector3(0, 0, 0);
     public Vector3 windDirection = new Vector3(0, 0, 0);
 

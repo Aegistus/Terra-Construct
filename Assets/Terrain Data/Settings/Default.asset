@@ -19,6 +19,8 @@ MonoBehaviour:
   oceanPercent: 0.445
   seaLevel: -1
   maxMoistureLevel: 7
+  temperatureChangeRate: 0.032
+  equatorPosition: {x: 0, y: 0, z: 1000}
   windDirection: {x: 0, y: 0, z: 1}
   numberOfRivers: 3
   riverMaxLength: 5

@@ -26,7 +26,7 @@ public class TileData
     public TileType type;
     public float elevationValue = 0;
     public int moistureValue = 0;
-    public int temperatureValue = 0;
+    public float temperatureValue = 0f;
 
     public TileData(int xCoordinate, int zCoordinate)
     {

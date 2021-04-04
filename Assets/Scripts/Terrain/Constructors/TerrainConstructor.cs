@@ -26,6 +26,7 @@ public class TerrainConstructor : MonoBehaviour
         terrainData.foothills = MountainConstructor.Generate(terrainData, settings, mountainSet.hills);
         terrainData.boulders = MountainConstructor.GenerateScatteredBoulders(terrainData, settings, mountainSet.boulders);
         terrainData = BiomeConstructor.GenerateMoistureLevels(terrainData, settings);
+        terrainData = BiomeConstructor.GenerateTemperatureLevels(terrainData, settings);
     }
 
     public void GenerateFlora()
@@ -128,7 +129,7 @@ public class TerrainConstructor : MonoBehaviour
     {
         foreach (var tile in terrainData.tiles)
         {
-            Gizmos.color = new Color(Mathf.InverseLerp(settings.maxMoistureLevel, 0, tile.moistureValue), 0, Mathf.InverseLerp(0, settings.maxMoistureLevel, tile.moistureValue));
+            Gizmos.color = new Color(tile.temperatureValue, 0, 1 - tile.temperatureValue);
             Gizmos.DrawSphere(tile.Position + new Vector3(50, 0, 50), 10f);
         }
     }

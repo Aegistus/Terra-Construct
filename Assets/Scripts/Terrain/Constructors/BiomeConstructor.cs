@@ -76,7 +76,56 @@ public class BiomeConstructor
 
     public static TerrainData GenerateTemperatureLevels(TerrainData data, TerrainSettings settings)
     {
-
+        TileData equator = null;
+        float closestDistance = float.MaxValue;
+        foreach (var tile in data.tiles)
+        {
+            if (Vector3.Distance(tile.Position, settings.equatorPosition) < closestDistance)
+            {
+                equator = tile;
+                closestDistance = Vector3.Distance(tile.Position, settings.equatorPosition);
+            }
+        }
+        if (equator != null)
+        {
+            equator.temperatureValue = 1f;
+            bool allTilesEvaluated = false;
+            while (!allTilesEvaluated)
+            {
+                foreach (var tile in data.tiles)
+                {
+                    if (tile.temperatureValue == 0)
+                    {
+                        List<TileData> adjacentTiles = data.GetAllEdgeAdjacentTiles(tile.xCoordinate, tile.zCoordinate);
+                        float highestTempValue = 0;
+                        for (int i = 0; i < adjacentTiles.Count; i++)
+                        {
+                            if (adjacentTiles[i].temperatureValue > highestTempValue)
+                            {
+                                highestTempValue = adjacentTiles[i].temperatureValue;
+                            }
+                        }
+                        if (highestTempValue != 0)
+                        {
+                            tile.temperatureValue = Mathf.Clamp(highestTempValue - settings.temperatureChangeRate, .001f, 1);
+                        }
+                    }
+                }
+                allTilesEvaluated = true;
+                foreach (var tile in data.tiles)
+                {
+                    if (tile.temperatureValue == 0)
+                    {
+                        allTilesEvaluated = false;
+                        break;
+                    }
+                }
+            }
+        }
+        else
+        {
+            Debug.LogWarning("Equator = null");
+        }
         return data;
     }
 }
