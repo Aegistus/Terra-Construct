@@ -20,8 +20,7 @@ public class TerrainSettings : ScriptableObject
     public float seaLevel = -1;
 
     [Header("Biome Settings")]
-    [Range(0f, 1f)]
-    public float swampTileChance = .1f;
+    public int maxMoistureLevel = 7;
 
     [Header("River Settings")]
     public int numberOfRivers = 1;

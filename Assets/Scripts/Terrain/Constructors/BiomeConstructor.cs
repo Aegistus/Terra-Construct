@@ -13,7 +13,7 @@ public class BiomeConstructor
         {
             if (tile.type.IsWaterTile())
             {
-                tile.moistureValue = 5;
+                tile.moistureValue = settings.maxMoistureLevel;
             }
         }
         // evaluate all tiles for moisture value
@@ -35,7 +35,7 @@ public class BiomeConstructor
                     }
                     if (highestAdjacentMoistureValue > 0)
                     {
-                        tileMoistureValue.Add(tile, Mathf.Clamp(highestAdjacentMoistureValue - 1, 1, 5));
+                        tileMoistureValue.Add(tile, Mathf.Clamp(highestAdjacentMoistureValue - 1, 1, settings.maxMoistureLevel));
                     }
                 }
             }

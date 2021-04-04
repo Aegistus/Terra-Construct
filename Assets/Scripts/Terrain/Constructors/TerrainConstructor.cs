@@ -127,30 +127,7 @@ public class TerrainConstructor : MonoBehaviour
     {
         foreach (var tile in terrainData.tiles)
         {
-            if (tile.moistureValue == 0)
-            {
-                Gizmos.color = Color.white;
-            }
-            if (tile.moistureValue == 1)
-            {
-                Gizmos.color = Color.red;
-            }
-            if (tile.moistureValue == 2)
-            {
-                Gizmos.color = new Color(255, 165, 0);
-            }
-            if (tile.moistureValue == 3)
-            {
-                Gizmos.color = Color.yellow;
-            }
-            if (tile.moistureValue == 4)
-            {
-                Gizmos.color = Color.blue;
-            }
-            if (tile.moistureValue == 5)
-            {
-                Gizmos.color = Color.cyan;
-            }
+            Gizmos.color = new Color(Mathf.InverseLerp(settings.maxMoistureLevel, 0, tile.moistureValue), 0, Mathf.InverseLerp(0, settings.maxMoistureLevel, tile.moistureValue));
             Gizmos.DrawSphere(tile.Position + new Vector3(50, 0, 50), 10f);
         }
     }

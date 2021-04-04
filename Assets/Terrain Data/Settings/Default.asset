@@ -16,7 +16,7 @@ MonoBehaviour:
   zSize: 2000
   tileSize: 100
   waterTileSize: 500
-  oceanPercent: 0.43
+  oceanPercent: 0.36
   seaLevel: -1
   swampTileChance: 0.1
   numberOfRivers: 3
@@ -27,8 +27,6 @@ MonoBehaviour:
   sizeVariationLower: 0.8
   sizeVariationUpper: 1.2
   maxMountainsPerTile: 2
-  maxFoothillsPerTile: 2
-  maxBouldersPerTile: 3
   seaMountainLevel: -3
   placeAboveWaterLevel: 1
   placeBelowMountainLevel: 1
