@@ -7,24 +7,14 @@ public class RiverConstructor
     
     public static TerrainData GenerateRiver(TerrainData data, TerrainSettings settings)
     {
-        // Find all potential river starting places
-        List<TileData> potentialStarts = new List<TileData>();
-        foreach (var tile in data.tiles)
-        {
-            if (tile.type == TileType.CoastStraight)
-            {
-                if (data.GetEdgeAdjacentTilesOfType(tile.xCoordinate, tile.zCoordinate, TileType.FlatLand).Count > 0)
-                {
-                    potentialStarts.Add(tile);
-                }
-            }
-        }
-        if (potentialStarts.Count < settings.numberOfRivers)
-        {
-            return data;
-        }
         for (int i = 0; i < settings.numberOfRivers; i++)
         {
+            // Find all potential river starting places
+            List<TileData> potentialStarts = GetPotentialRiverStarts(data);
+            if (potentialStarts.Count < settings.numberOfRivers)
+            {
+                return data;
+            }
             TileData start = potentialStarts[Random.Range(0, potentialStarts.Count)]; // pick random start
             potentialStarts.Remove(start);
             TileData oceanTile = data.GetEdgeAdjacentTilesOfType(start.xCoordinate, start.zCoordinate, TileType.OceanFloor)[0];
@@ -102,6 +92,22 @@ public class RiverConstructor
             }
         }
         return data;
+    }
+
+    private static List<TileData> GetPotentialRiverStarts(TerrainData data)
+    {
+        List<TileData> potentialStarts = new List<TileData>();
+        foreach (var tile in data.tiles)
+        {
+            if (tile.type == TileType.CoastStraight)
+            {
+                if (data.GetEdgeAdjacentTilesOfType(tile.xCoordinate, tile.zCoordinate, TileType.FlatLand).Count > 0)
+                {
+                    potentialStarts.Add(tile);
+                }
+            }
+        }
+        return potentialStarts;
     }
 
 }
