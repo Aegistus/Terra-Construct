@@ -14,16 +14,20 @@ public class LandmassConstructor
         {
             for (int z = 0; z < data.zSize; z++)
             {
+                Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);
                 float noiseValue = noiseMap.GetLayeredPerlinValueAtPosition(x, z);
                 if (noiseValue < settings.oceanPercent)
                 {
-                    Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);
                     data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.OceanFloor, position, Vector3.zero);
+                    data.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
+                }
+                else if (Random.value < settings.swampTileChance)
+                {
+                    data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.Swamp, position, Vector3.zero);
                     data.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
                 }
                 else
                 {
-                    Vector3 position = new Vector3(x * settings.tileSize, 0, z * settings.tileSize);
                     data.GetTileAtCoordinates(x, z).ReplaceTile(TileType.FlatLand, position, Vector3.zero);
                     data.GetTileAtCoordinates(x, z).noiseValue = noiseValue;
                 }

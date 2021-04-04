@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,6 +19,10 @@ public class TerrainSettings : ScriptableObject
     public float oceanPercent = .4f;
     public float seaLevel = -1;
 
+    [Header("Biome Settings")]
+    [Range(0f, 1f)]
+    public float swampTileChance = .1f;
+
     [Header("River Settings")]
     public int numberOfRivers = 1;
     public int riverMaxLength = 5;
@@ -31,9 +36,7 @@ public class TerrainSettings : ScriptableObject
     public float mountainClumping = .5f;
     public float sizeVariationLower = .8f;
     public float sizeVariationUpper = 1.2f;
-    public int maxMountainsPerTile = 5;
-    public int maxFoothillsPerTile = 2;
-    public int maxBouldersPerTile = 2;
+    public int maxMountainsPerTile = 2;
     public float seaMountainLevel = -3f;
 
     [Header("Flora Settings")]

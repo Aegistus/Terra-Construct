@@ -18,6 +18,7 @@ MonoBehaviour:
   waterTileSize: 500
   oceanPercent: 0.43
   seaLevel: -1
+  swampTileChance: 0.1
   numberOfRivers: 3
   riverMaxLength: 5
   mountainLevel: 0.6
@@ -25,7 +26,7 @@ MonoBehaviour:
   mountainClumping: 0.5
   sizeVariationLower: 0.8
   sizeVariationUpper: 1.2
-  maxMountainsPerTile: 3
+  maxMountainsPerTile: 2
   maxFoothillsPerTile: 2
   maxBouldersPerTile: 3
   seaMountainLevel: -3
@@ -33,5 +34,6 @@ MonoBehaviour:
   placeBelowMountainLevel: 1
   elevationMin: 0
   elevationMax: 0
-  treePlacementRadius: 7
-  grassPlacementRadius: 4
+  treePlacementRadius: {x: 4, y: 8}
+  grassPlacementRadius: {x: 3, y: 6}
+  rareTreePercent: 0.1
