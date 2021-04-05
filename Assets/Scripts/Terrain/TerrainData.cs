@@ -11,9 +11,6 @@ public class TerrainData
     public List<TerrainObjectData> grass;
     public List<TerrainObjectData> trees;
     public List<TerrainObjectData> rareTrees;
-    public List<TerrainObjectData> mountains;
-    public List<TerrainObjectData> foothills;
-    public List<TerrainObjectData> boulders;
 
     public void CreateTiles(int xSize, int zSize)
     {

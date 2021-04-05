@@ -28,6 +28,10 @@ public class TileData
     public float moistureValue = 0;
     public float temperatureValue = 0f;
 
+    public List<TerrainObjectData> boulders = new List<TerrainObjectData>();
+    public List<TerrainObjectData> foothills = new List<TerrainObjectData>();
+    public List<TerrainObjectData> mountains = new List<TerrainObjectData>();
+
     public TileData(int xCoordinate, int zCoordinate)
     {
         this.xCoordinate = xCoordinate;

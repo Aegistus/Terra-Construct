@@ -23,9 +23,14 @@ public class TerrainConstructor : MonoBehaviour
         terrainData = LandmassConstructor.GenerateLandmasses(terrainData, settings, elevationNoiseMap);
         terrainData = CoastConstructor.GenerateCoasts(terrainData, settings);
         terrainData = RiverConstructor.GenerateRiver(terrainData, settings);
-        terrainData.mountains = MountainConstructor.Generate(terrainData, settings, mountainSet.mountains);
-        terrainData.foothills = MountainConstructor.Generate(terrainData, settings, mountainSet.hills);
-        terrainData.boulders = MountainConstructor.GenerateScatteredBoulders(terrainData, settings, mountainSet.boulders);
+        foreach (var tile in terrainData.tiles)
+        {
+            if (tile.type == TileType.Mountain)
+            {
+                tile.mountains = MountainConstructor.Generate(tile, settings, mountainSet.mountains);
+            }
+            tile.boulders = MountainConstructor.GenerateScatteredBoulders(tile, settings, mountainSet.boulders);
+        }
         terrainData = BiomeConstructor.GenerateMoistureLevels(terrainData, settings);
         terrainData = BiomeConstructor.GenerateTemperatureLevels(terrainData, settings);
         terrainData = BiomeConstructor.GenerateBiomes(terrainData, settings);
@@ -64,6 +69,17 @@ public class TerrainConstructor : MonoBehaviour
                 default: variants = tileSet.plainsTiles; break;
             }
             GameObject tileGameObject = Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
+            for (int j = 0; j < tile.mountains.Count; j++)
+            {
+                TerrainObjectData mountain = tile.mountains[j];
+                Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.Position, Quaternion.Euler(mountain.Rotation), tileGameObject.transform);
+            }
+            for (int j = 0; j < tile.boulders.Count; j++)
+            {
+                TerrainObjectData boulder = tile.boulders[j];
+                Instantiate(mountainSet.boulders[boulder.typeIndex], boulder.Position, Quaternion.Euler(boulder.Rotation), tileGameObject.transform);
+            }
+            // set to be covered in snow if below freezing
             if (tile.temperatureValue < settings.freezingTemperature)
             {
                 MeshRenderer[] meshRends = tileGameObject.GetComponentsInChildren<MeshRenderer>();
@@ -72,21 +88,6 @@ public class TerrainConstructor : MonoBehaviour
                     meshRends[j].sharedMaterial = snowMaterial;
                 }
             }
-        }
-        for (int i = 0; i < terrainData.mountains.Count; i++)
-        {
-            TerrainObjectData mountain = terrainData.mountains[i];
-            GameObject mountainObject = Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.Position, Quaternion.Euler(mountain.Rotation), transform);
-        }
-        for (int i = 0; i < terrainData.foothills.Count; i++)
-        {
-            TerrainObjectData foothill = terrainData.foothills[i];
-            Instantiate(mountainSet.hills[foothill.typeIndex], foothill.Position, Quaternion.Euler(foothill.Rotation), transform);
-        }
-        for (int i = 0; i < terrainData.boulders.Count; i++)
-        {
-            TerrainObjectData boulder = terrainData.boulders[i];
-            Instantiate(mountainSet.boulders[boulder.typeIndex], boulder.Position, Quaternion.Euler(boulder.Rotation), transform);
         }
         GenerateOcean();
     }

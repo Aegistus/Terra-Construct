@@ -4,61 +4,44 @@ using UnityEngine;
 
 public class MountainConstructor
 {
-    public static List<TerrainObjectData> Generate(TerrainData data, TerrainSettings settings, GameObject[] variants)
+    public static List<TerrainObjectData> Generate(TileData tile, TerrainSettings settings, GameObject[] variants)
     {
         List<TerrainObjectData> mountains = new List<TerrainObjectData>();
-        for (int x = 0; x < data.xSize; x++)
+        for (int i = 0; i < settings.maxMountainsPerTile; i++)
         {
-            for (int z = 0; z < data.zSize; z++)
+            Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
+            if (tile.type.IsWaterTile())
             {
-                TileData tile = data.GetTileAtCoordinates(x, z);
-                if (tile.type == TileType.Mountain)
-                {
-                    for (int i = 0; i < settings.maxMountainsPerTile; i++)
-                    {
-                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
-                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
-                        {
-                            randomPosition.y = settings.seaMountainLevel;
-                        }
-                        int randIndex = Random.Range(0, variants.Length);
-                        Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
-                        
-                        mountains.Add(newMountain);
-                    }
-                }
+                randomPosition.y = settings.seaMountainLevel;
             }
+            int randIndex = Random.Range(0, variants.Length);
+            Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+            TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+
+            mountains.Add(newMountain);
         }
         return mountains;
     }
 
-    public static List<TerrainObjectData> GenerateScatteredBoulders(TerrainData data, TerrainSettings settings, GameObject[] variants)
+    public static List<TerrainObjectData> GenerateScatteredBoulders(TileData tile, TerrainSettings settings, GameObject[] variants)
     {
-        List<TerrainObjectData> mountains = new List<TerrainObjectData>();
-        for (int x = 0; x < data.xSize; x++)
+        List<TerrainObjectData> boulders = new List<TerrainObjectData>();
+        if (!tile.type.IsRiverTile() && !tile.type.IsOceanTile())
         {
-            for (int z = 0; z < data.zSize; z++)
+            for (int i = 0; i < settings.maxMountainsPerTile; i++)
             {
-                TileData tile = data.GetTileAtCoordinates(x, z);
-                if (!tile.type.IsRiverTile() && !tile.type.IsOceanTile())
+                Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
+                if (tile.type.IsCoastalTile())
                 {
-                    for (int i = 0; i < settings.maxMountainsPerTile; i++)
-                    {
-                        Vector3 randomPosition = new Vector3(Random.Range(0, settings.tileSize), 0, Random.Range(0, settings.tileSize));
-                        if (data.IsOceanTile(x, z) || data.IsCoastalTile(x, z))
-                        {
-                            randomPosition.y = settings.seaMountainLevel;
-                        }
-                        int randIndex = Random.Range(0, variants.Length);
-                        Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
-                        TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
-
-                        mountains.Add(newMountain);
-                    }
+                    randomPosition.y = settings.seaMountainLevel;
                 }
+                int randIndex = Random.Range(0, variants.Length);
+                Vector3 randomRotation = new Vector3(0, Random.Range(0, 360), 0);
+                TerrainObjectData newMountain = new TerrainObjectData(randIndex, randomPosition + tile.Position, randomRotation, Vector3.one * Random.Range(settings.sizeVariationLower, settings.sizeVariationUpper));
+
+                boulders.Add(newMountain);
             }
         }
-        return mountains;
+        return boulders;
     }
 }
