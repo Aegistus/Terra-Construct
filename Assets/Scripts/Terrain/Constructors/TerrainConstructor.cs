@@ -6,6 +6,7 @@ public class TerrainConstructor : MonoBehaviour
 {
     public TerrainSettings settings;
     public Material snowMaterial;
+    public Material sandMaterial;
     public TerrainTileSet tileSet;
     public MountainSet mountainSet;
     public TreeSet treeSet;
@@ -86,6 +87,14 @@ public class TerrainConstructor : MonoBehaviour
                 for (int j = 0; j < meshRends.Length; j++)
                 {
                     meshRends[j].sharedMaterial = snowMaterial;
+                }
+            }
+            if (tile.moistureValue < settings.sandMoistureLevel && tile.temperatureValue >= .7f)
+            {
+                MeshRenderer[] meshRends = tileGameObject.GetComponentsInChildren<MeshRenderer>();
+                for (int j = 0; j < meshRends.Length; j++)
+                {
+                    meshRends[j].sharedMaterial = sandMaterial;
                 }
             }
         }

@@ -27,6 +27,8 @@ public class TerrainSettings : ScriptableObject
     public float temperatureDegradeRate = .05f;
     [Range(0f, 1f)]
     public float freezingTemperature = .3f;
+    [Range(0f, 1f)]
+    public float sandMoistureLevel = .1f;
     public Vector3 equatorPosition = new Vector3(0, 0, 0);
     public Vector3 windDirection = new Vector3(0, 0, 0);
 
