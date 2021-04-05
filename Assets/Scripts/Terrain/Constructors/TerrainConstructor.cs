@@ -5,6 +5,7 @@ using UnityEngine;
 public class TerrainConstructor : MonoBehaviour
 {
     public TerrainSettings settings;
+    public Material snowMaterial;
     public TerrainTileSet tileSet;
     public MountainSet mountainSet;
     public TreeSet treeSet;
@@ -38,39 +39,44 @@ public class TerrainConstructor : MonoBehaviour
 
     public void ConstructTerrain()
     {
-        for (int x = 0; x < terrainData.xSize; x++)
+        for (int i = 0; i < terrainData.tiles.Count; i++)
         {
-            for (int z = 0; z < terrainData.zSize; z++)
+            TileData tile = terrainData.tiles[i];
+            GameObject[] variants;
+            switch (tile.type)
             {
-                TileData tile = terrainData.GetTileAtCoordinates(x, z);
-                GameObject[] variants;
-                switch(tile.type)
+                case TileType.CoastInnerCorner: variants = tileSet.coastalInnerCorner; break;
+                case TileType.CoastOuterCorner: variants = tileSet.coastalOuterCorner; break;
+                case TileType.CoastStraight: variants = tileSet.coastalStraight; break;
+                case TileType.Forest:
+                case TileType.Plains: variants = tileSet.plainsTiles; break;
+                case TileType.Mountain: variants = tileSet.plainsTiles; break;
+                case TileType.Taiga:
+                case TileType.Tundra: variants = tileSet.snowTiles; break;
+                case TileType.Desert: variants = tileSet.desertTiles; break;
+                case TileType.RainForest: variants = tileSet.rainForestTiles; break;
+                case TileType.OceanFloor: variants = tileSet.oceanFloorTiles; break;
+                case TileType.RiverMouth: variants = tileSet.riverMouth; break;
+                case TileType.RiverStraight: variants = tileSet.riverStraight; break;
+                case TileType.RiverBendRight: variants = tileSet.riverCornerRight; break;
+                case TileType.RiverBendLeft: variants = tileSet.riverCornerLeft; break;
+                case TileType.RiverEnd: variants = tileSet.riverEnd; break;
+                default: variants = tileSet.plainsTiles; break;
+            }
+            GameObject tileGameObject = Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
+            if (tile.temperatureValue < settings.freezingTemperature)
+            {
+                MeshRenderer[] meshRends = tileGameObject.GetComponentsInChildren<MeshRenderer>();
+                for (int j = 0; j < meshRends.Length; j++)
                 {
-                    case TileType.CoastInnerCorner: variants = tileSet.coastalInnerCorner;break;
-                    case TileType.CoastOuterCorner: variants = tileSet.coastalOuterCorner;break;
-                    case TileType.CoastStraight: variants = tileSet.coastalStraight; break;
-                    case TileType.Forest:
-                    case TileType.Plains: variants = tileSet.plainsTiles; break;
-                    case TileType.Mountain: variants = tileSet.plainsTiles; break;
-                    case TileType.Taiga:
-                    case TileType.Tundra: variants = tileSet.snowTiles; break;
-                    case TileType.Desert: variants = tileSet.desertTiles; break;
-                    case TileType.RainForest: variants = tileSet.rainForestTiles; break;
-                    case TileType.OceanFloor: variants = tileSet.oceanFloorTiles; break;
-                    case TileType.RiverMouth: variants = tileSet.riverMouth; break;
-                    case TileType.RiverStraight: variants = tileSet.riverStraight; break;
-                    case TileType.RiverBendRight: variants = tileSet.riverCornerRight; break;
-                    case TileType.RiverBendLeft: variants = tileSet.riverCornerLeft; break;
-                    case TileType.RiverEnd: variants = tileSet.riverEnd; break;
-                    default: variants = tileSet.plainsTiles; break;
+                    meshRends[j].sharedMaterial = snowMaterial;
                 }
-                GameObject tileGameObject = Instantiate(variants[Random.Range(0, variants.Length)], tile.Position, Quaternion.Euler(tile.Rotation), transform);
             }
         }
         for (int i = 0; i < terrainData.mountains.Count; i++)
         {
             TerrainObjectData mountain = terrainData.mountains[i];
-            Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.Position, Quaternion.Euler(mountain.Rotation), transform);
+            GameObject mountainObject = Instantiate(mountainSet.mountains[mountain.typeIndex], mountain.Position, Quaternion.Euler(mountain.Rotation), transform);
         }
         for (int i = 0; i < terrainData.foothills.Count; i++)
         {
